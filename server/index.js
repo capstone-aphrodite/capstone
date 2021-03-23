@@ -6,6 +6,7 @@ let Adult = require("./model");
 const router = require("./auth");
 const passport = require("passport");
 const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 
 const PORT = 4000;
 
@@ -27,9 +28,11 @@ connection.once("open", function () {
   console.log("Connection with MongoDB was successful");
 });
 
+//initiates a session connected to the mongo store
 app.use(
   session({
-    secret:
+    secret: process.env.SESSION_SECRET || 'this app is pandemic inspired',
+    store: new MongoStore()
   })
 )
 
