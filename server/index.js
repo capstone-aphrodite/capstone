@@ -2,15 +2,11 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
-let Adult = require("./model");
+const Adult = require("./model");
 const passport = require("passport");
 const session = require("express-session");
-
-const MongoStore = require("connectMongo")(session);
-
-//const MongoStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo");
 const path = require("path");
-
 const PORT = 4000;
 
 //logging middelware
@@ -21,6 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 const uri = "mongodb://127.0.0.1:27017/capstone";
+
 //database integration
 mongoose
   .connect(uri, {
@@ -30,7 +27,7 @@ mongoose
   })
   .catch((error) => console.log(error));
 
-//mongoose.connect(uri, (err, db) => {});
+
 
 const connection = mongoose.connection;
 
@@ -53,13 +50,13 @@ passport.deserializeUser(async (id, done) => {
 //initiates a session connected to the mongo store
 app.use(
   session({
+    store: MongoStore.create({mongoUrl: uri}),
     secret: process.env.SESSION_SECRET || "this app is pandemic inspired",
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
     resave: false,
     saveUninitialized: false,
   })
 );
-
+//initializes passport
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -70,6 +67,11 @@ app.use("/api", require("./api"));
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, "..", "public")));
 
+// sends index.html
+app.use("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public/index.html"));
+});
+
 // any remaining requests with an extension (.js, .css, etc.) send 404
 app.use((req, res, next) => {
   if (path.extname(req.path).length) {
@@ -79,11 +81,6 @@ app.use((req, res, next) => {
   } else {
     next();
   }
-});
-
-// sends index.html
-app.use("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/index.html"));
 });
 
 // error handling endware
