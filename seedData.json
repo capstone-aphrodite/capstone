@@ -1,0 +1,42 @@
+{
+    "_model": "Adult",
+    "userOne": {
+        "firstName": "Katie",
+        "lastName": "Baker",
+        "email":"katie@email.com",
+        "child": [
+           {"firstName": "Meg", "totalPoints": 40, "dailyPoints": 5},
+           {"firstName": "Jack", "totalPoints": 45, "dailyPoints": 10},
+           {"firstName": "Andy", "avatar": "https://images.assetsdelivery.com/compings_v2/drawkman/drawkman1709/drawkman170900284.jpg", "totalPoints": 50, "dailyPoints": 5} 
+        ]
+    },
+    "userTwo": {
+        "firstName": "Nicole",
+        "lastName": "Mowery",
+        "email":"nikki@email.com",
+        "child": [
+           {"firstName": "River", "avatar": "https://images.assetsdelivery.com/compings_v2/drawkman/drawkman1709/drawkman170900284.jpg", "totalPoints": 35, "dailyPoints": 5} 
+        ]
+    },
+    "userThree": {
+        "firstName": "Christopher",
+        "lastName": "Eugene",
+        "email":"ChrisE@email.com",
+        "child": [
+           {"firstName": "Becky", "avatar": "https://images.assetsdelivery.com/compings_v2/drawkman/drawkman1709/drawkman170900284.jpg", "totalPoints": 40, "dailyPoints": 10} 
+        ]
+    },
+    "userFour": {
+        "firstName": "Eva",
+        "lastName": "Seifert",
+        "email":"eseifert@email.com"
+    },
+    "userFive": {
+        "firstName": "David",
+        "lastName": "Pan",
+        "email":"Dave@email.com",
+        "child": [
+           {"firstName": "Melissa", "totalPoints": 15} 
+        ]
+    }
+}
