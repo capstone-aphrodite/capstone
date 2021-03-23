@@ -1,10 +1,13 @@
 const Adult = require("../model");
+const bcrypt = require("bcryptjs");
 
 module.exports = {
-  //Revisit to encrypt password
   createUser: async (req, res, next) => {
     try {
       let adult = new Adult(req.body);
+      const password = req.body.password;
+      const salt = await bcrypt.genSalt(10);
+      adult.password = await bcrypt.hash(password, salt);
       await adult.save();
       //add req.login of adult
       res.send(adult);
