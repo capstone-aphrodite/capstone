@@ -12,17 +12,18 @@ import { useStyles } from './Login';
 import { Link } from 'react-router-dom';
 // import axios from 'axios';
 
-export default function Signup() {
+export default function Signup(props) {
+  const { history } = props;
   const [error, setError] = useState('');
   const classes = useStyles();
   function handleSubmit(event) {
     event.preventDefault();
     setError('');
     console.log('CLICKED');
-    console.log('email --->', event.target.email.value);
     if (event.target.password.value !== event.target.confirmPassword.value) {
       setError("Oops, it looks like these passwords don't match");
     }
+    history.push('/home');
     // axios.get('/api/users', email, password);
   }
   return (
