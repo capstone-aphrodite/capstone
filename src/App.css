@@ -36,3 +36,43 @@
     transform: rotate(360deg);
   }
 }
+
+/* CHILD DASHBOARD  */
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  padding: 70px 0;
+}
+
+.progress {
+  padding-top: 20px;
+}
+
+.progress-circles {
+  display: flex;
+  justify-content: center;
+}
+
+.progress-circle {
+  flex: 1;
+}
+
+.progress {
+  transform: rotate(-90deg);
+}
+
+.progress__value {
+  stroke-dasharray: 339.292;
+  stroke-dashoffset: 100;
+  animation: progress 2s;
+}
+
+@keyframes progress {
+  from {
+    stroke-dashoffset: 339.292;
+  }
+  to {
+    stroke-dashoffset: 30;
+  }
+}

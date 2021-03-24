@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as tmPose from '@teachablemachine/pose';
 
 export default function Posenet() {
-  const URL = 'https://teachablemachine.withgoogle.com/models/4pzrBNLH3/';
-  let model, webcam, ctx;
-
   let leftcount = 0;
   let rightcount = 0;
   let previousPose;
+  const URL = 'https://teachablemachine.withgoogle.com/models/4pzrBNLH3/';
+  let model, webcam, ctx;
 
   async function init() {
     const modelURL = URL + 'model.json';
@@ -93,16 +92,16 @@ export default function Posenet() {
     }
   }
 
+  useEffect(() => {
+    init();
+  });
+
   return (
     <div>
-      <div>Teachable Machine Pose Model</div>
-      <button type="button" onClick={() => init()}>
-        Start
-      </button>
       <div>
         <canvas id="canvas"></canvas>
       </div>
-      {/* <div id="label-container"></div> */}
+      <div>You have nodded your head {rightcount} times! </div>
     </div>
   );
 }
