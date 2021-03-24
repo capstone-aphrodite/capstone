@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as tmPose from '@teachablemachine/pose';
 
+let rightCount = 0;
+let leftCount = 0;
+
 export default function Posenet() {
+  // const [rightCount, setRightCount] = useState(0);
+  // const [leftCount, setLeftCount] = useState(0);
+  let previousPose;
   const URL = 'https://teachablemachine.withgoogle.com/models/4pzrBNLH3/';
   let model, webcam, ctx;
-
-  let leftcount = 0;
-  let rightcount = 0;
-  let previousPose;
 
   async function init() {
     const modelURL = URL + 'model.json';
@@ -63,17 +65,22 @@ export default function Posenet() {
     //   labelContainer.childNodes[i].innerHTML = classPrediction;
     // }
 
+    let repContainer = document.getElementById('rep-container');
+
     if (prediction[1].probability.toFixed(2) >= 0.75) {
       if (prediction[1].className !== previousPose) {
-        leftcount++;
+        // setLeftCount(leftCount + 1);
+        leftCount++;
         previousPose = prediction[1].className;
-        console.log('Left Count: ', leftcount);
+        console.log('Left Count: ', leftCount);
       }
     } else if (prediction[2].probability.toFixed(2) >= 0.75) {
       if (prediction[2].className !== previousPose) {
-        rightcount++;
+        // setRightCount(rightCount + 1);
+        rightCount++;
+        repContainer.innerHTML = `You have nodded your head ${rightCount} times!`;
         previousPose = prediction[2].className;
-        console.log('Right Count: ', rightcount);
+        console.log('Right Count: ', rightCount);
       }
     }
 
@@ -93,16 +100,16 @@ export default function Posenet() {
     }
   }
 
+  useEffect(() => {
+    init();
+  });
+
   return (
     <div>
-      <div>Teachable Machine Pose Model</div>
-      <button type="button" onClick={() => init()}>
-        Start
-      </button>
       <div>
         <canvas id="canvas"></canvas>
       </div>
-      {/* <div id="label-container"></div> */}
+      <div id="rep-container">Loading...</div>
     </div>
   );
 }
