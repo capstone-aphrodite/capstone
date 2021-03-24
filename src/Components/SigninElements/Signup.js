@@ -10,21 +10,44 @@ import {
 } from '@material-ui/core';
 import { useStyles } from './Login';
 import { Link } from 'react-router-dom';
-// import axios from 'axios';
+import axios from 'axios';
 
 export default function Signup(props) {
   const { history } = props;
   const [error, setError] = useState('');
+  const [userError, setUserError] = useState('');
   const classes = useStyles();
-  function handleSubmit(event) {
+
+  async function handleSubmit(event) {
     event.preventDefault();
     setError('');
+    const firstName = event.target.firstName.value;
+    const lastName = event.target.lastName.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
     console.log('CLICKED');
-    if (event.target.password.value !== event.target.confirmPassword.value) {
+    if (password !== event.target.confirmPassword.value) {
       setError("Oops, it looks like these passwords don't match");
     }
+    let user;
+    try {
+      user = await axios.post('/auth/signup', {
+        firstName,
+        lastName,
+        email,
+        password,
+      });
+    } catch (error) {
+      if (error.response) {
+        console.log('EMAIL ERROR');
+        setUserError('Oops, looks like this email is already in use');
+      }
+      console.log('error creating new user', error);
+    }
+    if (user) {
+      console.log('user response -->', user.data);
+    }
     history.push('/home');
-    // axios.get('/api/users', email, password);
   }
   return (
     <div className={classes.root}>
@@ -37,9 +60,10 @@ export default function Signup(props) {
           <InputLabel htmlFor="lastName">LastName</InputLabel>
           <Input name="lastName" type="text" className={classes.items} />
         </FormControl>
-        <FormControl variant="outlined" className={classes.items}>
+        <FormControl variant="outlined" className={classes.items} noValidate>
           <InputLabel htmlFor="email">Email</InputLabel>
           <Input name="email" type="text" className={classes.items} />
+          {userError && <FormHelperText error>{userError}</FormHelperText>}
         </FormControl>
 
         <FormControl className={classes.items}>

@@ -1,5 +1,5 @@
-const Adult = require("../model");
-const bcrypt = require("bcryptjs");
+const Adult = require('../model');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
   createUser: async (req, res, next) => {
@@ -12,6 +12,9 @@ module.exports = {
       //add req.login of adult
       res.send(adult);
     } catch (error) {
+      if (error.keyPattern.email) {
+        res.status(435).send('email already has account');
+      }
       next(error);
     }
   },
@@ -21,8 +24,9 @@ module.exports = {
       const adult = await Adult.findOne({
         email: req.body.email,
       });
-      if(adult){
-        if(bcrypt.compare(req.body.password, adult.password)) return res.send(adult);
+      if (adult) {
+        if (bcrypt.compare(req.body.password, adult.password))
+          return res.send(adult);
         return res.status(401).send('Incorrect password');
       } else {
         res.status(401).send('A user with this email does not exist');
@@ -38,7 +42,7 @@ module.exports = {
     try {
       //getting an adult first
       const adult = await Adult.findOne({
-        email: "yahoo@yahoo.com",
+        email: 'yahoo@yahoo.com',
       });
       adult.child.push(req.body);
       await adult.save();
@@ -52,10 +56,10 @@ module.exports = {
   updateChild: async (req, res, next) => {
     try {
       const adult = await Adult.findOne({
-        email: "yahoo@yahoo.com",
+        email: 'yahoo@yahoo.com',
       });
       //console.log(req.params.id);
-      const child = adult.child.find((kid) => kid.id === req.params.id);
+      const child = adult.child.find(kid => kid.id === req.params.id);
       //console.log("child", child, adult);
       Object.assign(child, req.body);
       //change the specifics in the child
@@ -69,9 +73,9 @@ module.exports = {
   deleteChild: async (req, res, next) => {
     try {
       const adult = await Adult.findOne({
-        email: "yahoo@yahoo.com",
+        email: 'yahoo@yahoo.com',
       });
-      adult.child = adult.child.filter((kid) => kid.id !== req.params.id);
+      adult.child = adult.child.filter(kid => kid.id !== req.params.id);
       await adult.save();
       res.send(adult);
     } catch (error) {
