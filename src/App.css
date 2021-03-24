@@ -37,6 +37,12 @@
   }
 }
 
+/* CANVAS  */
+
+#canvas {
+  padding: 50px 0;
+}
+
 /* CHILD DASHBOARD  */
 
 .avatar-container {
@@ -51,7 +57,9 @@
 
 .progress-circles {
   display: flex;
+  text-align: center;
   justify-content: center;
+  padding-bottom: 100px;
 }
 
 .progress-circle {
@@ -60,19 +68,4 @@
 
 .progress {
   transform: rotate(-90deg);
-}
-
-.progress__value {
-  stroke-dasharray: 339.292;
-  stroke-dashoffset: 100;
-  animation: progress 2s;
-}
-
-@keyframes progress {
-  from {
-    stroke-dashoffset: 339.292;
-  }
-  to {
-    stroke-dashoffset: 30;
-  }
 }
