@@ -7,7 +7,7 @@ const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const path = require("path");
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 //logging middelware
 app.use(cors());
@@ -16,18 +16,25 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const uri = "mongodb://127.0.0.1:27017/capstone";
+let uri;
+if (process.env.NODE_ENV === "development") {
+  uri = "mongodb://127.0.0.1:27017/capstone";
 
-//database integration
-mongoose
-  .connect(uri, {
+  //database integration
+  mongoose
+    .connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    })
+    .catch((error) => console.log(error));
+} else {
+  uri = process.env.DATABASE_URL;
+  mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-  .catch((error) => console.log(error));
-
-
+  });
+}
 
 const connection = mongoose.connection;
 
@@ -50,7 +57,7 @@ passport.deserializeUser(async (id, done) => {
 //initiates a session connected to the mongo store
 app.use(
   session({
-    store: MongoStore.create({mongoUrl: uri}),
+    store: MongoStore.create({ mongoUrl: uri }),
     secret: process.env.SESSION_SECRET || "this app is pandemic inspired",
     resave: false,
     saveUninitialized: false,
@@ -64,13 +71,22 @@ app.use(passport.session());
 app.use("/auth", require("./auth"));
 app.use("/api", require("./api"));
 
-// static file-serving middleware
-app.use(express.static(path.join(__dirname, "..", "public")));
+// // static file-serving middleware - gracshopper
+// app.use(express.static(path.join(__dirname, "..", "public")));
 
-// sends index.html
-app.use("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public/index.html"));
+// // sends index.html - gracshopper
+// app.use("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "..", "public/index.html"));
+// });
+//because public/index.html doesnt have javascript in it. no script tags.
+//only in production because only heroku(production) will do npm run build. Unique to create react app
+
+// if (process.env.NODE_ENV === "production") {
+app.use(express.static(path.join(__dirname, "../build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build", "index.html"));
 });
+//}
 
 // any remaining requests with an extension (.js, .css, etc.) send 404
 app.use((req, res, next) => {

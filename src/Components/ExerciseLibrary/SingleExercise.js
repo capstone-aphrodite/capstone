@@ -1,17 +1,21 @@
-import React, { useEffect } from 'react';
-import * as tmPose from '@teachablemachine/pose';
+import React, { useEffect } from "react";
+import * as tmPose from "@teachablemachine/pose";
 
 let rightCount = 0;
 let leftCount = 0;
 
-export default function Posenet() {
+const SingleExercise = ({ match }) => {
+  //match = props.match because of react router
+  const id = match.params.id;
+  //id= match.params.id because of react router
   let previousPose;
-  const URL = 'https://teachablemachine.withgoogle.com/models/4pzrBNLH3/';
+  const URL = `https://teachablemachine.withgoogle.com/models/${id}/`;
+  //depending on the id it will execute a different code
   let model, webcam, ctx;
 
   async function init() {
-    const modelURL = URL + 'model.json';
-    const metadataURL = URL + 'metadata.json';
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
 
     // load the model and metadata
     // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
@@ -28,10 +32,10 @@ export default function Posenet() {
     window.requestAnimationFrame(loop);
 
     // append/get elements to the DOM
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById("canvas");
     canvas.width = size;
     canvas.height = size;
-    ctx = canvas.getContext('2d');
+    ctx = canvas.getContext("2d");
 
     // removes prediction labels below image
 
@@ -63,14 +67,14 @@ export default function Posenet() {
     //   labelContainer.childNodes[i].innerHTML = classPrediction;
     // }
 
-    let repContainer = document.getElementById('rep-container');
+    let repContainer = document.getElementById("rep-container");
 
     if (prediction[1].probability.toFixed(2) >= 0.75) {
       if (prediction[1].className !== previousPose) {
         // setLeftCount(leftCount + 1);
         leftCount++;
         previousPose = prediction[1].className;
-        console.log('Left Count: ', leftCount);
+        console.log("Left Count: ", leftCount);
       }
     } else if (prediction[2].probability.toFixed(2) >= 0.75) {
       if (prediction[2].className !== previousPose) {
@@ -78,7 +82,7 @@ export default function Posenet() {
         rightCount++;
         repContainer.innerHTML = `You have nodded your head ${rightCount} times!`;
         previousPose = prediction[2].className;
-        console.log('Right Count: ', rightCount);
+        console.log("Right Count: ", rightCount);
       }
     }
 
@@ -110,4 +114,6 @@ export default function Posenet() {
       <div id="rep-container">Loading...</div>
     </div>
   );
-}
+};
+
+export default SingleExercise;

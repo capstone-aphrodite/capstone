@@ -11,7 +11,7 @@ import {
 import { useStyles } from './Login';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { authUser } from '../../Store'
+import { authUser } from '../../Store';
 
 export function Signup(props) {
   const { authUser } = props;
@@ -21,7 +21,6 @@ export function Signup(props) {
     event.preventDefault();
     setError('');
     console.log('CLICKED');
-    console.log('email --->', event.target.email.value);
     if (event.target.password.value !== event.target.confirmPassword.value) {
       setError("Oops, it looks like these passwords don't match");
     }
@@ -29,7 +28,7 @@ export function Signup(props) {
     const lastName = event.target.lastName.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
-    authUser({firstName, lastName, email, password});
+    authUser({ firstName, lastName, email, password });
   }
   return (
     <div className={classes.root}>
@@ -99,13 +98,13 @@ export function Signup(props) {
   );
 }
 
-const mapState = (state) => ({
+const mapState = state => ({
   firstName: state.firstName,
-  child: state.child
+  child: state.child,
 });
 
 const mapDispatch = (dispatch, { history }) => ({
-  authUser: (user) => dispatch(authUser(user, 'signup', history))
+  authUser: user => dispatch(authUser(user, 'signup', history)),
 });
 
 export default connect(mapState, mapDispatch)(Signup);
