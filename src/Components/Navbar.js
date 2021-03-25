@@ -2,15 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 
 export default function Navbar() {
   return (
-    <div>
-      <nav id="nav">
-        <Link to="/childdashboard">
+    <AppBar position="static">
+      <Toolbar>
+        <Link
+          to="/childdashboard"
+          style={{ color: 'white', marginRight: '10px' }}
+        >
           <FontAwesomeIcon id="home" icon={faHome} />
         </Link>
-      </nav>
-    </div>
+        <Typography variant="h6">APP NAME</Typography>
+      </Toolbar>
+    </AppBar>
   );
 }
