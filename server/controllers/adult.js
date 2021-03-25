@@ -4,13 +4,20 @@ const bcrypt = require("bcryptjs");
 module.exports = {
   createUser: async (req, res, next) => {
     try {
-      let adult = new Adult(req.body);
-      const password = req.body.password;
-      const salt = await bcrypt.genSalt(10);
-      adult.password = await bcrypt.hash(password, salt);
-      await adult.save();
-      //add req.login of adult
-      res.send(adult);
+      let user = await Adult.findOne({email: req.body.email});
+      if(!user) {
+        const adult = new Adult(req.body)  
+        const password = req.body.password;
+        const salt = await bcrypt.genSalt(10);
+        adult.password = await bcrypt.hash(password, salt);
+        await adult.save();
+        const id = adult._id.toString();
+        req.session.userId = id.slice(-4);
+        //add req.login of adult
+        return res.send(adult);
+      } else {
+        return res.status(435).send('email already has account');
+      } 
     } catch (error) {
       next(error);
     }

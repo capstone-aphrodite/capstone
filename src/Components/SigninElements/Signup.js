@@ -10,9 +10,11 @@ import {
 } from '@material-ui/core';
 import { useStyles } from './Login';
 import { Link } from 'react-router-dom';
-// import axios from 'axios';
+import { connect } from 'react-redux';
+import { authUser } from '../../Store'
 
-export default function Signup() {
+export function Signup(props) {
+  const { authUser } = props;
   const [error, setError] = useState('');
   const classes = useStyles();
   function handleSubmit(event) {
@@ -23,7 +25,11 @@ export default function Signup() {
     if (event.target.password.value !== event.target.confirmPassword.value) {
       setError("Oops, it looks like these passwords don't match");
     }
-    // axios.get('/api/users', email, password);
+    const firstName = event.target.firstName.value;
+    const lastName = event.target.lastName.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+    authUser({firstName, lastName, email, password});
   }
   return (
     <div className={classes.root}>
@@ -92,3 +98,14 @@ export default function Signup() {
     </div>
   );
 }
+
+const mapState = (state) => ({
+  firstName: state.firstName,
+  child: state.child
+});
+
+const mapDispatch = (dispatch, { history }) => ({
+  authUser: (user) => dispatch(authUser(user, 'signup', history))
+});
+
+export default connect(mapState, mapDispatch)(Signup);
