@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { IconButton, Typography, CircularProgress } from '@material-ui/core';
 import AddCircle from '@material-ui/icons/AddCircle';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { authMe } from '../Store';
 
 export const pageStyles = makeStyles({
   background: {
@@ -13,13 +15,13 @@ export const pageStyles = makeStyles({
   },
 });
 
-export default function FamilyDashboard(props) {
+function FamilyDashboard(props) {
   const [loading, setLoading] = useState(true);
   const { history } = props;
   const classes = pageStyles();
 
   useEffect(() => {
-    console.log('USE EFFECT IS RUNNING');
+    authMe();
     setLoading(false);
   }, []);
   function handleClick() {
@@ -37,7 +39,7 @@ export default function FamilyDashboard(props) {
 
   return (
     <div className={classes.background}>
-      <Typography variant="h5">Welcome, USER!</Typography>
+      <Typography variant="h5">Welcome, {props.firstName}</Typography>
       <div>
         <Typography variant="subtitle1">Add a new kid</Typography>
         <IconButton aria-label="add-kid" onClick={handleClick}>
@@ -47,3 +49,13 @@ export default function FamilyDashboard(props) {
     </div>
   );
 }
+const mapState = state => ({
+  isLoggedIn: !!state.firstName,
+  firstName: state.firstName,
+});
+const mapDispatch = dispatch => {
+  return {
+    authMe: () => dispatch(authMe()),
+  };
+};
+export default connect(mapState, mapDispatch)(FamilyDashboard);
