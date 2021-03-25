@@ -7,7 +7,7 @@ const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const path = require("path");
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 //logging middelware
 app.use(cors());
