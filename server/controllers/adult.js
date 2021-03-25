@@ -1,10 +1,13 @@
 const Adult = require("../model");
+const bcrypt = require("bcryptjs");
 
 module.exports = {
-  //Revisit to encrypt password
   createUser: async (req, res, next) => {
     try {
       let adult = new Adult(req.body);
+      const password = req.body.password;
+      const salt = await bcrypt.genSalt(10);
+      adult.password = await bcrypt.hash(password, salt);
       await adult.save();
       //add req.login of adult
       res.send(adult);
@@ -13,15 +16,18 @@ module.exports = {
     }
   },
 
-  //Revisit with Bcrypt
   loginUser: async (req, res, next) => {
     try {
       const adult = await Adult.findOne({
         email: req.body.email,
       });
-      //check if req.body.password is correct
+      if(adult){
+        if(bcrypt.compare(req.body.password, adult.password)) return res.send(adult);
+        return res.status(401).send('Incorrect password');
+      } else {
+        res.status(401).send('A user with this email does not exist');
+      }
       //add req.login of adult
-      res.send(adult);
     } catch (error) {
       next(error);
     }
