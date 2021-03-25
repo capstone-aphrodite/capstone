@@ -23,7 +23,15 @@ export default function Posenet() {
     const size = 200;
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-    await webcam.setup(); // request access to the webcam
+
+    await webcam.setup({ facingMode: 'user' });
+    let iosVid = document.getElementById('canvas');
+    iosVid.appendChild(webcam.webcam);
+    let videoElement = document.getElementsByTagName('video')[0];
+    videoElement.setAttribute('playsinline', true);
+    videoElement.muted = 'true';
+    videoElement.id = 'webcamVideo';
+
     await webcam.play();
     window.requestAnimationFrame(loop);
 
