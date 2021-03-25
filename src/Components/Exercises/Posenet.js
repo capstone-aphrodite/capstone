@@ -5,8 +5,6 @@ let rightCount = 0;
 let leftCount = 0;
 
 export default function Posenet() {
-  // const [rightCount, setRightCount] = useState(0);
-  // const [leftCount, setLeftCount] = useState(0);
   let previousPose;
   const URL = 'https://teachablemachine.withgoogle.com/models/4pzrBNLH3/';
   let model, webcam, ctx;
