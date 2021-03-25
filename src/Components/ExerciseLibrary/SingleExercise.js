@@ -5,9 +5,12 @@ let rightCount = 0;
 let leftCount = 0;
 
 const SingleExercise = ({ match }) => {
+  //match = props.match because of react router
   const id = match.params.id;
+  //id= match.params.id because of react router
   let previousPose;
   const URL = `https://teachablemachine.withgoogle.com/models/${id}/`;
+  //depending on the id it will execute a different code
   let model, webcam, ctx;
 
   async function init() {
