@@ -8,8 +8,8 @@ export default function ChildDashboard() {
   const dailyCircleRef = useRef(null);
   const totalCircleRef = useRef(null);
   //HARD CODED
-  const dailyProgress = 50;
-  const totalProgress = 50;
+  const dailyProgress = 75;
+  const totalProgress = 100;
 
   useEffect(() => {
     // this is hard coded for the goal to be 100 points
