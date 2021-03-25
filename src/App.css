@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+
+/* CANVAS  */
+
+#canvas {
+  padding: 50px 0;
+}
+
+/* CHILD DASHBOARD  */
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  padding: 70px 0;
+}
+
+.progress {
+  padding-top: 20px;
+}
+
+.progress-circles {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  padding-bottom: 100px;
+}
+
+.progress-circle {
+  flex: 1;
+}
+
+.progress {
+  transform: rotate(-90deg);
+}
