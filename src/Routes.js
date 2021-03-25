@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import {
   Login,
   Signup,
@@ -7,11 +7,18 @@ import {
   ExerciseLibrary,
   SingleExercise,
   ChildDashboard,
+  FamilyDashboard,
   Navbar,
-} from "./Components";
+} from './Components';
+import { authMe } from './Store';
+import { connect } from 'react-redux';
 
 class Routes extends Component {
+  async componentDidMount() {
+    await this.props.authMe();
+  }
   render() {
+    console.log('this.props routes', this.props);
     return (
       <div>
         <Navbar />
@@ -22,10 +29,24 @@ class Routes extends Component {
           <Route exact path="/exercises" component={ExerciseLibrary} />
           <Route exact path="/exercises/:id" component={SingleExercise} />
           <Route exact path="/childdashboard" component={ChildDashboard} />
+          <Route path="/home" component={FamilyDashboard} />
         </Switch>
       </div>
     );
   }
 }
 
-export default Routes;
+const mapState = state => {
+  console.log(state);
+  return {
+    isLoggedIn: !!state.user,
+  };
+};
+
+const mapDispatch = dispatch => {
+  return {
+    authMe: () => dispatch(authMe()),
+  };
+};
+
+export default connect(mapState, mapDispatch)(Routes);

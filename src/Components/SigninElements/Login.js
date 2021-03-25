@@ -8,7 +8,8 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-// import axios from 'axios';
+import { connect } from 'react-redux';
+import { authUser } from '../../Store';
 
 export const useStyles = makeStyles({
   root: {
@@ -37,15 +38,17 @@ export const useStyles = makeStyles({
     color: 'primary',
   },
 });
-export default function Login() {
+export function Login(props) {
   const classes = useStyles();
-
+  const { authUser } = props;
   function handleSubmit(event) {
     event.preventDefault();
+    const email = event.target.email.value;
+    const password = event.target.password.value;
     console.log('CLICKED');
     console.log('email --->', event.target.email.value);
     console.log('password --->', event.target.password.value);
-    // axios.get('/api/users', email, password);
+    authUser({email, password});
   }
   return (
     <div className={classes.root}>
@@ -79,4 +82,15 @@ export default function Login() {
       </Typography>
     </div>
   );
-}
+};
+
+const mapState = (state) => ({
+  firstName: state.firstName,
+  child: state.child
+});
+
+const mapDispatch = (dispatch, { history }) => ({
+  authUser: (user) => dispatch(authUser(user, 'login', history))
+});
+
+export default connect(mapState, mapDispatch)(Login);
