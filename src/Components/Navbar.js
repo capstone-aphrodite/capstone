@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
+import HomeIcon from '@material-ui/icons/Home';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 
 export default function Navbar() {
@@ -12,7 +11,7 @@ export default function Navbar() {
           to="/childdashboard"
           style={{ color: 'white', marginRight: '10px' }}
         >
-          <FontAwesomeIcon id="home" icon={faHome} />
+          <HomeIcon fontSize="large" />
         </Link>
         <Typography variant="h6">APP NAME</Typography>
       </Toolbar>
