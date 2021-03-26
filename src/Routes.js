@@ -18,6 +18,7 @@ class Routes extends Component {
     await this.props.authMe();
   }
   render() {
+    const { isLoggedIn } = this.props;
     console.log('this.props routes', this.props);
     return (
       <div>
@@ -26,11 +27,15 @@ class Routes extends Component {
           <Route exact path="/" component={LandingPage} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+        </Switch>
+          {isLoggedIn && (
+        <Switch>
           <Route exact path="/exercises" component={ExerciseLibrary} />
           <Route exact path="/exercises/:id" component={SingleExercise} />
           <Route exact path="/childdashboard" component={ChildDashboard} />
           <Route path="/home" component={FamilyDashboard} />
         </Switch>
+          )}
       </div>
     );
   }
