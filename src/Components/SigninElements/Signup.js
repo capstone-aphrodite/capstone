@@ -33,25 +33,25 @@ export function Signup(props) {
   return (
     <div className={classes.root}>
       <form onSubmit={handleSubmit}>
-        <FormControl variant="outlined" className={classes.items}>
+        <FormControl required variant="outlined" className={classes.items}>
           <InputLabel htmlFor="firstName">First Name</InputLabel>
           <Input name="firstName" type="text" className={classes.items} />
         </FormControl>
-        <FormControl variant="outlined" className={classes.items}>
+        <FormControl required variant="outlined" className={classes.items}>
           <InputLabel htmlFor="lastName">LastName</InputLabel>
           <Input name="lastName" type="text" className={classes.items} />
         </FormControl>
-        <FormControl variant="outlined" className={classes.items}>
+        <FormControl required variant="outlined" className={classes.items}>
           <InputLabel htmlFor="email">Email</InputLabel>
           <Input name="email" type="text" className={classes.items} />
         </FormControl>
 
-        <FormControl className={classes.items}>
+        <FormControl required className={classes.items}>
           <InputLabel htmlFor="password">Password</InputLabel>
           <Input name="password" type="password" className={classes.items} />
           {error && <FormHelperText error>{error}</FormHelperText>}
         </FormControl>
-        <FormControl className={classes.items}>
+        <FormControl required className={classes.items}>
           <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
           <Input
             name="confirmPassword"

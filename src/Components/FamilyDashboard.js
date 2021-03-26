@@ -4,6 +4,8 @@ import AddCircle from '@material-ui/icons/AddCircle';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { authMe } from '../Store';
+import AddKidForm from './AddKidForm';
+import Popup from './Popup';
 
 export const pageStyles = makeStyles({
   background: {
@@ -17,7 +19,7 @@ export const pageStyles = makeStyles({
 
 function FamilyDashboard(props) {
   const [loading, setLoading] = useState(true);
-  const { history } = props;
+  const [open, setOpen] = useState(false);
   const classes = pageStyles();
 
   useEffect(() => {
@@ -25,8 +27,9 @@ function FamilyDashboard(props) {
     setLoading(false);
   }, []);
   function handleClick() {
-    //Should this form be a new route or should this be a popup? or like slide out via a local state control? this more like in JPFP?
-    history.push('/add-kid');
+    console.log('ICON CLICKED!!!!');
+    setOpen(true);
+    console.log('open?', open);
   }
   if (loading) {
     console.log('PROPS FOR FAMILY DASHBOARD --->', props);
@@ -45,6 +48,11 @@ function FamilyDashboard(props) {
         <IconButton aria-label="add-kid" onClick={handleClick}>
           <AddCircle fontSize="large" color="primary" />
         </IconButton>
+      </div>
+      <div>
+        <Popup open={open} setOpen={setOpen}>
+          <AddKidForm setOpen={setOpen} />
+        </Popup>
       </div>
     </div>
   );
