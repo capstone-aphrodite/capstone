@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
-import * as tmPose from "@teachablemachine/pose";
+import React, { useEffect } from 'react';
+import * as tmPose from '@teachablemachine/pose';
 
 let rightCount = 0;
 let leftCount = 0;
+let totalCount = 0;
 
 const SingleExercise = ({ match }) => {
   //match = props.match because of react router
@@ -14,8 +15,8 @@ const SingleExercise = ({ match }) => {
   let model, webcam, ctx;
 
   async function init() {
-    const modelURL = URL + "model.json";
-    const metadataURL = URL + "metadata.json";
+    const modelURL = URL + 'model.json';
+    const metadataURL = URL + 'metadata.json';
 
     // load the model and metadata
     // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
@@ -27,15 +28,24 @@ const SingleExercise = ({ match }) => {
     const size = 200;
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-    await webcam.setup(); // request access to the webcam
+
+    await webcam.setup({ facingMode: 'user' });
+    let iosVid = document.getElementById('canvas');
+    iosVid.appendChild(webcam.webcam);
+    let videoElement = document.getElementsByTagName('video')[0];
+    videoElement.setAttribute('playsinline', true);
+    videoElement.muted = 'true';
+    videoElement.id = 'webcamVideo';
+
+    // request access to the webcam
     await webcam.play();
     window.requestAnimationFrame(loop);
 
     // append/get elements to the DOM
-    const canvas = document.getElementById("canvas");
+    const canvas = document.getElementById('canvas');
     canvas.width = size;
     canvas.height = size;
-    ctx = canvas.getContext("2d");
+    ctx = canvas.getContext('2d');
 
     // removes prediction labels below image
 
@@ -67,22 +77,25 @@ const SingleExercise = ({ match }) => {
     //   labelContainer.childNodes[i].innerHTML = classPrediction;
     // }
 
-    let repContainer = document.getElementById("rep-container");
+    let repContainer = document.getElementById('rep-container');
 
     if (prediction[1].probability.toFixed(2) >= 0.75) {
       if (prediction[1].className !== previousPose) {
         // setLeftCount(leftCount + 1);
-        leftCount++;
+        // leftCount++;
+        totalCount++;
+        repContainer.innerHTML = `You have nodded your head ${totalCount} times!`;
         previousPose = prediction[1].className;
-        console.log("Left Count: ", leftCount);
+        console.log('Left Count: ', leftCount);
       }
     } else if (prediction[2].probability.toFixed(2) >= 0.75) {
       if (prediction[2].className !== previousPose) {
         // setRightCount(rightCount + 1);
-        rightCount++;
-        repContainer.innerHTML = `You have nodded your head ${rightCount} times!`;
+        // rightCount++;
+        totalCount++;
+        repContainer.innerHTML = `You have nodded your head ${totalCount} times!`;
         previousPose = prediction[2].className;
-        console.log("Right Count: ", rightCount);
+        console.log('Right Count: ', rightCount);
       }
     }
 
