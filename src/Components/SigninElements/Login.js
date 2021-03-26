@@ -48,16 +48,16 @@ export function Login(props) {
     console.log('CLICKED');
     console.log('email --->', event.target.email.value);
     console.log('password --->', event.target.password.value);
-    authUser({email, password});
+    authUser({ email, password });
   }
   return (
     <div className={classes.root}>
       <form onSubmit={handleSubmit}>
-        <FormControl variant="outlined" className={classes.items}>
+        <FormControl required variant="outlined" className={classes.items}>
           <InputLabel htmlFor="email">Email</InputLabel>
           <Input name="email" type="text" className={classes.items} />
         </FormControl>
-        <FormControl className={classes.items}>
+        <FormControl required className={classes.items}>
           <InputLabel htmlFor="password">Password</InputLabel>
           <Input name="password" type="password" className={classes.items} />
         </FormControl>
@@ -82,15 +82,15 @@ export function Login(props) {
       </Typography>
     </div>
   );
-};
+}
 
-const mapState = (state) => ({
+const mapState = state => ({
   firstName: state.firstName,
-  child: state.child
+  child: state.child,
 });
 
 const mapDispatch = (dispatch, { history }) => ({
-  authUser: (user) => dispatch(authUser(user, 'login', history))
+  authUser: user => dispatch(authUser(user, 'login', history)),
 });
 
 export default connect(mapState, mapDispatch)(Login);
