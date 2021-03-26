@@ -9,7 +9,7 @@ It allows a grown up to sign up for an account and add their children. The child
 
 Deployed version: https://aphrodite-capstone.herokuapp.com/
 
-# Tech Stack
+## Tech Stack
 
 - PoseNet
 - TensorFlow
@@ -25,7 +25,7 @@ Deployed version: https://aphrodite-capstone.herokuapp.com/
 - Express
 - Node.js
 
-# Team
+## Team
 
 - Andrea Crabtree
 - Lindsay Welhoelter
