@@ -3,6 +3,7 @@ import * as tmPose from '@teachablemachine/pose';
 
 let rightCount = 0;
 let leftCount = 0;
+let totalCount = 0;
 
 const SingleExercise = ({ match }) => {
   //match = props.match because of react router
@@ -81,15 +82,18 @@ const SingleExercise = ({ match }) => {
     if (prediction[1].probability.toFixed(2) >= 0.75) {
       if (prediction[1].className !== previousPose) {
         // setLeftCount(leftCount + 1);
-        leftCount++;
+        // leftCount++;
+        totalCount++;
+        repContainer.innerHTML = `You have nodded your head ${totalCount} times!`;
         previousPose = prediction[1].className;
         console.log('Left Count: ', leftCount);
       }
     } else if (prediction[2].probability.toFixed(2) >= 0.75) {
       if (prediction[2].className !== previousPose) {
         // setRightCount(rightCount + 1);
-        rightCount++;
-        repContainer.innerHTML = `You have nodded your head ${rightCount} times!`;
+        // rightCount++;
+        totalCount++;
+        repContainer.innerHTML = `You have nodded your head ${totalCount} times!`;
         previousPose = prediction[2].className;
         console.log('Right Count: ', rightCount);
       }
