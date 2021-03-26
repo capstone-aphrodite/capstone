@@ -28,13 +28,13 @@ module.exports = {
         email: req.body.email,
       });
       if (adult) {
-        if (!bcrypt.compare(req.body.password, adult.password)) {
+        if (!bcrypt.compareSync(req.body.password, adult.password)) {
           return res.status(401).send("Incorrect password");
         }
+        req.login(adult, (error) => (error ? next(error) : res.json(adult)));
       } else {
         res.status(401).send("A user with this email does not exist");
       }
-      req.login(adult, (error) => (error ? next(error) : res.json(adult)));
     } catch (error) {
       next(error);
     }
