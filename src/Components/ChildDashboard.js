@@ -96,7 +96,7 @@ export default function ChildDashboard() {
       <Button
         component={Link}
         //update route
-        to="/"
+        to="/exercises"
         variant="contained"
         color="primary"
       >

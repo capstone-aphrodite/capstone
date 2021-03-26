@@ -6,6 +6,7 @@ import thunkMiddleware from 'redux-thunk';
 //Action Type
 const AUTH_USER = 'AUTH_USER';
 const AUTH_ME = 'AUTH_ME';
+const ADD_KID = 'ADD_KID';
 //const UPDATE_USER = 'UPDATE_USER';
 
 //Action Creator
@@ -17,6 +18,11 @@ const _authUser = user => ({
 const _authMe = user => ({
   type: AUTH_ME,
   user,
+});
+
+const _addKid = kid => ({
+  type: ADD_KID,
+  kid,
 });
 // const _updateUser = user => ({
 //     type: UPDATE_USER,
@@ -55,6 +61,18 @@ export const authMe = () => {
   };
 };
 
+export const addKid = kidInfo => {
+  return async dispatch => {
+    try {
+      console.log('ADD KID THUNK CALLED');
+      const kid = await axios.put('/api/addChild', kidInfo);
+      dispatch(_addKid(kid.data));
+    } catch (error) {
+      console.log('Error creating child profile', error);
+    }
+  };
+};
+
 const initialState = {
   firstName: '',
   child: [],
@@ -65,6 +83,9 @@ const reducer = (state = initialState, action) => {
       return action.user;
     case AUTH_ME:
       return action.user;
+    case ADD_KID:
+      console.log('ACTION.KID -->', action.kid);
+      return { ...state, child: [action.kid] };
     default:
       return state;
   }

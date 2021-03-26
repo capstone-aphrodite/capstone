@@ -3,7 +3,6 @@ import {
   Grid,
   TextField,
   Button,
-  InputLabel,
   Avatar,
   Select,
   MenuItem,
@@ -13,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import { addKid } from '../Store';
 
 const avatars = [
   { name: 'Parrot', image: '/images/parrot.png' },
@@ -32,14 +32,16 @@ const useStyles = makeStyles({
 });
 
 export const AddKidForm = props => {
-  const { setOpen } = props;
+  const { setOpen, addKid } = props;
   const classes = useStyles();
   const [avatarURL, setAvatarURL] = useState('');
   function handleSubmit(event) {
     event.preventDefault();
     console.log('FIRST NAME-->', event.target.first.value);
-    console.log('BIRTHDAY', event.target.birthday.value);
+    const firstName = event.target.first.value;
+    const avatar = avatarURL;
     console.log('ITEM LISTED', avatarURL);
+    addKid({ firstName, avatar });
     setOpen(false);
   }
   return (
@@ -49,14 +51,8 @@ export const AddKidForm = props => {
           <Grid item xs={6}>
             <TextField required label="Kid's name" name="first" />
           </Grid>
-          <Grid item xs={6}>
-            <InputLabel htmlFor="birthday" shrink>
-              Birthday
-            </InputLabel>
-            <TextField required name="birthday" type="date" />
-          </Grid>
           <FormHelperText>Choose your avatar</FormHelperText>
-          <Select onChange={event => setAvatarURL(event.target.value)}>
+          <Select required onChange={event => setAvatarURL(event.target.value)}>
             {/* <InputLabel htmlFor="avatar">Choose your avatar</InputLabel> */}
             {avatars.map((avatar, index) => (
               <MenuItem key={avatar.name} selected={index} value={avatar.image}>
@@ -76,11 +72,13 @@ export const AddKidForm = props => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapState = state => ({
   isLoggedIn: !!state.firstName,
-  state,
+  // state,
 });
 
-const mapDispatchToProps = {};
+const mapDispatch = dispatch => ({
+  addKid: kid => dispatch(addKid(kid)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddKidForm);
+export default connect(mapState, mapDispatch)(AddKidForm);
