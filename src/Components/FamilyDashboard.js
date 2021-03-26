@@ -36,7 +36,7 @@ function FamilyDashboard(props) {
   useEffect(() => {
     authMe();
     setLoading(false);
-  }, []);
+  }, [setOpen]);
   function handleClick() {
     console.log('ICON CLICKED!!!!');
     setOpen(true);

@@ -64,7 +64,6 @@ export const authMe = () => {
 export const addKid = kidInfo => {
   return async dispatch => {
     try {
-      console.log('ADD KID THUNK CALLED');
       const kid = await axios.put('/api/addChild', kidInfo);
       dispatch(_addKid(kid.data));
     } catch (error) {
@@ -84,8 +83,7 @@ const reducer = (state = initialState, action) => {
     case AUTH_ME:
       return action.user;
     case ADD_KID:
-      console.log('ACTION.KID -->', action.kid);
-      return { ...state, child: [action.kid] };
+      return { ...state, child: [...state.child, action.kid] };
     default:
       return state;
   }
