@@ -15,7 +15,7 @@ module.exports = {
         // req.session.userId = id.slice(-4);
         req.login(adult, error => (error ? next(error) : res.json(adult)));
       } else {
-        res.status(435).send('This email is already registered');
+        return res.status(435).send('This email is already registered');
       }
     } catch (error) {
       next(error);
@@ -29,7 +29,7 @@ module.exports = {
       });
       if (adult) {
         if (!bcrypt.compareSync(req.body.password, adult.password)) {
-          res.status(401).send('Incorrect password');
+          return res.status(401).send('Incorrect password');
         }
         req.login(adult, error => (error ? next(error) : res.json(adult)));
       } else {
@@ -54,9 +54,11 @@ module.exports = {
       const adult = await Adult.findOne({
         email: req.user.email,
       });
+      console.log('REQ.BODY', req.body);
       adult.child.push(req.body);
       await adult.save();
-      res.send(adult);
+      console.log('ADULT AFTER SAVE -->', adult);
+      res.send(req.body);
     } catch (error) {
       next(error);
     }
@@ -67,7 +69,10 @@ module.exports = {
       const adult = await Adult.findOne({
         email: req.user.email,
       });
+<<<<<<< HEAD
       //the childId is very long, revisit and consider using some other parameter
+=======
+>>>>>>> main
       const child = adult.child.find(kid => kid.id === req.params.id);
       Object.assign(child, req.body);
       await adult.save();
@@ -80,7 +85,7 @@ module.exports = {
   deleteChild: async (req, res, next) => {
     try {
       const adult = await Adult.findOne({
-        email: 'yahoo@yahoo.com',
+        email: req.user.email,
       });
       adult.child = adult.child.filter(kid => kid.id !== req.params.id);
       await adult.save();
@@ -94,7 +99,11 @@ module.exports = {
     try {
       req.logout();
       req.session.destroy();
+<<<<<<< HEAD
       res.redirect('/');
+=======
+      //res.redirect("/");
+>>>>>>> main
     } catch (error) {
       next(error);
     }

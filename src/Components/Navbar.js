@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <div>
       <nav id="nav">
-        <Link to="/childdashboard">
+        <Link to="/">
           <FontAwesomeIcon id="home" icon={faHome} />
         </Link>
       </nav>

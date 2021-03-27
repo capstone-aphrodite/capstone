@@ -37,7 +37,7 @@
   }
 }
 
-/* NAVBAR  */
+/* NAVBAR */
 
 nav {
   align-items: center;
@@ -62,7 +62,35 @@ nav a {
   padding: 50px 0;
 }
 
-/* CHILD DASHBOARD  */
+/* LANDING PAGE */
+
+#landing-page {
+  display: flex;
+  flex-direction: row;
+}
+
+#landing-page h1 {
+  flex: 3;
+  padding: 50px 0 0 50px;
+}
+
+#buttons {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+}
+
+#landing-page-button1 {
+  width: 250px;
+  margin: 165px 50px 0 200px;
+}
+
+#landing-page-button2 {
+  width: 250px;
+  margin: 50px 50px 50px 200px;
+}
+
+/* CHILD DASHBOARD */
 
 .avatar-container {
   display: flex;

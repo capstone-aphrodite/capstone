@@ -72,7 +72,11 @@ app.use("/auth", require("./auth"));
 app.use("/api", require("./api"));
 
 // // static file-serving middleware - gracshopper
+<<<<<<< HEAD
 app.use(express.static(path.join(__dirname, "../public")));
+=======
+//app.use(express.static(path.join(__dirname, "..", "public")));
+>>>>>>> main
 
 // // sends index.html - gracshopper
 app.use("*", (req, res) => {
@@ -81,7 +85,11 @@ app.use("*", (req, res) => {
 //because public/index.html doesnt have javascript in it. no script tags.
 //only in production because only heroku(production) will do npm run build. Unique to create react app
 
+<<<<<<< HEAD
 if (process.env.NODE_ENV === "production") {
+=======
+//if (process.env.NODE_ENV === "production") {
+>>>>>>> main
 app.use(express.static(path.join(__dirname, "../build")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../build", "index.html"));
