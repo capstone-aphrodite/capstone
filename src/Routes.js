@@ -17,6 +17,7 @@ class Routes extends Component {
   async componentDidMount() {
     await this.props.authMe();
   }
+
   render() {
     const { isLoggedIn } = this.props;
     return (
@@ -43,7 +44,6 @@ class Routes extends Component {
 }
 
 const mapState = (state) => {
-  console.log(state);
   return {
     isLoggedIn: !!state.firstName,
   };

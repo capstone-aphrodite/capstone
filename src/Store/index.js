@@ -68,7 +68,7 @@ export const addKid = kidInfo => {
   };
 };
 
-export const logout = () => async dispatch => {
+export const logout = (history) => async dispatch => {
   try {
     await axios.post('/auth/logout');
     dispatch(_logoutUser());
