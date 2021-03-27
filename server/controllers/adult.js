@@ -42,7 +42,7 @@ module.exports = {
 
   authMe: async (req, res, next) => {
     try {
-      res.json(req.adult);
+      res.json(req.user);
     } catch (error) {
       console.log('Error authorizing user in server');
       next(error);
@@ -95,7 +95,7 @@ module.exports = {
     try {
       req.logout();
       req.session.destroy();
-      //res.redirect("/");
+      res.redirect("/");
     } catch (error) {
       next(error);
     }
