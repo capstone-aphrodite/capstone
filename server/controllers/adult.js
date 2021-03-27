@@ -69,10 +69,6 @@ module.exports = {
       const adult = await Adult.findOne({
         email: req.user.email,
       });
-<<<<<<< HEAD
-      //the childId is very long, revisit and consider using some other parameter
-=======
->>>>>>> main
       const child = adult.child.find(kid => kid.id === req.params.id);
       Object.assign(child, req.body);
       await adult.save();
@@ -99,11 +95,7 @@ module.exports = {
     try {
       req.logout();
       req.session.destroy();
-<<<<<<< HEAD
-      res.redirect('/');
-=======
-      //res.redirect("/");
->>>>>>> main
+      res.redirect("/");
     } catch (error) {
       next(error);
     }

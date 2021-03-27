@@ -67,36 +67,25 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//mounting router(boilermaker)
 app.use("/auth", require("./auth"));
 app.use("/api", require("./api"));
 
-// // static file-serving middleware - gracshopper
-<<<<<<< HEAD
-app.use(express.static(path.join(__dirname, "../public")));
-=======
-//app.use(express.static(path.join(__dirname, "..", "public")));
->>>>>>> main
+app.use(express.static(path.join(__dirname, "..", "build")));
+app.use(express.static("public"));
 
-// // sends index.html - gracshopper
-app.use("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public"));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 //because public/index.html doesnt have javascript in it. no script tags.
 //only in production because only heroku(production) will do npm run build. Unique to create react app
 
-<<<<<<< HEAD
-if (process.env.NODE_ENV === "production") {
-=======
-//if (process.env.NODE_ENV === "production") {
->>>>>>> main
-app.use(express.static(path.join(__dirname, "../build")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../build", "index.html"));
-});
-}
+// if (process.env.NODE_ENV === "production") {
 
-// any remaining requests with an extension (.js, .css, etc.) send 404
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../build", "index.html"));
+// });
+// }
+
 app.use((req, res, next) => {
   if (path.extname(req.path).length) {
     const err = new Error("Not found");
@@ -107,7 +96,6 @@ app.use((req, res, next) => {
   }
 });
 
-// error handling endware
 app.use((err, req, res, next) => {
   console.error(err);
   console.error(err.stack);
