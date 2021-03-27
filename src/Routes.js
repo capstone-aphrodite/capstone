@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import {
   Login,
   Signup,
@@ -18,19 +18,25 @@ class Routes extends Component {
     await this.props.authMe();
   }
   render() {
-    console.log('this.props routes', this.props);
+    const { isLoggedIn } = this.props;
     return (
       <div>
         <Navbar />
         <Switch>
-          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/">
+            {isLoggedIn ? <Redirect to='/home'/> : <LandingPage/>}
+          </Route>
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+        </Switch>
+          {isLoggedIn && (
+        <Switch>
           <Route exact path="/exercises" component={ExerciseLibrary} />
           <Route exact path="/exercises/:id" component={SingleExercise} />
           <Route exact path="/childdashboard" component={ChildDashboard} />
           <Route path="/home" component={FamilyDashboard} />
         </Switch>
+          )}
       </div>
     );
   }
@@ -39,7 +45,7 @@ class Routes extends Component {
 const mapState = (state) => {
   console.log(state);
   return {
-    isLoggedIn: !!state.user,
+    isLoggedIn: !!state.firstName,
   };
 };
 
