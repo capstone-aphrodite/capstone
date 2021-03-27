@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import {
   Login,
   Signup,
@@ -19,12 +19,13 @@ class Routes extends Component {
   }
   render() {
     const { isLoggedIn } = this.props;
-    console.log('this.props routes', this.props);
     return (
       <div>
         <Navbar />
         <Switch>
-          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/">
+            {isLoggedIn ? <Redirect to='/home'/> : <LandingPage/>}
+          </Route>
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
         </Switch>
