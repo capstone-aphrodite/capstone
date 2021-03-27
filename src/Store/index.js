@@ -7,7 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 const AUTH_USER = 'AUTH_USER';
 const AUTH_ME = 'AUTH_ME';
 const ADD_KID = 'ADD_KID';
-//const UPDATE_USER = 'UPDATE_USER';
+const LOGOUT_USER = 'LOGOUT_USER';
 
 //Action Creator
 const _authUser = user => ({
@@ -24,12 +24,8 @@ const _addKid = kid => ({
   type: ADD_KID,
   kid,
 });
-// const _updateUser = user => ({
-//     type: UPDATE_USER,
-//     user
-// })
 
-//Thunk
+const _logoutUser = () => ({type: LOGOUT_USER})
 export const authUser = (user, type, history) => {
   return async dispatch => {
     let adult;
@@ -72,6 +68,15 @@ export const addKid = kidInfo => {
   };
 };
 
+export const logout = () => async dispatch => {
+  try {
+    await axios.post('/auth/logout');
+    dispatch(_logoutUser());
+  } catch(error) {
+    console.error(error);
+  }
+}
+
 const initialState = {
   firstName: '',
   child: [],
@@ -84,6 +89,8 @@ const reducer = (state = initialState, action) => {
       return action.user;
     case ADD_KID:
       return { ...state, child: [...state.child, action.kid] };
+    case LOGOUT_USER:
+      return initialState;  
     default:
       return state;
   }
