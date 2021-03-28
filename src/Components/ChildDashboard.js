@@ -1,23 +1,30 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Avatar, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default function ChildDashboard() {
+export function ChildDashboard(props) {
   const [dailyOffset, setDailyOffset] = useState(0);
   const [totalOffset, setTotalOffset] = useState(0);
   const dailyCircleRef = useRef(null);
   const totalCircleRef = useRef(null);
   //HARD CODED
-  const dailyProgress = 75;
-  const totalProgress = 100;
+  // const dailyProgress = 75;
+  // const totalProgress = 100;
+  
+  const { child } = props;
+    let childId = props.match.params.id
+    let currentChild = child[childId];
 
   useEffect(() => {
+    let dailyPoints = currentChild.dailyPoints;
+    let totalPoints = currentChild.totalPoints;
     // this is hard coded for the goal to be 100 points
     // should be: (total points - progress)
-    const dailyProgressOffset = ((100 - dailyProgress) / 100) * 339.292;
+    const dailyProgressOffset = ((100 - dailyPoints) / 100) * 339.292;
     setDailyOffset(dailyProgressOffset);
 
-    const totalProgressOffset = ((100 - totalProgress) / 100) * 339.292;
+    const totalProgressOffset = ((100 - totalPoints) / 100) * 339.292;
     setTotalOffset(totalProgressOffset);
 
     dailyCircleRef.current.style =
@@ -29,7 +36,7 @@ export default function ChildDashboard() {
   return (
     <div>
       <div className="avatar-container">
-        <Avatar>LW</Avatar>
+        <Avatar>{`${currentChild.firstName[0]}`}</Avatar>
       </div>
       <div className="progress-circles">
         <div className="progress-circle">
@@ -105,3 +112,11 @@ export default function ChildDashboard() {
     </div>
   );
 }
+
+const mapState = state => {
+  return {
+    child: state.child
+  }
+}
+
+export default connect(mapState)(ChildDashboard);
