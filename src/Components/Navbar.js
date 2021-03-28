@@ -21,7 +21,7 @@ export function Navbar({handleClick}) {
   );
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     handleClick: () => dispatch(logout())
   }

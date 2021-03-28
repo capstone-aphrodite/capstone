@@ -60,7 +60,7 @@ function FamilyDashboard(props) {
             props.child.map((profile, index) => {
               return (
                 <Grid item key={index} xs={3} className={classes.grid}>
-                  <Link to="/childdashboard">
+                  <Link to={`/childdashboard/${index}`}>
                     <Avatar
                       alt={profile.firstName}
                       src={profile.avatar}

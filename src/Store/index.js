@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
+import history from '../history';
 
 //Action Type
 const AUTH_USER = 'AUTH_USER';
@@ -25,7 +26,8 @@ const _addKid = kid => ({
   kid,
 });
 
-const _logoutUser = () => ({type: LOGOUT_USER})
+const _logoutUser = () => ({type: LOGOUT_USER});
+
 export const authUser = (user, type, history) => {
   return async dispatch => {
     let adult;
@@ -72,6 +74,7 @@ export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout');
     dispatch(_logoutUser());
+    history.push('/')
   } catch(error) {
     console.error(error);
   }
