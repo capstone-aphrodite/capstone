@@ -102,6 +102,10 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.message || "Internal server error.");
 });
 
-app.listen(PORT, function () {
-  console.log("Server is running on Port: " + PORT);
-});
+app.listen(
+  PORT,
+  "0.0.0.0"
+  // function () {
+  //   console.log("Server is running on Port: " + PORT);
+  //}
+);
