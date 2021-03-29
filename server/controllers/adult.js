@@ -54,10 +54,8 @@ module.exports = {
       const adult = await Adult.findOne({
         email: req.user.email,
       });
-      console.log('REQ.BODY', req.body);
       adult.child.push(req.body);
       await adult.save();
-      console.log('ADULT AFTER SAVE -->', adult);
       res.send(req.body);
     } catch (error) {
       next(error);
@@ -69,10 +67,11 @@ module.exports = {
       const adult = await Adult.findOne({
         email: req.user.email,
       });
-      const child = adult.child.find(kid => kid.id === req.params.id);
+      const child = adult.child[req.params.id];
       Object.assign(child, req.body);
       await adult.save();
-      res.send(adult);
+      console.log(child)
+      res.send(child);
     } catch (error) {
       next(error);
     }

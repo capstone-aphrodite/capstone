@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import * as tmPose from '@teachablemachine/pose';
 import { connect } from 'react-redux';
+import { updateChild } from '../../Store';
 
 //*********** UPDATE to {exercise.count}
-let totalCount = 5;
+let totalCount;
 let startAnimation;
 let startAnimation2;
 
-const SingleExercise = ({ match, selectedChild }) => {
+const SingleExercise = (props) => {
+  console.log(props, 'PROPS');
+  const { match, child, selectedChild, updateChild, location } = props;
+  console.log(location.reps)
+  totalCount = location.reps;
   const [finishedExercise, setFinished] = useState(false);
   //match = props.match because of react router
   const id = match.params.id;
@@ -106,10 +111,15 @@ const SingleExercise = ({ match, selectedChild }) => {
 
   useEffect(() => {
     init();
-
+    console.log('USE EFFECT CALLED INSIDE SINGLE EXERCISE!!!');
     return function cleanup() {
       if (finishedExercise === true) setFinished(false);
-      totalCount = 0;
+      console.log(finishedExercise, 'finished exercise')
+      totalCount = location.reps;
+      console.log(totalCount, 'totalCount2')
+      selectedChild.dailyPoints+=10;
+      let index = child.indexOf(selectedChild);
+      updateChild(selectedChild, index);
       window.cancelAnimationFrame(startAnimation);
       window.cancelAnimationFrame(startAnimation2);
     };
@@ -129,9 +139,15 @@ const SingleExercise = ({ match, selectedChild }) => {
   );
 };
 
-const mapState = (state) => {
+const mapState = state => {
   return {
+    child: state.child,
     selectedChild: state.selectedChild,
   };
 };
-export default connect(mapState)(SingleExercise);
+const mapDispatch = dispatch => {
+  return {
+    updateChild: (selectedChild, index) => dispatch(updateChild(selectedChild, index))
+  }
+}
+export default connect(mapState, mapDispatch)(SingleExercise);

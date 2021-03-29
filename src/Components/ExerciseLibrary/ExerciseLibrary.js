@@ -44,34 +44,29 @@ const ExerciseLibrary = () => {
   const classes = useStyles();
   const exercises = [
     {
+      // NEED TO UPDATE TO EXERCISE
       id: '4pzrBNLH3',
       title: 'Jumping Jacks',
       image: '/images/Jumping-jack-bunny.png',
       numReps: 20,
     },
     {
-      id: 'needID',
-      title: 'Burpees',
-      image: '/images/Burpee-chipmunk.png',
-      numReps: 10,
-    },
-    {
       id: 'pt5naThnv',
       title: 'Burpees',
-      image: '/images/headnod.jpeg',
+      image: '/images/Burpee-chipmunk.png',
       numReps: 2,
     },
     {
       id: '1kK6nWgEJ',
       title: 'Push-ups',
-      image: '/images/headnod.jpeg',
+      image: '/images/Push-up-kitty.png',
       numReps: 2,
     },
   ];
   return (
     <div>
       <ul>
-        {exercises.map((exercise) => (
+        {exercises.map(exercise => (
           <Card className={classes.root} key={exercise.id}>
             <CardActionArea className={classes.card}>
               <CardContent className={classes.card}>
@@ -91,16 +86,19 @@ const ExerciseLibrary = () => {
               </CardContent>
             </CardActionArea>
             <CardActions style={{ flex: 1, justifyContent: 'center' }}>
-              <Button
-                size="small"
-                color="primary"
-                variant="outlined"
-                component={Link}
-                to={`/exercises/${exercise.id}`}
-                endIcon={<ForwardOutlinedIcon />}
+              <Link
+                // size="small"
+                // color="primary"
+                // variant="outlined"
+                // component={Link}
+                to={{
+                  pathname: `/exercises/${exercise.id}`,
+                  reps: `${exercise.numReps}`
+                }}
+                // endIcon={<ForwardOutlinedIcon />}
               >
                 START
-              </Button>
+              </Link>
             </CardActions>
           </Card>
         ))}
