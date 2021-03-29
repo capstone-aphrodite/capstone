@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import * as tmPose from '@teachablemachine/pose';
 import { connect } from 'react-redux';
+import { updateChild } from '../../Store';
 
 //*********** UPDATE to {exercise.count}
 let totalCount = 5;
@@ -108,8 +109,11 @@ const SingleExercise = ({ match, selectedChild }) => {
     init();
 
     return function cleanup() {
+      // let { dailyPoints } = selectedChild;
       if (finishedExercise === true) setFinished(false);
       totalCount = 0;
+      selectedChild.dailyPoints+=10;
+      updateChild(selectedChild, id);
       window.cancelAnimationFrame(startAnimation);
       window.cancelAnimationFrame(startAnimation2);
     };
@@ -134,4 +138,9 @@ const mapState = (state) => {
     selectedChild: state.selectedChild,
   };
 };
-export default connect(mapState)(SingleExercise);
+const mapDispatch = dispatch => {
+  return {
+    updateChild: (selectedChild, id) => dispatch(updateChild(selectedChild, id))
+  }
+}
+export default connect(mapState, mapDispatch)(SingleExercise);

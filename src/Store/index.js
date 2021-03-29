@@ -6,8 +6,8 @@ import history from '../history';
 
 //Action Type
 const AUTH_USER = 'AUTH_USER';
-const AUTH_ME = 'AUTH_ME';
-const ADD_KID = 'ADD_KID';
+// const AUTH_ME = 'AUTH_ME';
+const GET_KID = 'ADD_KID';
 const LOGOUT_USER = 'LOGOUT_USER';
 const SELECT_CHILD = 'SELECT_CHILD';
 
@@ -17,13 +17,13 @@ const _authUser = user => ({
   user,
 });
 
-const _authMe = user => ({
-  type: AUTH_ME,
-  user,
-});
+// const _authMe = user => ({
+//   type: AUTH_ME,
+//   user,
+// });
 
-const _addKid = kid => ({
-  type: ADD_KID,
+const _getKid = kid => ({
+  type: GET_KID,
   kid,
 });
 
@@ -55,7 +55,7 @@ export const authMe = () => {
   return async dispatch => {
     try {
       const user = await axios.get('/auth/me');
-      dispatch(_authMe(user.data || initialState));
+      dispatch(_authUser(user.data || initialState));
     } catch (error) {
       console.log('error in authMe', error);
     }
@@ -66,7 +66,7 @@ export const addKid = kidInfo => {
   return async dispatch => {
     try {
       const kid = await axios.put('/api/addChild', kidInfo);
-      dispatch(_addKid(kid.data));
+      dispatch(_getKid(kid.data));
     } catch (error) {
       console.log('Error creating child profile', error);
     }
@@ -87,6 +87,16 @@ export const selectChild = (child) => dispatch => {
   dispatch(_selectChild(child));
 };
 
+export const updateChild = (selectedChild, index) => async dispatch => {
+  try {
+    const { data } = await axios.put(`/updateChild/${index}`, selectedChild);
+    console.log('data in updateChild', data)
+    dispatch(_selectChild(data));
+  } catch(error) {
+    console.error(error);
+  }
+};
+
 const initialState = {
   firstName: '',
   child: [],
@@ -99,9 +109,9 @@ const reducer = (state = initialState, action) => {
     //since they are returning the same thing
     case AUTH_USER:
       return action.user;
-    case AUTH_ME:
-      return action.user;
-    case ADD_KID:
+    // case AUTH_ME:
+    //   return action.user;
+    case GET_KID:
       return { ...state, child: [...state.child, action.kid] };
     case LOGOUT_USER:
       return initialState; 
