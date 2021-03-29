@@ -109,7 +109,7 @@ export default function Posenet() {
   useEffect(() => {
     init();
   });
-
+  console.log('INSIDE POSENET FILE');
   return (
     <div>
       <div>

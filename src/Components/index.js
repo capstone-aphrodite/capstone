@@ -7,3 +7,4 @@ export { default as ChildDashboard } from './ChildDashboard';
 export { default as Navbar } from './Navbar';
 export { default as FamilyDashboard } from './FamilyDashboard';
 export { default as LandingPage } from './LandingPage';
+export { default as Congrats } from './ExerciseLibrary/Congrats';
