@@ -55,7 +55,6 @@ function FamilyDashboard(props) {
 
   useEffect(() => {
     authMe();
-    console.log('LOADING....', loading);
     setLoading(false);
   }, [setLoading, loading]);
   function handleClick() {
@@ -85,8 +84,11 @@ function FamilyDashboard(props) {
           {!!props.child ? (
             props.child.map((profile, index) => {
               return (
-                <Grid item key={index} xs={3} className={classes.grid}>
-                  <Link to={`/childdashboard/${index}`}>
+                <Grid item key={index} xs={4} className={classes.grid}>
+                  <Link
+                    to={`/childdashboard/${index}`}
+                    className={classes.items}
+                  >
                     <Avatar
                       alt={profile.firstName}
                       src={profile.avatar}

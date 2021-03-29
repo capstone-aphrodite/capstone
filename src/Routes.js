@@ -35,7 +35,11 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/exercises" component={ExerciseLibrary} />
             <Route exact path="/exercises/:id" component={SingleExercise} />
-            <Route exact path="/childdashboard" component={ChildDashboard} />
+            <Route
+              exact
+              path="/childdashboard/:id"
+              component={ChildDashboard}
+            />
             <Route path="/home" component={FamilyDashboard} />
             <Route path="/congrats" component={Congrats} />
           </Switch>
@@ -45,8 +49,7 @@ class Routes extends Component {
   }
 }
 
-const mapState = (state) => {
-
+const mapState = state => {
   return {
     isLoggedIn: !!state.firstName,
   };

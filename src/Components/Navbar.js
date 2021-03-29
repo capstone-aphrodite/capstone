@@ -45,7 +45,7 @@ export function Navbar({ handleClick }) {
               edge="start"
               aria-label="menu"
               color="inherit"
-              onClick={() => history.push('/childdashboard')}
+              onClick={() => history.push('/home')}
             >
               <HomeIcon fontSize="large" />
             </IconButton>
@@ -64,7 +64,7 @@ export function Navbar({ handleClick }) {
   );
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     handleClick: () => dispatch(logout()),
   };
