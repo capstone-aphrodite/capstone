@@ -24,7 +24,7 @@ export const pageStyles = makeStyles({
   },
   text: {
     marginTop: 10,
-    marginBottom: 0,
+    marginBottom: 15,
   },
   grid: {
     display: 'flex',
@@ -71,18 +71,21 @@ function FamilyDashboard(props) {
   return (
     <div className={classes.background}>
       <Typography variant="h4" className={classes.text}>
-        Welcome, {props.firstName}
+        Welcome, {props.firstName}!
       </Typography>
       <div>
-        <Grid
-          container
-          spacing={5}
-          className={classes.container}
-          justify="center"
-          alignItems="center"
-        >
-          {!!props.child ? (
-            props.child.map((profile, index) => {
+        {!!props.child ? (
+          <Grid
+            container
+            spacing={5}
+            className={classes.container}
+            justify="center"
+            alignItems="center"
+          >
+            <Grid item xs={12}>
+              <Typography variant="h5"> Who is playing? </Typography>
+            </Grid>
+            {props.child.map((profile, index) => {
               return (
                 <Grid item key={index} xs={4} className={classes.grid}>
                   <Link
@@ -101,11 +104,11 @@ function FamilyDashboard(props) {
                   </Link>
                 </Grid>
               );
-            })
-          ) : (
-            <div></div>
-          )}
-        </Grid>
+            })}
+          </Grid>
+        ) : (
+          <div></div>
+        )}
       </div>
       <div>
         <Typography variant="h6" className={classes.text}>
