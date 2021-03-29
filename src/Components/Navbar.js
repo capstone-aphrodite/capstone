@@ -45,7 +45,7 @@ export function Navbar({ handleClick }) {
               edge="start"
               aria-label="menu"
               color="inherit"
-              onClick={() => history.push('/home')}
+              onClick={() => history.push('/')}
             >
               <HomeIcon fontSize="large" />
             </IconButton>
