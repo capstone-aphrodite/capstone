@@ -106,13 +106,13 @@ const SingleExercise = ({ match, selectedChild }) => {
 
   useEffect(() => {
     init();
-
+    console.log('USE EFFECT CALLED INSIDE SINGLE EXERCISE!!!');
     return function cleanup() {
       if (finishedExercise === true) setFinished(false);
       window.cancelAnimationFrame(startAnimation);
       window.cancelAnimationFrame(startAnimation2);
     };
-  }, []);
+  }, [finishedExercise]);
 
   return (
     <div>
@@ -128,7 +128,7 @@ const SingleExercise = ({ match, selectedChild }) => {
   );
 };
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     selectedChild: state.selectedChild,
   };
