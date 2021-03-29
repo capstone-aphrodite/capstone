@@ -89,7 +89,7 @@ export const selectChild = (child) => dispatch => {
 
 export const updateChild = (selectedChild, index) => async dispatch => {
   try {
-    const { data } = await axios.put(`/updateChild/${index}`, selectedChild);
+    const { data } = await axios.put(`/api/updateChild/${index}`, selectedChild);
     console.log('data in updateChild', data)
     dispatch(_selectChild(data));
   } catch(error) {

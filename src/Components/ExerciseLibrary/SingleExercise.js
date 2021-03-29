@@ -9,7 +9,7 @@ let totalCount = 5;
 let startAnimation;
 let startAnimation2;
 
-const SingleExercise = ({ match, selectedChild }) => {
+const SingleExercise = ({ match, child, selectedChild, updateChild }) => {
   const [finishedExercise, setFinished] = useState(false);
   //match = props.match because of react router
   const id = match.params.id;
@@ -113,7 +113,8 @@ const SingleExercise = ({ match, selectedChild }) => {
       if (finishedExercise === true) setFinished(false);
       totalCount = 0;
       selectedChild.dailyPoints+=10;
-      updateChild(selectedChild, id);
+      let index = child.indexOf(selectedChild);
+      updateChild(selectedChild, index);
       window.cancelAnimationFrame(startAnimation);
       window.cancelAnimationFrame(startAnimation2);
     };
@@ -135,12 +136,13 @@ const SingleExercise = ({ match, selectedChild }) => {
 
 const mapState = (state) => {
   return {
+    child: state.child,
     selectedChild: state.selectedChild,
   };
 };
 const mapDispatch = dispatch => {
   return {
-    updateChild: (selectedChild, id) => dispatch(updateChild(selectedChild, id))
+    updateChild: (selectedChild, index) => dispatch(updateChild(selectedChild, index))
   }
 }
 export default connect(mapState, mapDispatch)(SingleExercise);
