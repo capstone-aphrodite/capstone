@@ -7,14 +7,18 @@ import history from './history';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { theme } from './Theme/theme';
 import store from './Store';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-    <Router history={history}>
-      <App />
-    </Router>
+      <Router history={history}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

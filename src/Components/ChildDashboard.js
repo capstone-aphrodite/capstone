@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Avatar, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { selectChild } from '../Store';
 
 export function ChildDashboard(props) {
   const [dailyOffset, setDailyOffset] = useState(0);
@@ -13,9 +14,11 @@ export function ChildDashboard(props) {
   // const totalProgress = 100;
   
   const { child } = props;
-    let childId = props.match.params.id
-    let currentChild = child[childId];
-
+  let childId = props.match.params.id
+  let currentChild = child[childId];
+  //is there a reason we would want to wrap this in useEffect?
+  props.selectChild(currentChild);
+  
   useEffect(() => {
     let dailyPoints = currentChild.dailyPoints;
     let totalPoints = currentChild.totalPoints;
@@ -102,7 +105,7 @@ export function ChildDashboard(props) {
       </div>
       <Button
         component={Link}
-        //update route
+        size="large"
         to="/exercises"
         variant="contained"
         color="primary"
@@ -119,4 +122,10 @@ const mapState = state => {
   }
 }
 
-export default connect(mapState)(ChildDashboard);
+const mapDispatch = dispatch => {
+  return {
+    selectChild: (currentChild) => dispatch(selectChild(currentChild))
+  }
+}
+
+export default connect(mapState, mapDispatch)(ChildDashboard);

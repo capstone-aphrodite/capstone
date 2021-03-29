@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import * as tmPose from '@teachablemachine/pose';
+import { connect } from 'react-redux';
 
 //*********** UPDATE to {exercise.count}
 let totalCount = 5;
 let startAnimation;
 let startAnimation2;
 
-const SingleExercise = ({ match }) => {
+const SingleExercise = ({ match, selectedChild }) => {
   const [finishedExercise, setFinished] = useState(false);
   //match = props.match because of react router
   const id = match.params.id;
@@ -128,4 +129,9 @@ const SingleExercise = ({ match }) => {
   );
 };
 
-export default SingleExercise;
+const mapState = (state) => {
+  return {
+    selectedChild: state.selectedChild,
+  };
+};
+export default connect(mapState)(SingleExercise);

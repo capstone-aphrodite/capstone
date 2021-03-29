@@ -9,6 +9,7 @@ import {
   FamilyDashboard,
   Navbar,
   LandingPage,
+  Congrats,
 } from './Components';
 import { authMe } from './Store';
 import { connect } from 'react-redux';
@@ -33,12 +34,9 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/exercises" component={ExerciseLibrary} />
             <Route exact path="/exercises/:id" component={SingleExercise} />
-            <Route
-              exact
-              path="/childdashboard/:id"
-              component={ChildDashboard}
-            />
+            <Route exact path="/childdashboard" component={ChildDashboard} />
             <Route path="/home" component={FamilyDashboard} />
+            <Route path="/congrats" component={Congrats} />
           </Switch>
         )}
       </div>
@@ -47,7 +45,6 @@ class Routes extends Component {
 }
 
 const mapState = (state) => {
-  console.log(state);
   return {
     isLoggedIn: !!state.firstName,
   };
