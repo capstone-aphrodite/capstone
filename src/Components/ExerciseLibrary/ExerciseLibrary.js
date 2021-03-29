@@ -86,16 +86,19 @@ const ExerciseLibrary = () => {
               </CardContent>
             </CardActionArea>
             <CardActions style={{ flex: 1, justifyContent: 'center' }}>
-              <Button
-                size="small"
-                color="primary"
-                variant="outlined"
-                component={Link}
-                to={`/exercises/${exercise.id}`}
-                endIcon={<ForwardOutlinedIcon />}
+              <Link
+                // size="small"
+                // color="primary"
+                // variant="outlined"
+                // component={Link}
+                to={{
+                  pathname: `/exercises/${exercise.id}`,
+                  reps: `${exercise.numReps}`
+                }}
+                // endIcon={<ForwardOutlinedIcon />}
               >
                 START
-              </Button>
+              </Link>
             </CardActions>
           </Card>
         ))}

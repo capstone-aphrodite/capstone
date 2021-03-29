@@ -5,11 +5,15 @@ import { connect } from 'react-redux';
 import { updateChild } from '../../Store';
 
 //*********** UPDATE to {exercise.count}
-let totalCount = 5;
+let totalCount;
 let startAnimation;
 let startAnimation2;
 
-const SingleExercise = ({ match, child, selectedChild, updateChild }) => {
+const SingleExercise = (props) => {
+  console.log(props, 'PROPS');
+  const { match, child, selectedChild, updateChild, location } = props;
+  console.log(location.reps)
+  totalCount = location.reps;
   const [finishedExercise, setFinished] = useState(false);
   //match = props.match because of react router
   const id = match.params.id;
@@ -109,16 +113,17 @@ const SingleExercise = ({ match, child, selectedChild, updateChild }) => {
     init();
     console.log('USE EFFECT CALLED INSIDE SINGLE EXERCISE!!!');
     return function cleanup() {
-      // let { dailyPoints } = selectedChild;
       if (finishedExercise === true) setFinished(false);
-      totalCount = 0;
+      console.log(finishedExercise, 'finished exercise')
+      totalCount = location.reps;
+      console.log(totalCount, 'totalCount2')
       selectedChild.dailyPoints+=10;
       let index = child.indexOf(selectedChild);
       updateChild(selectedChild, index);
       window.cancelAnimationFrame(startAnimation);
       window.cancelAnimationFrame(startAnimation2);
     };
-  }, [finishedExercise]);
+  }, []);
 
   return (
     <div>
