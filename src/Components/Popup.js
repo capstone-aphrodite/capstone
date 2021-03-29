@@ -13,7 +13,7 @@ export const useStyles = makeStyles({
   },
 });
 
-export default function AddKidDialogue(props) {
+export default function Popup(props) {
   const classes = useStyles();
   const { open, setOpen, children } = props;
   return (

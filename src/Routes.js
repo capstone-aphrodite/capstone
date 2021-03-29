@@ -45,8 +45,7 @@ class Routes extends Component {
   }
 }
 
-const mapState = (state) => {
-
+const mapState = state => {
   return {
     isLoggedIn: !!state.firstName,
   };
