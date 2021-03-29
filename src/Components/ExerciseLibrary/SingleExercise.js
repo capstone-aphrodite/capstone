@@ -109,7 +109,6 @@ const SingleExercise = ({ match, selectedChild }) => {
 
     return function cleanup() {
       if (finishedExercise === true) setFinished(false);
-      totalCount = 0;
       window.cancelAnimationFrame(startAnimation);
       window.cancelAnimationFrame(startAnimation2);
     };
