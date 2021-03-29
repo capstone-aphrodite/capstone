@@ -12,14 +12,15 @@ export function ChildDashboard(props) {
   //HARD CODED
   // const dailyProgress = 75;
   // const totalProgress = 100;
-  
+
   const { child } = props;
-  let childId = props.match.params.id
+  let childId = props.match.params.id;
   let currentChild = child[childId];
   //is there a reason we would want to wrap this in useEffect?
   props.selectChild(currentChild);
-  
+
   useEffect(() => {
+    console.log('USE EFFECT RUNNING');
     let dailyPoints = currentChild.dailyPoints;
     let totalPoints = currentChild.totalPoints;
     // this is hard coded for the goal to be 100 points
@@ -34,7 +35,7 @@ export function ChildDashboard(props) {
       'transition: stroke-dashoffset 850ms ease-in-out';
     totalCircleRef.current.style =
       'transition: stroke-dashoffset 850ms ease-in-out';
-  }, [setDailyOffset, setTotalOffset]);
+  }, [setDailyOffset, setTotalOffset, currentChild]);
 
   return (
     <div>
@@ -118,14 +119,14 @@ export function ChildDashboard(props) {
 
 const mapState = state => {
   return {
-    child: state.child
-  }
-}
+    child: state.child,
+  };
+};
 
 const mapDispatch = dispatch => {
   return {
-    selectChild: (currentChild) => dispatch(selectChild(currentChild))
-  }
-}
+    selectChild: currentChild => dispatch(selectChild(currentChild)),
+  };
+};
 
 export default connect(mapState, mapDispatch)(ChildDashboard);
