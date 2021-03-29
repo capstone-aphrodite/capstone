@@ -2,12 +2,14 @@ import axios from 'axios';
 import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
+import history from '../history';
 
 //Action Type
 const AUTH_USER = 'AUTH_USER';
 const AUTH_ME = 'AUTH_ME';
 const ADD_KID = 'ADD_KID';
 const LOGOUT_USER = 'LOGOUT_USER';
+const SELECT_CHILD = 'SELECT_CHILD';
 
 //Action Creator
 const _authUser = user => ({
@@ -25,7 +27,10 @@ const _addKid = kid => ({
   kid,
 });
 
-const _logoutUser = () => ({type: LOGOUT_USER})
+const _logoutUser = () => ({type: LOGOUT_USER});
+
+const _selectChild = (child) => ({type: SELECT_CHILD, child});
+
 export const authUser = (user, type, history) => {
   return async dispatch => {
     let adult;
@@ -72,17 +77,26 @@ export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout');
     dispatch(_logoutUser());
+    history.push('/')
   } catch(error) {
     console.error(error);
   }
-}
+};
+
+export const selectChild = (child) => dispatch => {
+  dispatch(_selectChild(child));
+};
 
 const initialState = {
   firstName: '',
   child: [],
+  selectedChild: {}
 };
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    //we could merge auth_user and auth_me action types 
+    //since they are returning the same thing
     case AUTH_USER:
       return action.user;
     case AUTH_ME:
@@ -90,7 +104,9 @@ const reducer = (state = initialState, action) => {
     case ADD_KID:
       return { ...state, child: [...state.child, action.kid] };
     case LOGOUT_USER:
-      return initialState;  
+      return initialState; 
+    case SELECT_CHILD:
+      return {...state, selectedChild: action.child};  
     default:
       return state;
   }

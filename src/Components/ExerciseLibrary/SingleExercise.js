@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import * as tmPose from '@teachablemachine/pose';
+import { connect } from 'react-redux';
 
 let rightCount = 0;
 let leftCount = 0;
 let totalCount = 0;
 
-const SingleExercise = ({ match }) => {
+const SingleExercise = ({ match, selectedChild }) => {
   //match = props.match because of react router
   const id = match.params.id;
   //id= match.params.id because of react router
@@ -93,6 +94,8 @@ const SingleExercise = ({ match }) => {
         // setRightCount(rightCount + 1);
         // rightCount++;
         totalCount++;
+        //increase points
+        // selectedChild.dailyPoints+=totalCount;
         repContainer.innerHTML = `You have nodded your head ${totalCount} times!`;
         previousPose = prediction[2].className;
         console.log('Right Count: ', rightCount);
@@ -129,4 +132,9 @@ const SingleExercise = ({ match }) => {
   );
 };
 
-export default SingleExercise;
+const mapState = state => {
+  return {
+    selectedChild: state.selectedChild
+  }
+}
+export default connect(mapState)(SingleExercise);
