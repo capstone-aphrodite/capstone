@@ -24,19 +24,23 @@ class Routes extends Component {
         <Navbar />
         <Switch>
           <Route exact path="/">
-            {isLoggedIn ? <Redirect to='/home'/> : <LandingPage/>}
+            {isLoggedIn ? <Redirect to="/home" /> : <LandingPage />}
           </Route>
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
         </Switch>
-          {isLoggedIn && (
-        <Switch>
-          <Route exact path="/exercises" component={ExerciseLibrary} />
-          <Route exact path="/exercises/:id" component={SingleExercise} />
-          <Route exact path="/childdashboard/:id" component={ChildDashboard} />
-          <Route path="/home" component={FamilyDashboard} />
-        </Switch>
-          )}
+        {isLoggedIn && (
+          <Switch>
+            <Route exact path="/exercises" component={ExerciseLibrary} />
+            <Route exact path="/exercises/:id" component={SingleExercise} />
+            <Route
+              exact
+              path="/childdashboard/:id"
+              component={ChildDashboard}
+            />
+            <Route path="/home" component={FamilyDashboard} />
+          </Switch>
+        )}
       </div>
     );
   }

@@ -26,6 +26,18 @@ const ExerciseLibrary = () => {
       image: '/images/headnod.jpeg',
       numReps: 10,
     },
+    {
+      id: 'pt5naThnv',
+      title: 'Burpees',
+      image: '/images/headnod.jpeg',
+      numReps: 2,
+    },
+    {
+      id: '1kK6nWgEJ',
+      title: 'Push-ups',
+      image: '/images/headnod.jpeg',
+      numReps: 2,
+    },
   ];
   return (
     <div>
