@@ -19,12 +19,32 @@ export const pageStyles = makeStyles({
     height: '100vh',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
     flexFlow: 'column nowrap',
+    alignItems: 'center',
+  },
+  text: {
+    marginTop: 10,
+    marginBottom: 0,
   },
   grid: {
-    padding: 5,
-    margin: 5,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 2,
+    marginBottom: 0,
+  },
+  items: {
+    display: 'flex',
+    flexFlow: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    textDecoration: 'none',
+    color: 'black',
+    padding: 2,
+  },
+  avatar: {
+    minWidth: 58,
+    minHeight: 58,
   },
 });
 
@@ -35,15 +55,13 @@ function FamilyDashboard(props) {
 
   useEffect(() => {
     authMe();
+    console.log('LOADING....', loading);
     setLoading(false);
-  }, [setOpen]);
+  }, [setLoading, loading]);
   function handleClick() {
-    console.log('ICON CLICKED!!!!');
     setOpen(true);
-    console.log('open?', open);
   }
   if (loading) {
-    console.log('PROPS FOR FAMILY DASHBOARD --->', props);
     return (
       <div className={classes.background}>
         <CircularProgress />
@@ -53,22 +71,32 @@ function FamilyDashboard(props) {
 
   return (
     <div className={classes.background}>
-      <Typography variant="h5">Welcome, {props.firstName}</Typography>
+      <Typography variant="h4" className={classes.text}>
+        Welcome, {props.firstName}
+      </Typography>
       <div>
-        <Grid container space={8}>
+        <Grid
+          container
+          spacing={5}
+          className={classes.container}
+          justify="center"
+          alignItems="center"
+        >
           {!!props.child ? (
             props.child.map((profile, index) => {
               return (
-                <Grid item key={index} xs={3} className={classes.grid}>
-                  <Link to="/childdashboard">
+                <Grid item key={index} xs={4} className={classes.grid}>
+                  <Link to="/childdashboard" className={classes.items}>
                     <Avatar
                       alt={profile.firstName}
                       src={profile.avatar}
+                      className={classes.avatar}
+                      component="div"
                     ></Avatar>
+                    <Typography variant="subtitle1">
+                      {profile.firstName}
+                    </Typography>
                   </Link>
-                  <Typography variant="subtitle1">
-                    {profile.firstName}
-                  </Typography>
                 </Grid>
               );
             })
@@ -78,9 +106,11 @@ function FamilyDashboard(props) {
         </Grid>
       </div>
       <div>
-        <Typography variant="subtitle1">Add a new kid</Typography>
+        <Typography variant="h6" className={classes.text}>
+          Add a new kid
+        </Typography>
         <IconButton aria-label="add-kid" onClick={handleClick}>
-          <AddCircle fontSize="large" color="primary" />
+          <AddCircle color="secondary" className={classes.avatar} />
         </IconButton>
       </div>
       <div>

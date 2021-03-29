@@ -24,10 +24,18 @@ const avatars = [
 ];
 const useStyles = makeStyles({
   root: {
-    midWidth: 250,
+    minWidth: '250px',
+    maxWidth: '100%',
+    margin: '4px',
+    marginTop: 0,
     display: 'flex',
+    flexFlow: 'column nowrap',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  button: {
+    float: 'right',
+    margin: 5,
   },
 });
 
@@ -37,10 +45,8 @@ export const AddKidForm = props => {
   const [avatarURL, setAvatarURL] = useState('');
   function handleSubmit(event) {
     event.preventDefault();
-    console.log('FIRST NAME-->', event.target.first.value);
     const firstName = event.target.first.value;
     const avatar = avatarURL;
-    console.log('ITEM LISTED', avatarURL);
     addKid({ firstName, avatar });
     setOpen(false);
   }
@@ -64,7 +70,12 @@ export const AddKidForm = props => {
             ))}
           </Select>
         </Grid>
-        <Button variant="outlined" type="submit" color="secondary">
+        <Button
+          variant="outlined"
+          type="submit"
+          color="secondary"
+          className={classes.button}
+        >
           Go!
         </Button>
       </form>
