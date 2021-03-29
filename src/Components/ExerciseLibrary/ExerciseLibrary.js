@@ -66,7 +66,7 @@ const ExerciseLibrary = () => {
   return (
     <div>
       <ul>
-        {exercises.map((exercise) => (
+        {exercises.map(exercise => (
           <Card className={classes.root} key={exercise.id}>
             <CardActionArea className={classes.card}>
               <CardContent className={classes.card}>

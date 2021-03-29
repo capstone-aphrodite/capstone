@@ -107,7 +107,7 @@ const SingleExercise = ({ match, child, selectedChild, updateChild }) => {
 
   useEffect(() => {
     init();
-
+    console.log('USE EFFECT CALLED INSIDE SINGLE EXERCISE!!!');
     return function cleanup() {
       // let { dailyPoints } = selectedChild;
       if (finishedExercise === true) setFinished(false);
@@ -118,7 +118,7 @@ const SingleExercise = ({ match, child, selectedChild, updateChild }) => {
       window.cancelAnimationFrame(startAnimation);
       window.cancelAnimationFrame(startAnimation2);
     };
-  }, []);
+  }, [finishedExercise]);
 
   return (
     <div>
@@ -134,7 +134,7 @@ const SingleExercise = ({ match, child, selectedChild, updateChild }) => {
   );
 };
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     child: state.child,
     selectedChild: state.selectedChild,
