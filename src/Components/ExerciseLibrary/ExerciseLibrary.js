@@ -56,16 +56,22 @@ const ExerciseLibrary = () => {
       numReps: 10,
     },
     {
-      id: 'needID2',
+      id: 'pt5naThnv',
+      title: 'Burpees',
+      image: '/images/headnod.jpeg',
+      numReps: 2,
+    },
+    {
+      id: '1kK6nWgEJ',
       title: 'Push-ups',
-      image: '/images/Push-up-kitty.png',
-      numReps: 8,
+      image: '/images/headnod.jpeg',
+      numReps: 2,
     },
   ];
   return (
     <div>
       <ul>
-        {exercises.map(exercise => (
+        {exercises.map((exercise) => (
           <Card className={classes.root} key={exercise.id}>
             <CardActionArea className={classes.card}>
               <CardContent className={classes.card}>

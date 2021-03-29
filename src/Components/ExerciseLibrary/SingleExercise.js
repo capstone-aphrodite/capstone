@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import * as tmPose from '@teachablemachine/pose';
 import { connect } from 'react-redux';
 
-let rightCount = 0;
-let leftCount = 0;
-let totalCount = 0;
+//*********** UPDATE to {exercise.count}
+let totalCount = 5;
+let startAnimation;
+let startAnimation2;
 
 const SingleExercise = ({ match, selectedChild }) => {
+  const [finishedExercise, setFinished] = useState(false);
   //match = props.match because of react router
   const id = match.params.id;
   //id= match.params.id because of react router
@@ -40,27 +43,19 @@ const SingleExercise = ({ match, selectedChild }) => {
 
     // request access to the webcam
     await webcam.play();
-    window.requestAnimationFrame(loop);
+    startAnimation = window.requestAnimationFrame(loop);
 
     // append/get elements to the DOM
     const canvas = document.getElementById('canvas');
     canvas.width = size;
     canvas.height = size;
     ctx = canvas.getContext('2d');
-
-    // removes prediction labels below image
-
-    // labelContainer = document.getElementById('label-container');
-    // for (let i = 0; i < maxPredictions; i++) {
-    //   // and class labels
-    //   labelContainer.appendChild(document.createElement('div'));
-    // }
   }
 
   async function loop(timestamp) {
     webcam.update(); // update the webcam frame
     await predict();
-    window.requestAnimationFrame(loop);
+    startAnimation2 = window.requestAnimationFrame(loop);
   }
 
   async function predict() {
@@ -70,36 +65,27 @@ const SingleExercise = ({ match, selectedChild }) => {
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
-    // removes prediction labels below image
-
-    // for (let i = 0; i < maxPredictions; i++) {
-    //   const classPrediction =
-    //     prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
-    //   labelContainer.childNodes[i].innerHTML = classPrediction;
-    // }
-
     let repContainer = document.getElementById('rep-container');
 
-    if (prediction[1].probability.toFixed(2) >= 0.75) {
-      if (prediction[1].className !== previousPose) {
-        // setLeftCount(leftCount + 1);
-        // leftCount++;
-        totalCount++;
-        repContainer.innerHTML = `You have nodded your head ${totalCount} times!`;
-        previousPose = prediction[1].className;
-        console.log('Left Count: ', leftCount);
+    if (totalCount > 0) {
+      if (prediction[0].probability.toFixed(2) >= 0.75) {
+        if (prediction[0].className !== previousPose) {
+          totalCount--;
+          console.log('Prediction 1: ', totalCount);
+          previousPose = prediction[0].className;
+        }
+      } else if (prediction[1].probability.toFixed(2) >= 0.75) {
+        if (prediction[1].className !== previousPose) {
+          totalCount--;
+          console.log('Prediction 2: ', totalCount);
+          repContainer.innerHTML = `You have ${Math.ceil(
+            totalCount / 2
+          )} left!`;
+          previousPose = prediction[1].className;
+        }
       }
-    } else if (prediction[2].probability.toFixed(2) >= 0.75) {
-      if (prediction[2].className !== previousPose) {
-        // setRightCount(rightCount + 1);
-        // rightCount++;
-        totalCount++;
-        //increase points
-        // selectedChild.dailyPoints+=totalCount;
-        repContainer.innerHTML = `You have nodded your head ${totalCount} times!`;
-        previousPose = prediction[2].className;
-        console.log('Right Count: ', rightCount);
-      }
+    } else {
+      setFinished(true);
     }
 
     // finally draw the poses
@@ -120,21 +106,32 @@ const SingleExercise = ({ match, selectedChild }) => {
 
   useEffect(() => {
     init();
-  });
+
+    return function cleanup() {
+      if (finishedExercise === true) setFinished(false);
+      totalCount = 0;
+      window.cancelAnimationFrame(startAnimation);
+      window.cancelAnimationFrame(startAnimation2);
+    };
+  }, []);
 
   return (
     <div>
       <div>
-        <canvas id="canvas"></canvas>
+        {finishedExercise ? (
+          <Redirect to="/congrats" />
+        ) : (
+          <canvas id="canvas"></canvas>
+        )}
       </div>
       <div id="rep-container">Loading...</div>
     </div>
   );
 };
 
-const mapState = state => {
+const mapState = (state) => {
   return {
-    selectedChild: state.selectedChild
-  }
-}
+    selectedChild: state.selectedChild,
+  };
+};
 export default connect(mapState)(SingleExercise);

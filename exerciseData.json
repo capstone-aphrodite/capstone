@@ -1,0 +1,21 @@
+{
+    "_model": "Exercise",
+    "exerciseOne": {
+        "name": "Push-up",
+        "tm": "1kK6nWgEJ",
+        "count": "10"
+
+    },
+    "exerciseTwo": {
+        "name": "Burpee",
+        "tm": "pt5naThnv",
+        "count": "10"
+
+    },
+    "exerciseThree": {
+        "name": "Jumping-jack",
+        "tm": "",
+        "count": "30"
+
+    }
+}
