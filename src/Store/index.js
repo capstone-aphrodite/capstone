@@ -9,6 +9,7 @@ const AUTH_USER = 'AUTH_USER';
 const AUTH_ME = 'AUTH_ME';
 const ADD_KID = 'ADD_KID';
 const LOGOUT_USER = 'LOGOUT_USER';
+const SELECT_CHILD = 'SELECT_CHILD';
 
 //Action Creator
 const _authUser = user => ({
@@ -27,6 +28,8 @@ const _addKid = kid => ({
 });
 
 const _logoutUser = () => ({type: LOGOUT_USER});
+
+const _selectChild = (child) => ({type: SELECT_CHILD, child});
 
 export const authUser = (user, type, history) => {
   return async dispatch => {
@@ -78,14 +81,22 @@ export const logout = () => async dispatch => {
   } catch(error) {
     console.error(error);
   }
-}
+};
+
+export const selectChild = (child) => dispatch => {
+  dispatch(_selectChild(child));
+};
 
 const initialState = {
   firstName: '',
   child: [],
+  selectedChild: {}
 };
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    //we could merge auth_user and auth_me action types 
+    //since they are returning the same thing
     case AUTH_USER:
       return action.user;
     case AUTH_ME:
@@ -93,7 +104,9 @@ const reducer = (state = initialState, action) => {
     case ADD_KID:
       return { ...state, child: [...state.child, action.kid] };
     case LOGOUT_USER:
-      return initialState;  
+      return initialState; 
+    case SELECT_CHILD:
+      return {...state, selectedChild: action.child};  
     default:
       return state;
   }
