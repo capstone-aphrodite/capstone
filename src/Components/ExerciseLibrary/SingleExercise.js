@@ -119,7 +119,7 @@ const SingleExercise = ({ match, selectedChild }) => {
     <div>
       <div>
         {finishedExercise ? (
-          <Redirect to="/login" />
+          <Redirect to="/congrats" />
         ) : (
           <canvas id="canvas"></canvas>
         )}
