@@ -109,7 +109,6 @@ const SingleExercise = ({ match, selectedChild }) => {
     console.log('USE EFFECT CALLED INSIDE SINGLE EXERCISE!!!');
     return function cleanup() {
       if (finishedExercise === true) setFinished(false);
-      totalCount = 0;
       window.cancelAnimationFrame(startAnimation);
       window.cancelAnimationFrame(startAnimation2);
     };

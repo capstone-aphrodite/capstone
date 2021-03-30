@@ -91,6 +91,7 @@ const ExerciseLibrary = () => {
                 variant="outlined"
                 component={Link}
                 to={`/exercises/${exercise.id}`}
+                props={exercise.numReps}
                 endIcon={<ForwardOutlinedIcon />}
               >
                 START
