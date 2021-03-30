@@ -10,14 +10,10 @@ let startAnimation;
 let startAnimation2;
 
 const SingleExercise = (props) => {
-  console.log(props, 'PROPS');
   const { match, child, selectedChild, updateChild, location } = props;
-  console.log(location.reps)
   totalCount = location.reps;
   const [finishedExercise, setFinished] = useState(false);
-  //match = props.match because of react router
   const id = match.params.id;
-  //id= match.params.id because of react router
   let previousPose;
   const URL = `https://teachablemachine.withgoogle.com/models/${id}/`;
   //depending on the id it will execute a different code

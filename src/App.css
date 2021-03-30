@@ -82,13 +82,12 @@
   padding: 70px 0;
 }
 
-.progress {
+/* .progress {
   padding-top: 20px;
-}
+} */
 
 .progress-circles {
   display: flex;
-  text-align: center;
   justify-content: center;
   padding-bottom: 100px;
 }
@@ -99,4 +98,16 @@
 
 .progress {
   transform: rotate(-90deg);
+}
+
+.svg-circle-text {
+  font-size: 2rem;
+  writing-mode: tb-rl;
+  text-anchor: middle;
+  fill: black;
+  font-size: 20px;
+}
+
+.points-label {
+  padding-bottom: 20px;
 }

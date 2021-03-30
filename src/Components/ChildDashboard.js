@@ -44,7 +44,7 @@ export function ChildDashboard(props) {
       </div>
       <div className="progress-circles">
         <div className="progress-circle">
-          <div>Daily Points</div>
+          <div className="points-label">Daily Points</div>
           <svg
             className="progress"
             width="120"
@@ -71,16 +71,18 @@ export function ChildDashboard(props) {
               strokeDasharray="339.292"
               strokeDashoffset={dailyOffset}
             />
+            <text className="svg-circle-text" x="60" y="60">{`${currentChild.dailyPoints}`}%</text>
           </svg>
         </div>
         <div className="progress-circle">
-          <div>Total Points</div>
+        <div className="points-label">Total Points</div>
           <svg
             className="progress"
             width="120"
             height="120"
             viewBox="0 0 120 120"
           >
+
             <circle
               cx="60"
               cy="60"
@@ -101,6 +103,7 @@ export function ChildDashboard(props) {
               strokeDasharray="339.292"
               strokeDashoffset={totalOffset}
             />
+            <text className="svg-circle-text" x="60" y="60">{`${currentChild.totalPoints}`}%</text>
           </svg>
         </div>
       </div>
