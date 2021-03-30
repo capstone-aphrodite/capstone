@@ -4,13 +4,14 @@ import { Redirect } from 'react-router-dom';
 import * as tmPose from '@teachablemachine/pose';
 import { connect } from 'react-redux';
 import { updateChild } from '../../Store';
+import { CircularProgress, Typography } from '@material-ui/core';
 
 //*********** UPDATE to {exercise.count}
 let totalCount;
 let startAnimation;
 let startAnimation2;
 
-const SingleExercise = (props) => {
+const SingleExercise = props => {
   const { match, child, selectedChild, updateChild, location } = props;
   const [finishedExercise, setFinished] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -133,21 +134,26 @@ const SingleExercise = (props) => {
         )}
       </div>
       {isLoading ? (
-        <div id="rep-container">Loading...</div>
+        <div id="rep-container">
+          {' '}
+          <CircularProgress />
+        </div>
       ) : (
-        <div id="rep-container">Ready, set, go!</div>
+        <Typography id="rep-container" variant="h4">
+          Ready, set, go!
+        </Typography>
       )}
     </div>
   );
 };
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     child: state.child,
     selectedChild: state.selectedChild,
   };
 };
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     updateChild: (selectedChild, index) =>
       dispatch(updateChild(selectedChild, index)),

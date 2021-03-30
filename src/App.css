@@ -37,7 +37,11 @@
 /* CANVAS  */
 
 #canvas {
-  padding: 50px 0;
+  /* padding: 50px 0; */
+  margin-top: 20px;
+  margin-bottom: 13px;
+  border-radius: 20px;
+  box-shadow: 2px 2px 2px 1px #282c34d0;
 }
 
 /* LANDING PAGE */
@@ -120,4 +124,3 @@
 .not-child-link {
   margin-top: 10%;
 }
-
