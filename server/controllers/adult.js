@@ -56,16 +56,8 @@ module.exports = {
       });
       adult.child.push(req.body);
       await adult.save();
-      // const newChild = await Adult.findOne({
-      //   email: req.user.email,
-      //   child: [
-      //     {
-      //       $firstName: req.body.firstName,
-      //     },
-      //   ],
-      // });
-      // console.log(newChild);
-      res.send(req.body);
+      let newChild = adult.child.find(elem => elem.firstName === req.body.firstName);
+      res.send(newChild);
     } catch (error) {
       next(error);
     }
