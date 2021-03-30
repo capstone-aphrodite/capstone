@@ -1,30 +1,30 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent } from '@material-ui/core';
+import { Dialog, DialogContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles({
   background: {
+    backgroundColor: '#1ED882',
     display: 'flex',
-    padding: 8,
-    margin: 2,
+    padding: 15,
+    margin: 4,
     flexFlow: 'column nowrap',
     justifyItems: 'center',
     alignItems: 'center',
   },
 });
 
-export default function Popup(props) {
+export default function SecondaryPopup(props) {
   const classes = useStyles();
-  const { open, setOpen, children, name, color } = props;
+  const { open, setOpen, children, name } = props;
   console.log('name --->', name);
   return (
     <Dialog
-      className={classes.background}
+      PaperProps={{ background: 'transparent' }}
       open={open}
       onClose={() => setOpen(false)}
-      color={color || 'inherit'}
+      color="secondary"
     >
-      {name !== '' ? <DialogTitle>{name}</DialogTitle> : <></>}
       <DialogContent className={classes.background}>{children}</DialogContent>
     </Dialog>
   );
