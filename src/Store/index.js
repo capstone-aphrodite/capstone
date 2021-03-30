@@ -6,8 +6,7 @@ import history from '../history';
 
 //Action Type
 const AUTH_USER = 'AUTH_USER';
-// const AUTH_ME = 'AUTH_ME';
-const GET_KID = 'ADD_KID';
+const GET_KID = 'GET_KID';
 const LOGOUT_USER = 'LOGOUT_USER';
 const SELECT_CHILD = 'SELECT_CHILD';
 
@@ -17,19 +16,18 @@ const _authUser = user => ({
   user,
 });
 
-// const _authMe = user => ({
-//   type: AUTH_ME,
-//   user,
-// });
-
 const _getKid = kid => ({
   type: GET_KID,
   kid,
 });
 
-const _logoutUser = () => ({type: LOGOUT_USER});
+const _logoutUser = () => ({
+  type: LOGOUT_USER
+});
 
-const _selectChild = (child) => ({type: SELECT_CHILD, child});
+const _selectChild = (child) => ({
+  type: SELECT_CHILD, child
+});
 
 export const authUser = (user, type, history) => {
   return async dispatch => {
