@@ -1,5 +1,5 @@
-const Adult = require('../model');
-const bcrypt = require('bcryptjs');
+const Adult = require("../model");
+const bcrypt = require("bcryptjs");
 
 module.exports = {
   createUser: async (req, res, next) => {
@@ -13,9 +13,9 @@ module.exports = {
         await adult.save();
         // const id = adult._id.toString();
         // req.session.userId = id.slice(-4);
-        req.login(adult, error => (error ? next(error) : res.json(adult)));
+        req.login(adult, (error) => (error ? next(error) : res.json(adult)));
       } else {
-        return res.status(435).send('This email is already registered');
+        return res.status(435).send("This email is already registered");
       }
     } catch (error) {
       next(error);
@@ -29,11 +29,11 @@ module.exports = {
       });
       if (adult) {
         if (!bcrypt.compareSync(req.body.password, adult.password)) {
-          return res.status(401).send('Incorrect password');
+          return res.status(401).send("Incorrect password");
         }
-        req.login(adult, error => (error ? next(error) : res.json(adult)));
+        req.login(adult, (error) => (error ? next(error) : res.json(adult)));
       } else {
-        res.status(401).send('A user with this email does not exist');
+        res.status(401).send("A user with this email does not exist");
       }
     } catch (error) {
       next(error);
@@ -44,7 +44,7 @@ module.exports = {
     try {
       res.json(req.user);
     } catch (error) {
-      console.log('Error authorizing user in server');
+      console.log("Error authorizing user in server");
       next(error);
     }
   },
@@ -56,7 +56,8 @@ module.exports = {
       });
       adult.child.push(req.body);
       await adult.save();
-      res.send(req.body);
+      let newChild = adult.child.find(elem => elem.firstName === req.body.firstName);
+      res.send(newChild);
     } catch (error) {
       next(error);
     }
@@ -70,7 +71,7 @@ module.exports = {
       const child = adult.child[req.params.id];
       Object.assign(child, req.body);
       await adult.save();
-      console.log(child)
+      console.log(child);
       res.send(child);
     } catch (error) {
       next(error);
@@ -82,7 +83,7 @@ module.exports = {
       const adult = await Adult.findOne({
         email: req.user.email,
       });
-      adult.child = adult.child.filter(kid => kid.id !== req.params.id);
+      adult.child = adult.child.filter((kid) => kid.id !== req.params.id);
       await adult.save();
       res.send(adult);
     } catch (error) {

@@ -21,7 +21,7 @@ function FamilyDashboard(props) {
   const { selectChild } = props;
   useEffect(() => {
     authMe();
-    selectChild({});
+    // selectChild({});
     setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setLoading, loading]);

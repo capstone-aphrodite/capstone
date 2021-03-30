@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { Avatar, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -16,8 +17,11 @@ export function ChildDashboard(props) {
   const { child, selectChild } = props;
   let childId = props.match.params.id;
   let currentChild = child[childId];
-  //is there a reason we would want to wrap this in useEffect?
-  selectChild(currentChild);
+
+  useEffect(() => {
+    selectChild(currentChild);
+    console.log("setting selected child in Use Effect");
+  }, []);
 
   useEffect(() => {
     console.log("USE EFFECT RUNNING");
@@ -71,18 +75,19 @@ export function ChildDashboard(props) {
               strokeDasharray="339.292"
               strokeDashoffset={dailyOffset}
             />
-            <text className="svg-circle-text" x="60" y="60">{`${currentChild.dailyPoints}`}%</text>
+            <text className="svg-circle-text" x="60" y="60">
+              {`${currentChild.dailyPoints}`}%
+            </text>
           </svg>
         </div>
         <div className="progress-circle">
-        <div className="points-label">Total Points</div>
+          <div className="points-label">Total Points</div>
           <svg
             className="progress"
             width="120"
             height="120"
             viewBox="0 0 120 120"
           >
-
             <circle
               cx="60"
               cy="60"
@@ -103,7 +108,9 @@ export function ChildDashboard(props) {
               strokeDasharray="339.292"
               strokeDashoffset={totalOffset}
             />
-            <text className="svg-circle-text" x="60" y="60">{`${currentChild.totalPoints}`}%</text>
+            <text className="svg-circle-text" x="60" y="60">
+              {`${currentChild.totalPoints}`}%
+            </text>
           </svg>
         </div>
       </div>

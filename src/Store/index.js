@@ -1,40 +1,39 @@
-import axios from 'axios';
-import { createStore, applyMiddleware } from 'redux';
-import { createLogger } from 'redux-logger';
-import thunkMiddleware from 'redux-thunk';
-import history from '../history';
+import axios from "axios";
+import { createStore, applyMiddleware } from "redux";
+import { createLogger } from "redux-logger";
+import thunkMiddleware from "redux-thunk";
+import history from "../history";
 
 //Action Type
-const AUTH_USER = 'AUTH_USER';
-// const AUTH_ME = 'AUTH_ME';
-const GET_KID = 'ADD_KID';
-const LOGOUT_USER = 'LOGOUT_USER';
-const SELECT_CHILD = 'SELECT_CHILD';
+const AUTH_USER = "AUTH_USER";
+const GET_KID = "GET_KID";
+const LOGOUT_USER = "LOGOUT_USER";
+const SELECT_CHILD = "SELECT_CHILD";
 
 //Action Creator
-const _authUser = user => ({
+const _authUser = (user) => ({
   type: AUTH_USER,
   user,
 });
 
-// const _authMe = user => ({
-//   type: AUTH_ME,
-//   user,
-// });
-
-const _getKid = kid => ({
+const _getKid = (kid) => ({
   type: GET_KID,
   kid,
 });
 
-const _logoutUser = () => ({type: LOGOUT_USER});
+const _logoutUser = () => ({
+  type: LOGOUT_USER,
+});
 
-const _selectChild = (child) => ({type: SELECT_CHILD, child});
+const _selectChild = (child) => ({
+  type: SELECT_CHILD,
+  child,
+});
 
 export const authUser = (user, type, history) => {
-  return async dispatch => {
+  return async (dispatch) => {
     let adult;
-    if (type === 'signup') {
+    if (type === "signup") {
       const { firstName, lastName, email, password } = user;
       adult = { firstName, lastName, email, password };
     } else {
@@ -44,68 +43,78 @@ export const authUser = (user, type, history) => {
     try {
       const newUser = await axios.post(`/auth/${type}`, adult);
       if (newUser.data) dispatch(_authUser(newUser.data));
-      history.push('/home');
+      history.push("/home");
     } catch (error) {
-      console.error(error, 'Error setting new user');
+      console.error(error, "Error setting new user");
     }
   };
 };
 
 export const authMe = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
-      const user = await axios.get('/auth/me');
+      const user = await axios.get("/auth/me");
       dispatch(_authUser(user.data || initialState));
     } catch (error) {
-      console.log('error in authMe', error);
+      console.log("error in authMe", error);
     }
   };
 };
 
-export const addKid = kidInfo => {
-  return async dispatch => {
+export const addKid = (kidInfo) => {
+  return async (dispatch) => {
     try {
-      const kid = await axios.put('/api/addChild', kidInfo);
+      const kid = await axios.put("/api/addChild", kidInfo);
       dispatch(_getKid(kid.data));
     } catch (error) {
-      console.log('Error creating child profile', error);
+      console.log("Error creating child profile", error);
     }
   };
 };
 
-export const logout = () => async dispatch => {
+export const logout = () => async (dispatch) => {
   try {
-    await axios.post('/auth/logout');
+    await axios.post("/auth/logout");
     dispatch(_logoutUser());
-    history.push('/')
-  } catch(error) {
+    history.push("/");
+  } catch (error) {
     console.error(error);
   }
 };
 
-export const selectChild = (child) => dispatch => {
-  dispatch(_selectChild(child));
+export const selectChild = (kid) => async (dispatch) => {
+  const { data } = await axios.get("/auth/me");
+  const { child } = data;
+  let selected = child.find((elem) => elem.firstName === kid.firstName);
+
+  selected["index"] = child.indexOf(selected);
+
+  console.log(selected, "SELECTED CHILD");
+  dispatch(_selectChild(selected));
 };
 
-export const updateChild = (selectedChild, index) => async dispatch => {
+export const updateChild = (selectedChild, index) => async (dispatch) => {
   try {
-    const { data } = await axios.put(`/api/updateChild/${index}`, selectedChild);
-    console.log('data in updateChild', data)
+    const { data } = await axios.put(
+      `/api/updateChild/${index}`,
+      selectedChild
+    );
+    console.log("data in updateChild", data);
     dispatch(_selectChild(data));
-  } catch(error) {
+  } catch (error) {
     console.error(error);
   }
 };
 
 const initialState = {
-  firstName: '',
+  firstName: "",
   child: [],
-  selectedChild: {}
+  selectedChild: {},
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    //we could merge auth_user and auth_me action types 
+    //we could merge auth_user and auth_me action types
     //since they are returning the same thing
     case AUTH_USER:
       return action.user;
@@ -114,9 +123,9 @@ const reducer = (state = initialState, action) => {
     case GET_KID:
       return { ...state, child: [...state.child, action.kid] };
     case LOGOUT_USER:
-      return initialState; 
+      return initialState;
     case SELECT_CHILD:
-      return {...state, selectedChild: action.child};  
+      return { ...state, selectedChild: action.child };
     default:
       return state;
   }
