@@ -119,7 +119,7 @@ function FamilyDashboard(props) {
         </IconButton>
       </div>
       <div>
-        <Popup open={open} setOpen={setOpen}>
+        <Popup open={open} setOpen={setOpen} name={`Create a Kid Profile`}>
           <AddKidForm setOpen={setOpen} />
         </Popup>
       </div>

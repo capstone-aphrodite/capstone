@@ -45,9 +45,6 @@ export function Login(props) {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
-    console.log('CLICKED');
-    console.log('email --->', event.target.email.value);
-    console.log('password --->', event.target.password.value);
     authUser({ email, password });
   }
   return (
