@@ -1,19 +1,22 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
+const mongoose = require('mongoose');
+const validator = require('validator');
 
 const Schema = mongoose.Schema;
 
 let adultSchema = new Schema({
   firstName: {
     type: String,
+    required: true,
   },
   lastName: {
     type: String,
+    required: true,
   },
   email: {
     type: String,
     unique: true,
-    validate: [validator.isEmail, "Invalid email address"],
+    required: true,
+    validate: [validator.isEmail, 'Invalid email address'],
   },
   password: {
     type: String,
@@ -25,7 +28,7 @@ let adultSchema = new Schema({
       avatar: {
         type: String,
         default:
-          "https://images.assetsdelivery.com/compings_v2/drawkman/drawkman1709/drawkman170900284.jpg",
+          'https://images.assetsdelivery.com/compings_v2/drawkman/drawkman1709/drawkman170900284.jpg',
         required: true,
       },
       totalPoints: {
@@ -38,9 +41,18 @@ let adultSchema = new Schema({
         default: 0,
         required: true,
       },
+      dailyPointGoal: {
+        type: Number,
+        default: 100,
+        required: true,
+      },
+      rewardOptions: [],
+      selectedReward: {
+        type: String,
+      },
     },
   ],
 });
 
-const Adult = mongoose.model("Adult", adultSchema);
+const Adult = mongoose.model('Adult', adultSchema);
 module.exports = Adult;
