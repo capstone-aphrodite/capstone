@@ -94,6 +94,7 @@
 
 .progress-circle {
   flex: 1;
+  margin: 10%;
 }
 
 .progress {
@@ -111,3 +112,18 @@
 .points-label {
   padding-bottom: 20px;
 }
+
+.child-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.get-moving-button {
+  width: 70%;
+}
+
+.not-child-link {
+  margin-top: 10%;
+}
+
