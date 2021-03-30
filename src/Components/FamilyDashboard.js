@@ -1,52 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   IconButton,
   Typography,
   CircularProgress,
   Avatar,
   Grid,
-} from "@material-ui/core";
-import AddCircle from "@material-ui/icons/AddCircle";
-import { makeStyles } from "@material-ui/core/styles";
-import { connect } from "react-redux";
-import { authMe, selectChild } from "../Store";
-import AddKidForm from "./AddKidForm";
-import Popup from "./Popup";
-import { Link } from "react-router-dom";
-
-export const pageStyles = makeStyles({
-  background: {
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    flexFlow: "column nowrap",
-    alignItems: "center",
-  },
-  text: {
-    marginTop: 10,
-    marginBottom: 15,
-  },
-  grid: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 2,
-    marginBottom: 0,
-  },
-  items: {
-    display: "flex",
-    flexFlow: "column",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    textDecoration: "none",
-    color: "black",
-    padding: 2,
-  },
-  avatar: {
-    minWidth: 58,
-    minHeight: 58,
-  },
-});
+} from '@material-ui/core';
+import AddCircle from '@material-ui/icons/AddCircle';
+import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { authMe, selectChild } from '../Store';
+import AddKidForm from './AddKidForm';
+import Popup from './Popup';
+import { Link } from 'react-router-dom';
 
 function FamilyDashboard(props) {
   const [loading, setLoading] = useState(true);
@@ -57,6 +23,7 @@ function FamilyDashboard(props) {
     authMe();
     selectChild({});
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setLoading, loading]);
   function handleClick() {
     setOpen(true);
@@ -139,3 +106,37 @@ const mapDispatch = (dispatch) => {
   };
 };
 export default connect(mapState, mapDispatch)(FamilyDashboard);
+
+export const pageStyles = makeStyles({
+  background: {
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    flexFlow: 'column nowrap',
+    alignItems: 'center',
+  },
+  text: {
+    marginTop: 10,
+    marginBottom: 15,
+  },
+  grid: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 2,
+    marginBottom: 0,
+  },
+  items: {
+    display: 'flex',
+    flexFlow: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    textDecoration: 'none',
+    color: 'black',
+    padding: 2,
+  },
+  avatar: {
+    minWidth: 58,
+    minHeight: 58,
+  },
+});
