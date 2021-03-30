@@ -44,24 +44,29 @@ const ExerciseLibrary = () => {
   const classes = useStyles();
   const exercises = [
     {
-      // NEED TO UPDATE TO EXERCISE
-      id: '4pzrBNLH3',
-      title: 'Jumping Jacks',
+      id: 'gGrybkO4A',
+      title: 'Head Nods (Test)',
       image: '/images/Jumping-jack-bunny.png',
-      numReps: 20,
+      numReps: 10,
     },
     {
       id: 'pt5naThnv',
       title: 'Burpees',
       image: '/images/Burpee-chipmunk.png',
-      numReps: 2,
+      numReps: 20,
     },
     {
-      id: '1kK6nWgEJ',
+      id: 'Yemf8f4k1',
       title: 'Push-ups',
       image: '/images/Push-up-kitty.png',
-      numReps: 2,
+      numReps: 20,
     },
+    // {
+    //   id: '',
+    //   title: 'Jumping Jacks',
+    //   image: '/images/Jumping-jack-bunny.png',
+    //   numReps: 20,
+    // },
   ];
   return (
     <div>
