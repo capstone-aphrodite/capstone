@@ -1,61 +1,102 @@
-import React from 'react';
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
-import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { logout } from '../Store';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Avatar,
+} from "@material-ui/core";
+import HomeIcon from "@material-ui/icons/Home";
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
+import { logout } from "../Store";
+import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles({
   root: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
+    display: "flex",
+    flexFlow: "row nowrap",
     padding: 4,
   },
   header: {
-    fontFamily: 'Atma',
+    fontFamily: "Atma",
     fontWeight: 500,
-    alignItems: 'center',
+    alignItems: "center",
     fontSize: 31,
     padding: 0,
   },
   right: {
-    display: 'flex',
-    width: '100%',
+    display: "flex",
+    width: "100%",
     margin: 0,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   left: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  avatar: {
+    minWidth: 40,
+    minHeight: 40,
   },
 });
-export function Navbar({ handleClick }) {
+export function Navbar({ handleClick, selectedChild, children }) {
   const history = useHistory();
   const classes = useStyles();
+  selectedChild = selectedChild || {};
+
   return (
     <div>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        color={selectedChild._id ? "secondary" : "primary"}
+      >
         <Toolbar className={classes.root}>
           <div className={classes.left}>
             <IconButton
               edge="start"
               aria-label="menu"
               color="inherit"
-              onClick={() => history.push('/')}
+              onClick={() => {
+                history.push("/");
+              }}
             >
               <HomeIcon fontSize="large" />
             </IconButton>
+            {selectedChild && selectedChild.firstName && (
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    `/childdashboard/${children.findIndex(
+                      (child) => selectedChild._id === child._id
+                    )}`
+                  )
+                }
+              >
+                <Avatar
+                  alt={selectedChild.firstName}
+                  src={selectedChild.avatar}
+                  className={classes.avatar}
+                  component="div"
+                ></Avatar>
+                {selectedChild.firstName}
+              </IconButton>
+            )}
             <Typography variant="h6" className={classes.header}>
               Wigglee
             </Typography>
           </div>
           <div className={classes.right}>
-            <IconButton color="inherit" aria-label="menu" position="static">
-              <MeetingRoomIcon fontSize="large" onClick={handleClick} />
+            <IconButton
+              color="inherit"
+              aria-label="menu"
+              position="static"
+              onClick={handleClick}
+            >
+              <MeetingRoomIcon fontSize="large" />
             </IconButton>
           </div>
         </Toolbar>
@@ -64,13 +105,18 @@ export function Navbar({ handleClick }) {
   );
 }
 
-const mapDispatch = dispatch => {
+const mapState = (state) => ({
+  children: state.child,
+  selectedChild: state.selectedChild,
+});
+
+const mapDispatch = (dispatch) => {
   return {
     handleClick: () => dispatch(logout()),
   };
 };
 
-export default connect(null, mapDispatch)(Navbar);
+export default connect(mapState, mapDispatch)(Navbar);
 
 Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,

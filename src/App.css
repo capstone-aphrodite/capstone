@@ -95,8 +95,23 @@
 
 .progress-circle {
   flex: 1;
+  margin: 10%;
 }
 
 .progress {
   transform: rotate(-90deg);
+}
+
+.child-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.get-moving-button {
+  width: 70%;
+}
+
+.not-child-link {
+  margin-top: 10%;
 }
