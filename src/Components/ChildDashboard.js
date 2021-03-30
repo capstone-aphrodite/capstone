@@ -40,7 +40,7 @@ export function ChildDashboard(props) {
   return (
     <div className="child-dashboard">
       <div className="avatar-container">
-        <Avatar>{`${currentChild.firstName[0]}`}</Avatar>
+        {/* <Avatar>{`${currentChild.firstName[0]}`}</Avatar> */}
       </div>
       <div className="progress-circles">
         <div className="progress-circle">

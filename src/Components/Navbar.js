@@ -6,7 +6,7 @@ import {
   Typography,
   Avatar,
 } from "@material-ui/core";
-import HomeIcon from "@material-ui/icons/Home";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -64,7 +64,7 @@ export function Navbar({ handleClick, selectedChild, children }) {
                 history.push("/");
               }}
             >
-              <HomeIcon fontSize="large" />
+              <DashboardIcon fontSize="large" />
             </IconButton>
             {selectedChild && selectedChild.firstName && (
               <IconButton
