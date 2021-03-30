@@ -1,45 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   IconButton,
   Typography,
   CircularProgress,
   Avatar,
   Grid,
-} from '@material-ui/core';
-import AddCircle from '@material-ui/icons/AddCircle';
-import { makeStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
-import { authMe } from '../Store';
-import AddKidForm from './AddKidForm';
-import Popup from './Popup';
-import { Link } from 'react-router-dom';
+} from "@material-ui/core";
+import AddCircle from "@material-ui/icons/AddCircle";
+import { makeStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
+import { authMe, selectChild } from "../Store";
+import AddKidForm from "./AddKidForm";
+import Popup from "./Popup";
+import { Link } from "react-router-dom";
 
 export const pageStyles = makeStyles({
   background: {
-    height: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    flexFlow: 'column nowrap',
-    alignItems: 'center',
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    flexFlow: "column nowrap",
+    alignItems: "center",
   },
   text: {
     marginTop: 10,
     marginBottom: 15,
   },
   grid: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 2,
     marginBottom: 0,
   },
   items: {
-    display: 'flex',
-    flexFlow: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    textDecoration: 'none',
-    color: 'black',
+    display: "flex",
+    flexFlow: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    textDecoration: "none",
+    color: "black",
     padding: 2,
   },
   avatar: {
@@ -52,9 +52,10 @@ function FamilyDashboard(props) {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const classes = pageStyles();
-
+  const { selectChild } = props;
   useEffect(() => {
     authMe();
+    selectChild({});
     setLoading(false);
   }, [setLoading, loading]);
   function handleClick() {
@@ -119,20 +120,21 @@ function FamilyDashboard(props) {
         </IconButton>
       </div>
       <div>
-        <Popup open={open} setOpen={setOpen}>
+        <Popup open={open} setOpen={setOpen} name={`Create a Kid Profile`}>
           <AddKidForm setOpen={setOpen} />
         </Popup>
       </div>
     </div>
   );
 }
-const mapState = state => ({
+const mapState = (state) => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
   child: state.child,
 });
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
+    selectChild: (child) => dispatch(selectChild(child)),
     authMe: () => dispatch(authMe()),
   };
 };

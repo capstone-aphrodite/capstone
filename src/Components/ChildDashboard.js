@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Avatar, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { selectChild } from '../Store';
+import React, { useEffect, useState, useRef } from "react";
+import { Avatar, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { selectChild } from "../Store";
 
 export function ChildDashboard(props) {
   const [dailyOffset, setDailyOffset] = useState(0);
@@ -13,14 +13,14 @@ export function ChildDashboard(props) {
   // const dailyProgress = 75;
   // const totalProgress = 100;
 
-  const { child } = props;
+  const { child, selectChild } = props;
   let childId = props.match.params.id;
   let currentChild = child[childId];
   //is there a reason we would want to wrap this in useEffect?
-  props.selectChild(currentChild);
+  selectChild(currentChild);
 
   useEffect(() => {
-    console.log('USE EFFECT RUNNING');
+    console.log("USE EFFECT RUNNING");
     let dailyPoints = currentChild.dailyPoints;
     let totalPoints = currentChild.totalPoints;
     // this is hard coded for the goal to be 100 points
@@ -32,19 +32,19 @@ export function ChildDashboard(props) {
     setTotalOffset(totalProgressOffset);
 
     dailyCircleRef.current.style =
-      'transition: stroke-dashoffset 850ms ease-in-out';
+      "transition: stroke-dashoffset 850ms ease-in-out";
     totalCircleRef.current.style =
-      'transition: stroke-dashoffset 850ms ease-in-out';
+      "transition: stroke-dashoffset 850ms ease-in-out";
   }, [setDailyOffset, setTotalOffset, currentChild]);
 
   return (
-    <div>
+    <div className="child-dashboard">
       <div className="avatar-container">
-        <Avatar>{`${currentChild.firstName[0]}`}</Avatar>
+        {/* <Avatar>{`${currentChild.firstName[0]}`}</Avatar> */}
       </div>
       <div className="progress-circles">
         <div className="progress-circle">
-          <div>Daily Points</div>
+          <div className="points-label">Daily Points</div>
           <svg
             className="progress"
             width="120"
@@ -71,16 +71,18 @@ export function ChildDashboard(props) {
               strokeDasharray="339.292"
               strokeDashoffset={dailyOffset}
             />
+            <text className="svg-circle-text" x="60" y="60">{`${currentChild.dailyPoints}`}%</text>
           </svg>
         </div>
         <div className="progress-circle">
-          <div>Total Points</div>
+        <div className="points-label">Total Points</div>
           <svg
             className="progress"
             width="120"
             height="120"
             viewBox="0 0 120 120"
           >
+
             <circle
               cx="60"
               cy="60"
@@ -101,10 +103,12 @@ export function ChildDashboard(props) {
               strokeDasharray="339.292"
               strokeDashoffset={totalOffset}
             />
+            <text className="svg-circle-text" x="60" y="60">{`${currentChild.totalPoints}`}%</text>
           </svg>
         </div>
       </div>
       <Button
+        className="get-moving-button"
         component={Link}
         size="large"
         to="/exercises"
@@ -113,19 +117,22 @@ export function ChildDashboard(props) {
       >
         Get Moving!
       </Button>
+      <Link className="not-child-link" to="/home">
+        Not {currentChild.firstName}? Click here.
+      </Link>
     </div>
   );
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     child: state.child,
   };
 };
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    selectChild: currentChild => dispatch(selectChild(currentChild)),
+    selectChild: (currentChild) => dispatch(selectChild(currentChild)),
   };
 };
 

@@ -4,9 +4,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Icon } from '@material-ui/core/styles';
 import ForwardOutlinedIcon from '@material-ui/icons/ForwardOutlined';
 
 const useStyles = makeStyles({
@@ -38,12 +37,21 @@ const useStyles = makeStyles({
     backgroundColor: '#073B4C',
     color: 'white',
   },
+  link: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: 10,
+    textDecoration: 'none',
+    color: '#118AB2',
+    fontWeight: 600,
+  },
 });
 
 const ExerciseLibrary = () => {
   const classes = useStyles();
   const exercises = [
     {
+      // NEED TO UPDATE TO EXERCISE
       id: '4pzrBNLH3',
       title: 'Jumping Jacks',
       image: '/images/Jumping-jack-bunny.png',
@@ -85,17 +93,20 @@ const ExerciseLibrary = () => {
               </CardContent>
             </CardActionArea>
             <CardActions style={{ flex: 1, justifyContent: 'center' }}>
-              <Button
-                size="small"
-                color="primary"
-                variant="outlined"
-                component={Link}
-                to={`/exercises/${exercise.id}`}
-                props={exercise.numReps}
-                endIcon={<ForwardOutlinedIcon />}
+
+              <Link
+                // size="small"
+                // color="primary"
+                // variant="outlined"
+                // component={Link}
+                className={classes.link}
+                to={{
+                  pathname: `/exercises/${exercise.id}`,
+                  reps: `${exercise.numReps}`,
+                }}
               >
-                START
-              </Button>
+                START <ForwardOutlinedIcon />
+              </Link>
             </CardActions>
           </Card>
         ))}
