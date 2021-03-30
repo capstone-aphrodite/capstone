@@ -74,7 +74,7 @@ export function Login(props) {
         </Button>
       </form>
       <Typography variant="body2" className={classes.items}>
-        New to "APP NAME"? Click
+        New to Wigglee? Click
         <Link to="/signup" className={classes.link}>
           here
         </Link>
@@ -84,13 +84,13 @@ export function Login(props) {
   );
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   firstName: state.firstName,
   child: state.child,
 });
 
 const mapDispatch = (dispatch, { history }) => ({
-  authUser: user => dispatch(authUser(user, 'login', history)),
+  authUser: (user) => dispatch(authUser(user, 'login', history)),
 });
 
 export default connect(mapState, mapDispatch)(Login);
