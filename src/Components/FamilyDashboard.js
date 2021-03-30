@@ -55,7 +55,7 @@ function FamilyDashboard(props) {
   const { selectChild } = props;
   useEffect(() => {
     authMe();
-    selectChild({});
+    // selectChild({});
     setLoading(false);
   }, [setLoading, loading]);
   function handleClick() {
