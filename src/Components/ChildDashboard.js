@@ -17,7 +17,10 @@ export function ChildDashboard(props) {
   let childId = props.match.params.id;
   let currentChild = child[childId];
   //is there a reason we would want to wrap this in useEffect?
-  selectChild(currentChild);
+  useEffect(() => {
+    selectChild(currentChild);
+  })
+  
 
   useEffect(() => {
     console.log("USE EFFECT RUNNING");

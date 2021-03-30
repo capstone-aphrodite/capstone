@@ -83,8 +83,13 @@ export const logout = () => async dispatch => {
   }
 };
 
-export const selectChild = (child) => dispatch => {
-  dispatch(_selectChild(child));
+export const selectChild = (kid) => async dispatch => {
+  const {data} = await axios.get('/auth/me');
+  const {child} = data;
+  const selected = child.find(elem => elem.firstName === kid.firstName);
+  // selected.index = child.indexOf(selected);
+  console.log(selected, 'SELECTED CHILD')
+  dispatch(_selectChild(selected));
 };
 
 export const updateChild = (selectedChild, index) => async dispatch => {
