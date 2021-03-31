@@ -109,12 +109,12 @@ const SingleExercise = (props) => {
   useEffect(() => {
     init();
     return function cleanup() {
-      if (finishedExercise === true) setFinished(false);
       totalCount = location.reps;
       selectedChild.dailyPoints += 10;
       updateChild(selectedChild);
       window.cancelAnimationFrame(startAnimation);
       window.cancelAnimationFrame(startAnimation2);
+      if (finishedExercise === true) setFinished(false);
     };
   }, []);
 
