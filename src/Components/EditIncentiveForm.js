@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   TextField,
   FormControl,
@@ -7,7 +7,7 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Checkbox,
+  ListItemSecondaryAction,
   Button,
   OutlinedInput,
   InputAdornment,
@@ -15,6 +15,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles({
   form: {
@@ -41,6 +42,16 @@ export default function EditIncentiveForm({ childToEdit, open, setOpen }) {
   function handleAdd(event) {
     console.log('EVENT TARGET -->', event.target);
   }
+
+  function handleDelete(event) {
+    console.log('event.target -->', event.target);
+    console.log('event.target.value -->', event.target.value);
+    return childToEdit.child.rewardOptions.filter(reward => {
+      if (reward !== event.target.value) {
+        return reward;
+      }
+    });
+  }
   function handleClose() {
     setOpen(false);
   }
@@ -61,9 +72,15 @@ export default function EditIncentiveForm({ childToEdit, open, setOpen }) {
               childToEdit.child.rewardOptions.map(reward => {
                 return (
                   <ListItem>
-                    <ListItemIcon>
-                      <Checkbox edge="start" value={reward} />
-                    </ListItemIcon>
+                    <ListItemSecondaryAction
+                      name="reward"
+                      value={reward}
+                      onClick={handleDelete}
+                    >
+                      <IconButton edge="start">
+                        <ClearIcon value={reward} />
+                      </IconButton>
+                    </ListItemSecondaryAction>
                     <ListItemText primary={reward} />
                   </ListItem>
                 );
