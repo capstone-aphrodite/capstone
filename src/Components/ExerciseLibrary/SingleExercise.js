@@ -11,7 +11,7 @@ let totalCount;
 let startAnimation;
 let startAnimation2;
 
-const SingleExercise = props => {
+const SingleExercise = (props) => {
   const { match, child, selectedChild, updateChild, location } = props;
   const [finishedExercise, setFinished] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -75,13 +75,11 @@ const SingleExercise = props => {
       if (prediction[0].probability.toFixed(2) >= 0.75) {
         if (prediction[0].className !== previousPose) {
           totalCount--;
-          console.log('Prediction 1: ', totalCount);
           previousPose = prediction[0].className;
         }
       } else if (prediction[1].probability.toFixed(2) >= 0.75) {
         if (prediction[1].className !== previousPose) {
           totalCount--;
-          console.log('Prediction 2: ', totalCount);
           repContainer.innerHTML = `You have ${Math.ceil(
             totalCount / 2
           )} left!`;
@@ -89,7 +87,7 @@ const SingleExercise = props => {
         }
       }
     } else {
-      setFinished(true);
+      await setFinished(true);
     }
 
     // finally draw the poses
@@ -110,12 +108,9 @@ const SingleExercise = props => {
 
   useEffect(() => {
     init();
-    console.log('USE EFFECT CALLED INSIDE SINGLE EXERCISE!!!');
     return function cleanup() {
       if (finishedExercise === true) setFinished(false);
-      console.log(finishedExercise, 'finished exercise');
       totalCount = location.reps;
-      console.log(totalCount, 'totalCount2');
       selectedChild.dailyPoints += 10;
       let index = child.indexOf(selectedChild);
       updateChild(selectedChild, index);
@@ -147,13 +142,13 @@ const SingleExercise = props => {
   );
 };
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     child: state.child,
     selectedChild: state.selectedChild,
   };
 };
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     updateChild: (selectedChild, index) =>
       dispatch(updateChild(selectedChild, index)),
