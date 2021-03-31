@@ -44,7 +44,6 @@ export const ParentDashboard = props => {
               <ListItemSecondaryAction
                 onClick={() => {
                   setChildToEdit({ child });
-                  console.log('child to edit', childToEdit);
                   setOpen(true);
                 }}
               >
