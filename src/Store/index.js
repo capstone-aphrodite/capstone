@@ -89,14 +89,13 @@ export const selectChild = (kid) => async (dispatch) => {
   if(selected) {
     selected["index"] = child.indexOf(selected);
   }
-  console.log(selected, "SELECTED CHILD");
   dispatch(_selectChild(selected));
 };
 
-export const updateChild = (selectedChild, index) => async (dispatch) => {
+export const updateChild = (selectedChild) => async (dispatch) => {
   try {
     const { data } = await axios.put(
-      `/api/updateChild/${index}`,
+      `/api/updateChild/${selectedChild.index}`,
       selectedChild
     );
     console.log("data in updateChild", data);
