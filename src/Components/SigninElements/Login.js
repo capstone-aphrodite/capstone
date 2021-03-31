@@ -10,8 +10,9 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { authUser } from '../../Store';
+import { _setStatus } from '../../Store';
 
 export const useStyles = makeStyles({
   root: {
@@ -44,6 +45,7 @@ export function Login(props) {
   const classes = useStyles();
   const { authUser, status } = props;
   const [open, setOpen] = React.useState(false);
+  const dispatch = useDispatch();
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -55,6 +57,7 @@ export function Login(props) {
 
   const handleClose = () => {
     setOpen(false);
+    dispatch(_setStatus(null));
   }
 
   return (

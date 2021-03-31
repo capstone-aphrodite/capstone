@@ -31,7 +31,7 @@ const _selectChild = (child) => ({
   child,
 });
 
-const _setStatus = (status) => ({
+export const _setStatus = (status) => ({
   type: SET_STATUS,
   status
 })
@@ -49,6 +49,7 @@ export const authUser = (user, type, history) => {
     try {
       const newUser = await axios.post(`/auth/${type}`, adult);
       if (newUser.data) dispatch(_authUser(newUser.data));
+      dispatch(_setStatus(null))
       history.push("/home");
     } catch (error) {
       if(error.response.status === 401){
@@ -130,11 +131,11 @@ const reducer = (state = initialState, action) => {
     case AUTH_USER:
       return action.user;
     case GET_KID:
-      return { ...state, child: [...state.child, action.kid] };
+      return { ...state, child: [...state.child, action.kid]};
     case LOGOUT_USER:
       return initialState;
     case SELECT_CHILD:
-      return { ...state, selectedChild: action.child };
+      return { ...state, selectedChild: action.child};
     case SET_STATUS:
       return {...state, status: action.status} 
     default:
