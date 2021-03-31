@@ -99,17 +99,16 @@ export const selectChild = (kid) => async (dispatch) => {
   const { data } = await axios.get("/auth/me");
   const { child } = data;
   let selected = child.find((elem) => elem.firstName === kid.firstName);
-  if(selected){
+  if(selected) {
     selected["index"] = child.indexOf(selected);
   }
-  console.log(selected, "SELECTED CHILD");
   dispatch(_selectChild(selected));
 };
 
-export const updateChild = (selectedChild, index) => async (dispatch) => {
+export const updateChild = (selectedChild) => async (dispatch) => {
   try {
     const { data } = await axios.put(
-      `/api/updateChild/${index}`,
+      `/api/updateChild/${selectedChild.index}`,
       selectedChild
     );
     console.log("data in updateChild", data);

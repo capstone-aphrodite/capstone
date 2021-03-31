@@ -50,6 +50,9 @@ let adultSchema = new Schema({
       selectedReward: {
         type: String,
       },
+      index: {
+        type: Number
+      }
     },
   ],
 });
