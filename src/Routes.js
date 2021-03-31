@@ -10,6 +10,7 @@ import {
   Navbar,
   LandingPage,
   Congrats,
+  ParentDashboard,
 } from './Components';
 import { authMe } from './Store';
 import { connect } from 'react-redux';
@@ -39,7 +40,8 @@ class Routes extends Component {
               path="/childdashboard/:id"
               component={ChildDashboard}
             />
-            <Route path="/home" component={FamilyDashboard} />
+            <Route exact path="/home" component={FamilyDashboard} />
+            <Route exact path="/home/admin" component={ParentDashboard} />
             <Route path="/congrats" component={Congrats} />
           </Switch>
         )}
@@ -48,13 +50,13 @@ class Routes extends Component {
   }
 }
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     isLoggedIn: !!state.firstName,
   };
 };
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     authMe: () => dispatch(authMe()),
   };
