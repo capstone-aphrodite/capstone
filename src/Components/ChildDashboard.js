@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from "react";
-import { Avatar, Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { selectChild } from "../Store";
+import React, { useEffect, useState, useRef } from 'react';
+import { Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { selectChild } from '../Store';
 
 export function ChildDashboard(props) {
   const [dailyOffset, setDailyOffset] = useState(0);
@@ -20,11 +20,11 @@ export function ChildDashboard(props) {
 
   useEffect(() => {
     selectChild(currentChild);
-    console.log("setting selected child in Use Effect");
+    console.log('setting selected child in Use Effect');
   }, []);
 
   useEffect(() => {
-    console.log("USE EFFECT RUNNING");
+    console.log('USE EFFECT RUNNING');
     let dailyPoints = currentChild.dailyPoints;
     let totalPoints = currentChild.totalPoints;
     // this is hard coded for the goal to be 100 points
@@ -36,9 +36,9 @@ export function ChildDashboard(props) {
     setTotalOffset(totalProgressOffset);
 
     dailyCircleRef.current.style =
-      "transition: stroke-dashoffset 850ms ease-in-out";
+      'transition: stroke-dashoffset 850ms ease-in-out';
     totalCircleRef.current.style =
-      "transition: stroke-dashoffset 850ms ease-in-out";
+      'transition: stroke-dashoffset 850ms ease-in-out';
   }, [setDailyOffset, setTotalOffset, currentChild]);
 
   return (
