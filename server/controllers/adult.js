@@ -29,11 +29,11 @@ module.exports = {
       });
       if (adult) {
         if (!bcrypt.compareSync(req.body.password, adult.password)) {
-          return res.status(401).send("Incorrect password");
+          return res.sendStatus(401);
         }
         req.login(adult, (error) => (error ? next(error) : res.json(adult)));
       } else {
-        res.status(401).send("A user with this email does not exist");
+        res.sendStatus(403);
       }
     } catch (error) {
       next(error);

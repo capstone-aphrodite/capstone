@@ -9,6 +9,7 @@ const AUTH_USER = "AUTH_USER";
 const GET_KID = "GET_KID";
 const LOGOUT_USER = "LOGOUT_USER";
 const SELECT_CHILD = "SELECT_CHILD";
+const SET_STATUS = "SET_STATUS"
 
 //Action Creator
 const _authUser = (user) => ({
@@ -30,6 +31,11 @@ const _selectChild = (child) => ({
   child,
 });
 
+const _setStatus = (status) => ({
+  type: SET_STATUS,
+  status
+})
+
 export const authUser = (user, type, history) => {
   return async (dispatch) => {
     let adult;
@@ -45,7 +51,14 @@ export const authUser = (user, type, history) => {
       if (newUser.data) dispatch(_authUser(newUser.data));
       history.push("/home");
     } catch (error) {
-      console.error(error, "Error setting new user");
+      if(error.response.status === 401){
+        dispatch(_setStatus("Incorrect password"));
+      } else if(error.response.status === 403) {
+        dispatch(_setStatus("This is email is not registered"));
+      } else {
+        console.error(error, "Error setting new user");
+        dispatch(_setStatus("Error authorizing user"))
+      }
     }
   };
 };
@@ -110,22 +123,21 @@ const initialState = {
   firstName: "",
   child: [],
   selectedChild: {},
+  status: null
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    //we could merge auth_user and auth_me action types
-    //since they are returning the same thing
     case AUTH_USER:
       return action.user;
-    // case AUTH_ME:
-    //   return action.user;
     case GET_KID:
       return { ...state, child: [...state.child, action.kid] };
     case LOGOUT_USER:
       return initialState;
     case SELECT_CHILD:
       return { ...state, selectedChild: action.child };
+    case SET_STATUS:
+      return {...state, status: action.status} 
     default:
       return state;
   }
