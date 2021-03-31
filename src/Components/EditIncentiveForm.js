@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   TextField,
   FormControl,
@@ -7,7 +7,7 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Checkbox,
+  ListItemSecondaryAction,
   Button,
   OutlinedInput,
   InputAdornment,
@@ -15,6 +15,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles({
   form: {
@@ -30,17 +31,31 @@ const useStyles = makeStyles({
 
 export default function EditIncentiveForm({ childToEdit, open, setOpen }) {
   const classes = useStyles();
-  const rewardToAdd = useRef();
+  const [text, setText] = useState('');
+  const [rewards, setRewards] = useState(childToEdit.child.rewardOptions);
+  console.log('REWARDS LOCAL -->', rewards);
   function handleSubmit(event) {
     event.preventDefault();
     setOpen(false);
   }
   function handleChange(event) {
-    console.log('REF', rewardToAdd.current.value);
+    setText(event.target.value);
   }
-  function handleAdd(event) {
-    console.log('EVENT TARGET -->', event.target);
+  function handleAdd() {
+    setRewards([...rewards, text]);
+    setText('');
+    console.log(text);
   }
+  function handleDelete(event) {
+    console.log('EVENT.TARGET -->', event.target);
+    const deleted = event.target.getAttribute('value');
+    console.log('deleted-->', deleted);
+    setRewards(rewards.filter(reward => reward !== deleted));
+  }
+  useEffect(() => {
+    console.log('use effect calling');
+    return rewards;
+  }, [rewards]);
   function handleClose() {
     setOpen(false);
   }
@@ -58,13 +73,15 @@ export default function EditIncentiveForm({ childToEdit, open, setOpen }) {
           <FormHelperText> Current Rewards</FormHelperText>
           <List>
             {!!childToEdit.child.rewardOptions ? (
-              childToEdit.child.rewardOptions.map(reward => {
+              rewards.map(reward => {
                 return (
-                  <ListItem>
-                    <ListItemIcon>
-                      <Checkbox edge="start" value={reward} />
-                    </ListItemIcon>
+                  <ListItem key={reward}>
                     <ListItemText primary={reward} />
+                    <ListItemSecondaryAction onClick={e => handleDelete(e)}>
+                      <IconButton edge="start" value={reward} name={reward}>
+                        <ClearIcon value={reward} name={reward} />
+                      </IconButton>
+                    </ListItemSecondaryAction>
                   </ListItem>
                 );
               })
@@ -73,14 +90,19 @@ export default function EditIncentiveForm({ childToEdit, open, setOpen }) {
             )}
             <OutlinedInput
               label="Add a reward"
-              variant="filled"
               type="text"
-              ref={rewardToAdd}
               onChange={handleChange}
+              value={text}
               endAdornment={
                 <InputAdornment position="end">
-                  <IconButton>
-                    <AddIcon color="primary" onClick={handleAdd} />
+                  <IconButton
+                    type="button"
+                    onClick={() => {
+                      handleAdd();
+                      setText('');
+                    }}
+                  >
+                    <AddIcon color="primary" />
                   </IconButton>
                 </InputAdornment>
               }
