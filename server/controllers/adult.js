@@ -1,5 +1,6 @@
-const Adult = require("../model");
-const bcrypt = require("bcryptjs");
+const Adult = require('../model');
+const bcrypt = require('bcryptjs');
+const schedule = require('node-schedule');
 
 module.exports = {
   createUser: async (req, res, next) => {
@@ -15,7 +16,7 @@ module.exports = {
         // req.session.userId = id.slice(-4);
         req.login(adult, (error) => (error ? next(error) : res.json(adult)));
       } else {
-        return res.status(435).send("This email is already registered");
+        return res.status(435).send('This email is already registered');
       }
     } catch (error) {
       next(error);
@@ -44,7 +45,7 @@ module.exports = {
     try {
       res.json(req.user);
     } catch (error) {
-      console.log("Error authorizing user in server");
+      console.log('Error authorizing user in server');
       next(error);
     }
   },
@@ -56,7 +57,9 @@ module.exports = {
       });
       adult.child.push(req.body);
       await adult.save();
-      let newChild = adult.child.find(elem => elem.firstName === req.body.firstName);
+      let newChild = adult.child.find(
+        (elem) => elem.firstName === req.body.firstName
+      );
       res.send(newChild);
     } catch (error) {
       next(error);
@@ -95,9 +98,22 @@ module.exports = {
     try {
       req.logout();
       req.session.destroy();
-      res.redirect("/");
+      res.redirect('/');
     } catch (error) {
       next(error);
     }
   },
 };
+
+schedule.scheduleJob('0 0 * * *', async () => {
+  console.log('hi');
+  try {
+    await Adult.updateMany(
+      {},
+      { $set: { 'child.$[element].dailyPoints': 0 } },
+      { arrayFilters: [{ 'element.dailyPoints': { $gte: 0 } }] }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+});
