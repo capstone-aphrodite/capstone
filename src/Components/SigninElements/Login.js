@@ -5,11 +5,14 @@ import {
   Button,
   FormControl,
   Typography,
+  Snackbar,
+  SnackbarContent
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { authUser } from '../../Store';
+import { _setStatus } from '../../Store';
 
 export const useStyles = makeStyles({
   root: {
@@ -40,13 +43,23 @@ export const useStyles = makeStyles({
 });
 export function Login(props) {
   const classes = useStyles();
-  const { authUser } = props;
+  const { authUser, status } = props;
+  const [open, setOpen] = React.useState(false);
+  const dispatch = useDispatch();
+
   function handleSubmit(event) {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
     authUser({ email, password });
+    setOpen(true);
   }
+
+  const handleClose = () => {
+    setOpen(false);
+    dispatch(_setStatus(null));
+  }
+
   return (
     <div className={classes.root}>
       <form onSubmit={handleSubmit}>
@@ -70,6 +83,10 @@ export function Login(props) {
           Login
         </Button>
       </form>
+      {status && 
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <SnackbarContent style={{backgroundColor: 'red'}} message={status} />
+      </Snackbar> }
       <Typography variant="body2" className={classes.items}>
         New to Wigglee? Click
         <Link to="/signup" className={classes.link}>
@@ -84,6 +101,7 @@ export function Login(props) {
 const mapState = (state) => ({
   firstName: state.firstName,
   child: state.child,
+  status: state.status
 });
 
 const mapDispatch = (dispatch, { history }) => ({
