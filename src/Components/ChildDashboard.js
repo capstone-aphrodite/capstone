@@ -20,8 +20,8 @@ export function ChildDashboard(props) {
 
   useEffect(() => {
     selectChild(currentChild);
-    console.log('setting selected child in Use Effect');
-  }, []);
+    console.log("setting selected child in Use Effect");
+  },[]);
 
   useEffect(() => {
     console.log('USE EFFECT RUNNING');

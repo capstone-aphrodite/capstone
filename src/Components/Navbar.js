@@ -9,9 +9,10 @@ import {
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
+import { createBrowserHistory } from 'history';
 import PropTypes from "prop-types";
-import { logout } from "../Store";
+import { logout, selectChild } from "../Store";
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles({
@@ -43,8 +44,8 @@ export const useStyles = makeStyles({
     minHeight: 40,
   },
 });
-export function Navbar({ handleClick, selectedChild, children }) {
-  const history = useHistory();
+export function Navbar({ handleClick, selectedChild }) {
+  const history = createBrowserHistory({forceRefresh:true});
   const classes = useStyles();
   selectedChild = selectedChild || {};
 
@@ -70,9 +71,7 @@ export function Navbar({ handleClick, selectedChild, children }) {
               <IconButton
                 onClick={() =>
                   history.push(
-                    `/childdashboard/${children.findIndex(
-                      (child) => selectedChild._id === child._id
-                    )}`
+                    `/childdashboard/${selectedChild.index}`
                   )
                 }
               >
@@ -106,13 +105,13 @@ export function Navbar({ handleClick, selectedChild, children }) {
 }
 
 const mapState = (state) => ({
-  children: state.child,
   selectedChild: state.selectedChild,
 });
 
 const mapDispatch = (dispatch) => {
   return {
     handleClick: () => dispatch(logout()),
+    selectChild: () => dispatch(selectChild())
   };
 };
 
