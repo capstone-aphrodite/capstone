@@ -23,6 +23,7 @@
     "connect-mongo": "^4.4.1",
     "express-session": "^1.17.1",
     "http-proxy-middleware": "^1.0.6",
+    "node-schedule": "^2.0.0",
     "passport": "^0.4.1",
     "path": "^0.12.7",
     "react": "^17.0.1",
