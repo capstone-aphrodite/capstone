@@ -116,9 +116,11 @@ export function ChildDashboard(props) {
       </div>
       <div>
         <Typography variant="h5">I'm working towards</Typography>
-        <Select>
+        <Select value={currentChild.selectedReward}>
           {currentChild.rewardOptions.map(reward => (
-            <MenuItem>{reward}</MenuItem>
+            <MenuItem key={reward} value={reward}>
+              {reward}
+            </MenuItem>
           ))}
         </Select>
       </div>
