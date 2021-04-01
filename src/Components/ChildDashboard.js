@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Typography, Select, MenuItem } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectChild } from '../Store';
@@ -20,8 +20,8 @@ export function ChildDashboard(props) {
 
   useEffect(() => {
     selectChild(currentChild);
-    console.log("setting selected child in Use Effect");
-  },[]);
+    console.log('setting selected child in Use Effect');
+  }, []);
 
   useEffect(() => {
     console.log('USE EFFECT RUNNING');
@@ -114,6 +114,14 @@ export function ChildDashboard(props) {
           </svg>
         </div>
       </div>
+      <div>
+        <Typography variant="h5">I'm working towards</Typography>
+        <Select>
+          {currentChild.rewardOptions.map(reward => (
+            <MenuItem>{reward}</MenuItem>
+          ))}
+        </Select>
+      </div>
       <Button
         className="get-moving-button"
         component={Link}
@@ -131,15 +139,15 @@ export function ChildDashboard(props) {
   );
 }
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     child: state.child,
   };
 };
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
-    selectChild: (currentChild) => dispatch(selectChild(currentChild)),
+    selectChild: currentChild => dispatch(selectChild(currentChild)),
   };
 };
 
