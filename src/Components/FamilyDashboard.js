@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { authMe, selectChild } from '../Store';
 import AddKidForm from './AddKidForm';
 import Popup from './Popup';
-import { Link } from 'react-router-dom';
+import history from '../history';
 
 function FamilyDashboard(props) {
   const [loading, setLoading] = useState(true);
@@ -28,6 +28,12 @@ function FamilyDashboard(props) {
   function handleClick() {
     setOpen(true);
   }
+  async function handleChange({ profile, index }) {
+    console.log('PROFILE, INDEX', profile, index);
+    await selectChild(profile);
+    await history.push(`/childdashboard/${index}`);
+  }
+
   if (loading) {
     return (
       <div className={classes.background}>
@@ -56,20 +62,19 @@ function FamilyDashboard(props) {
             {props.child.map((profile, index) => {
               return (
                 <Grid item key={index} xs={4} className={classes.grid}>
-                  <Link
-                    to={`/childdashboard/${index}`}
+                  <IconButton
                     className={classes.items}
+                    onClick={() => handleChange({ profile, index })}
                   >
                     <Avatar
                       alt={profile.firstName}
                       src={profile.avatar}
                       className={classes.avatar}
-                      component="div"
                     ></Avatar>
                     <Typography variant="subtitle1">
                       {profile.firstName}
                     </Typography>
-                  </Link>
+                  </IconButton>
                 </Grid>
               );
             })}
@@ -94,14 +99,15 @@ function FamilyDashboard(props) {
     </div>
   );
 }
-const mapState = (state) => ({
+const mapState = state => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
   child: state.child,
+  selectedChild: state.selectedChild,
 });
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
-    selectChild: (child) => dispatch(selectChild(child)),
+    selectChild: child => dispatch(selectChild(child)),
     authMe: () => dispatch(authMe()),
   };
 };

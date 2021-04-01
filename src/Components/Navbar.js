@@ -1,43 +1,43 @@
-import React from "react";
+import React from 'react';
 import {
   AppBar,
   Toolbar,
   IconButton,
   Typography,
   Avatar,
-} from "@material-ui/core";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
-import { connect } from "react-redux";
-// import { useHistory } from "react-router-dom";
+} from '@material-ui/core';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import PropTypes from "prop-types";
-import { logout, selectChild } from "../Store";
-import { makeStyles } from "@material-ui/core/styles";
+import PropTypes from 'prop-types';
+import { logout, selectChild } from '../Store';
+import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles({
   root: {
-    display: "flex",
-    flexFlow: "row nowrap",
+    display: 'flex',
+    flexFlow: 'row nowrap',
     padding: 4,
   },
   header: {
-    fontFamily: "Atma",
+    fontFamily: 'Atma',
     fontWeight: 500,
-    alignItems: "center",
+    alignItems: 'center',
     fontSize: 31,
     padding: 0,
   },
   right: {
-    display: "flex",
-    width: "100%",
+    display: 'flex',
+    width: '100%',
     margin: 0,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   left: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   avatar: {
     minWidth: 40,
@@ -45,7 +45,7 @@ export const useStyles = makeStyles({
   },
 });
 export function Navbar({ handleClick, selectedChild }) {
-  const history = createBrowserHistory({forceRefresh:true});
+  const history = useHistory();
   const classes = useStyles();
   selectedChild = selectedChild || {};
 
@@ -53,7 +53,7 @@ export function Navbar({ handleClick, selectedChild }) {
     <div>
       <AppBar
         position="static"
-        color={selectedChild._id ? "secondary" : "primary"}
+        color={selectedChild._id ? 'secondary' : 'primary'}
       >
         <Toolbar className={classes.root}>
           <div className={classes.left}>
@@ -62,7 +62,7 @@ export function Navbar({ handleClick, selectedChild }) {
               aria-label="menu"
               color="inherit"
               onClick={() => {
-                history.push("/");
+                history.push('/');
               }}
             >
               <DashboardIcon fontSize="large" />
@@ -70,9 +70,7 @@ export function Navbar({ handleClick, selectedChild }) {
             {selectedChild && selectedChild.firstName && (
               <IconButton
                 onClick={() =>
-                  history.push(
-                    `/childdashboard/${selectedChild.index}`
-                  )
+                  history.push(`/childdashboard/${selectedChild.index}`)
                 }
               >
                 <Avatar
@@ -104,14 +102,14 @@ export function Navbar({ handleClick, selectedChild }) {
   );
 }
 
-const mapState = (state) => ({
+const mapState = state => ({
   selectedChild: state.selectedChild,
 });
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     handleClick: () => dispatch(logout()),
-    selectChild: () => dispatch(selectChild())
+    selectChild: () => dispatch(selectChild()),
   };
 };
 
