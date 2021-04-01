@@ -86,9 +86,10 @@ module.exports = {
       const adult = await Adult.findOne({
         email: req.user.email,
       });
-      adult.child = adult.child.filter((kid) => kid.id !== req.params.id);
+      let id = parseInt(req.params.id);
+      adult.child = adult.child.filter((kid) => kid.index !== id);
       await adult.save();
-      res.send(adult);
+      res.send(adult.child);
     } catch (error) {
       next(error);
     }

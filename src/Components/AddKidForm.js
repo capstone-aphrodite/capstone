@@ -22,24 +22,8 @@ const avatars = [
   { name: 'Sloth', image: '/images/sloth.png' },
   { name: 'Giraffe', image: '/images/giraffe.png' },
 ];
-const useStyles = makeStyles({
-  root: {
-    minWidth: '250px',
-    maxWidth: '100%',
-    margin: '4px',
-    marginTop: 0,
-    display: 'flex',
-    flexFlow: 'column nowrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    float: 'right',
-    margin: 5,
-  },
-});
 
-export const AddKidForm = props => {
+export const AddKidForm = (props) => {
   const { setOpen, addKid } = props;
   const classes = useStyles();
   const [avatarURL, setAvatarURL] = useState('');
@@ -58,7 +42,10 @@ export const AddKidForm = props => {
             <TextField required label="Kid's name" name="first" />
           </Grid>
           <FormHelperText>Choose your avatar</FormHelperText>
-          <Select required onChange={event => setAvatarURL(event.target.value)}>
+          <Select
+            required
+            onChange={(event) => setAvatarURL(event.target.value)}
+          >
             {/* <InputLabel htmlFor="avatar">Choose your avatar</InputLabel> */}
             {avatars.map((avatar, index) => (
               <MenuItem key={avatar.name} selected={index} value={avatar.image}>
@@ -83,13 +70,30 @@ export const AddKidForm = props => {
   );
 };
 
-const mapState = state => ({
+const mapState = (state) => ({
   isLoggedIn: !!state.firstName,
   // state,
 });
 
-const mapDispatch = dispatch => ({
-  addKid: kid => dispatch(addKid(kid)),
+const mapDispatch = (dispatch) => ({
+  addKid: (kid) => dispatch(addKid(kid)),
 });
 
 export default connect(mapState, mapDispatch)(AddKidForm);
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: '250px',
+    maxWidth: '100%',
+    margin: '4px',
+    marginTop: 0,
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    float: 'right',
+    margin: 5,
+  },
+});
