@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import {
   IconButton,
@@ -23,7 +24,6 @@ function FamilyDashboard(props) {
     authMe();
     selectChild({});
     setLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setLoading, loading]);
   function handleClick() {
     setOpen(true);

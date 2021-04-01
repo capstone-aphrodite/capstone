@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { updateChild, deleteChild } from '../Store';
 import {
@@ -8,7 +8,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemIcon,
   ListItemSecondaryAction,
   Button,
   OutlinedInput,

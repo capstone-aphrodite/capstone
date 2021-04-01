@@ -45,8 +45,8 @@ export const AddKidForm = (props) => {
           <Select
             required
             onChange={(event) => setAvatarURL(event.target.value)}
+            defaultValue=""
           >
-            {/* <InputLabel htmlFor="avatar">Choose your avatar</InputLabel> */}
             {avatars.map((avatar, index) => (
               <MenuItem key={avatar.name} selected={index} value={avatar.image}>
                 <ListItemAvatar>
