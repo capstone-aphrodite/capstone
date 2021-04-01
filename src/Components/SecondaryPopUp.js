@@ -15,11 +15,13 @@ export const useStyles = makeStyles({
 });
 
 export default function SecondaryPopup(props) {
+  const noderef = React.useRef(null);
   const classes = useStyles();
   const { open, setOpen, children, name } = props;
   console.log('name --->', name);
   return (
     <Dialog
+      noderef={noderef}
       PaperProps={{ background: 'transparent' }}
       open={open}
       onClose={() => setOpen(false)}

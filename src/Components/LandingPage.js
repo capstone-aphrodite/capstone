@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   title: {
     color: 'white',
     fontFamily: 'Atma',
-    padding: 5,
+    padding: 0,
     margin: 20,
     marginBottom: 0,
   },
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
   },
   items: {
-    margin: 10,
+    margin: 0,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -42,28 +42,23 @@ export default function LandingPage() {
   return (
     <div className={classes.body}>
       <Grid container spacing={2}>
-        <Grid items xs={12}>
+        <Grid item={true} xs={12}>
           <Typography className={classes.title} variant="h3">
             Get your kids moving!
           </Typography>
         </Grid>
-        <Grid items xs={12} className={classes.subtitle}>
+        <Grid item={true} xs={12} className={classes.subtitle}>
           <Typography variant="subtitle1">
             The app to incentivize healthy movement while we're stuck at home.
           </Typography>
         </Grid>
 
-        <Grid items xs={12} className={classes.items}>
-          <Button
-            component={Link}
-            to="/login"
-            variant="contained"
-            color="light"
-          >
+        <Grid item={true} xs={12} className={classes.items}>
+          <Button component={Link} to="/login" variant="contained">
             Login
           </Button>
         </Grid>
-        <Grid items xs={12} className={classes.items}>
+        <Grid item={true} xs={12} className={classes.items}>
           <Button
             component={Link}
             to="/signup"

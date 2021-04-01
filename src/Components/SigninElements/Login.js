@@ -6,7 +6,7 @@ import {
   FormControl,
   Typography,
   Snackbar,
-  SnackbarContent
+  SnackbarContent,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
@@ -45,6 +45,7 @@ export function Login(props) {
   const classes = useStyles();
   const { authUser, status } = props;
   const [open, setOpen] = React.useState(false);
+  const noderef = React.useRef(null);
   const dispatch = useDispatch();
 
   function handleSubmit(event) {
@@ -58,7 +59,7 @@ export function Login(props) {
   const handleClose = () => {
     setOpen(false);
     dispatch(_setStatus(null));
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -83,10 +84,19 @@ export function Login(props) {
           Login
         </Button>
       </form>
-      {status && 
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <SnackbarContent style={{backgroundColor: 'red'}} message={status} />
-      </Snackbar> }
+      {status && (
+        <Snackbar
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+          noderef={noderef}
+        >
+          <SnackbarContent
+            style={{ backgroundColor: 'red' }}
+            message={status}
+          />
+        </Snackbar>
+      )}
       <Typography variant="body2" className={classes.items}>
         New to Wigglee? Click
         <Link to="/signup" className={classes.link}>
@@ -101,7 +111,7 @@ export function Login(props) {
 const mapState = (state) => ({
   firstName: state.firstName,
   child: state.child,
-  status: state.status
+  status: state.status,
 });
 
 const mapDispatch = (dispatch, { history }) => ({
