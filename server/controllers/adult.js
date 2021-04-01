@@ -76,7 +76,6 @@ module.exports = {
       );
       Object.assign(child, req.body);
       await adult.save();
-      console.log(child);
       res.send(child);
     } catch (error) {
       next(error);
@@ -88,10 +87,11 @@ module.exports = {
       const adult = await Adult.findOne({
         email: req.user.email,
       });
-      let id = parseInt(req.params.id);
-      adult.child = adult.child.filter((kid) => kid.index !== id);
+      adult.child = await adult.child.filter(
+        (elem) => elem._id.toString() !== req.body._id
+      );
       await adult.save();
-      res.send(adult.child);
+      res.send(adult);
     } catch (error) {
       next(error);
     }

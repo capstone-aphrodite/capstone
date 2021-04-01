@@ -8,7 +8,7 @@ const {
 
 router.put('/addChild', addChild);
 router.put('/updateChild', updateChild);
-router.delete('/deleteChild/:id', deleteChild);
+router.put('/deleteChild', deleteChild);
 router.put('/updateDailyPointGoal/:id', updateDailyPointGoal);
 router.put('/updateRewardOptions/:id', updateRewardOptions);
 router.put('/updateSelectedReward/:id', updateSelectedReward);

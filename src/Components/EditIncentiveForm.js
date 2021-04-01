@@ -35,13 +35,11 @@ export function EditIncentiveForm({
     childToEdit.child.dailyPointGoal = pointGoal;
     childToEdit.child.rewardOptions = rewards;
     updateChild(childToEdit.child);
-    console.log('AGAIN CHILD TO EDIT -->', childToEdit);
     setOpen(false);
   }
 
   function handleDeleteChild(event) {
     event.preventDefault();
-    console.log('AGAIN CHILD TO EDIT -->', childToEdit);
     deleteChild(childToEdit.child);
     setOpen(false);
   }
@@ -53,18 +51,14 @@ export function EditIncentiveForm({
   function handleAdd() {
     setRewards([...rewards, text]);
     setText('');
-    console.log(text);
   }
 
   function handleDelete(event) {
-    console.log('EVENT.TARGET -->', event.target);
     const deleted = event.target.getAttribute('value');
-    console.log('deleted-->', deleted);
     setRewards(rewards.filter((reward) => reward !== deleted));
   }
 
   useEffect(() => {
-    console.log('use effect calling');
     return rewards;
   }, [rewards]);
 

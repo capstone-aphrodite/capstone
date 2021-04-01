@@ -16,7 +16,6 @@ export const useStyles = makeStyles({
 export default function Popup(props) {
   const classes = useStyles();
   const { open, setOpen, children, name, color } = props;
-  console.log('name --->', name);
   return (
     <Dialog
       className={classes.background}
