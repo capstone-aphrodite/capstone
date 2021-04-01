@@ -11,7 +11,7 @@ let totalCount;
 let startAnimation;
 let startAnimation2;
 
-const SingleExercise = (props) => {
+const SingleExercise = props => {
   const { match, selectedChild, updateChild, location } = props;
   const [finishedExercise, setFinished] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -108,10 +108,11 @@ const SingleExercise = (props) => {
 
   useEffect(() => {
     init();
-    return function cleanup() {
+    return async function cleanup() {
       totalCount = location.reps;
       selectedChild.dailyPoints += 10;
-      updateChild(selectedChild);
+      console.log('EXERCISE DAILY POINTS', selectedChild.dailyPoints);
+      await updateChild(selectedChild);
       window.cancelAnimationFrame(startAnimation);
       window.cancelAnimationFrame(startAnimation2);
       if (finishedExercise === true) setFinished(false);
@@ -141,14 +142,14 @@ const SingleExercise = (props) => {
   );
 };
 
-const mapState = (state) => {
+const mapState = state => {
   return {
-    selectedChild: state.selectedChild
+    selectedChild: state.selectedChild,
   };
 };
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
-    updateChild: (selectedChild) => dispatch(updateChild(selectedChild)),
+    updateChild: selectedChild => dispatch(updateChild(selectedChild)),
   };
 };
 export default connect(mapState, mapDispatch)(SingleExercise);
