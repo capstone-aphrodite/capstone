@@ -11,6 +11,8 @@ const LOGOUT_USER = 'LOGOUT_USER';
 const SELECT_CHILD = 'SELECT_CHILD';
 const SET_STATUS = 'SET_STATUS';
 const DELETE_CHILD = 'DELETE_CHILD';
+//
+const UPDATED_CHILD = 'UPDATED_CHILD';
 
 // Action Creator
 const _authUser = (user) => ({
@@ -37,9 +39,15 @@ export const _setStatus = (status) => ({
   status,
 });
 
-const _deleteChild = (childToDelete) => ({
+const _deleteChild = (updatedAdult) => ({
   type: DELETE_CHILD,
-  childToDelete,
+  updatedAdult,
+});
+
+//
+const _updatedChild = (child) => ({
+  type: UPDATED_CHILD,
+  child,
 });
 
 // Thunk
@@ -114,24 +122,18 @@ export const selectChild = (kid) => async (dispatch) => {
   dispatch(_selectChild(selected));
 };
 
-export const updateChild = (selectedChild) => async (dispatch) => {
+export const updateChild = (childToUpdate) => async (dispatch) => {
   try {
-    const { data } = await axios.put('/api/updateChild', selectedChild);
-    console.log('data in updateChild', data);
-    dispatch(_selectChild(data));
+    const { data } = await axios.put('/api/updateChild', childToUpdate);
+    dispatch(_updatedChild(data));
   } catch (error) {
     console.error(error);
   }
 };
 
 export const deleteChild = (childToDelete) => async (dispatch) => {
-  console.log('CHILD TO DELETEEEEEEEEE', childToDelete);
   try {
-    const { data } = await axios.delete(
-      `/api/deleteChild/${childToDelete.index}`,
-      childToDelete
-    );
-    console.log('data in deleteChild', data);
+    const { data } = await axios.put('/api/deleteChild', childToDelete);
     dispatch(_deleteChild(data));
   } catch (error) {
     console.error(error);
@@ -142,6 +144,7 @@ const initialState = {
   firstName: '',
   child: [],
   selectedChild: {},
+  updatedChild: {},
   status: null,
 };
 
@@ -155,16 +158,14 @@ const reducer = (state = initialState, action) => {
       return initialState;
     case SELECT_CHILD:
       return { ...state, selectedChild: action.child };
+    case UPDATED_CHILD:
+      return { ...state, updatedChild: action.child };
     case SET_STATUS:
       return { ...state, status: action.status };
     case DELETE_CHILD:
       return {
         ...state,
-        child: [
-          state.child.filter(
-            (singleChild) => singleChild.id !== action.childToDelete.id
-          ),
-        ],
+        child: action.updatedAdult.child,
       };
     default:
       return state;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+
 import {
   List,
   ListItem,
@@ -15,7 +16,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Popup from './Popup';
 import EditIncentiveForm from './EditIncentiveForm';
 
-export const ParentDashboard = props => {
+export const ParentDashboard = (props) => {
   const [open, setOpen] = useState(false);
   const [childToEdit, setChildToEdit] = useState('');
 
@@ -26,36 +27,41 @@ export const ParentDashboard = props => {
         Here's today's progress. Click the edit icon to adjust daily goal or
         available rewards.
       </Typography>
-      <List>
-        {props.child.map(child => {
-          return (
-            <ListItem key={child.firstName}>
-              <ListItemAvatar>
-                <Avatar src={child.avatar}></Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={child.firstName}
-                secondary={`Reward: ${child.selectedReward}`}
-              />
-              <ListItemText
-                primary={child.dailyPoints}
-                secondary={`out of ${child.dailyPointGoal}`}
-              />
-              <ListItemSecondaryAction
-                onClick={() => {
-                  setChildToEdit({ child });
-                  setOpen(true);
-                }}
-              >
-                <IconButton edge="end">
-                  <EditOutlinedIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-              <Divider />
-            </ListItem>
-          );
-        })}
-      </List>
+      {props.child.length ? (
+        <List>
+          {props.child.map((child) => {
+            return (
+              <ListItem key={child._id}>
+                <ListItemAvatar>
+                  <Avatar src={child.avatar}></Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={child.firstName}
+                  secondary={`Reward: ${child.selectedReward}`}
+                />
+                <ListItemText
+                  primary={child.dailyPoints}
+                  secondary={`out of ${child.dailyPointGoal}`}
+                />
+                <ListItemSecondaryAction
+                  onClick={() => {
+                    setChildToEdit({ child });
+                    setOpen(true);
+                  }}
+                >
+                  <IconButton edge="end">
+                    <EditOutlinedIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+                <Divider />
+              </ListItem>
+            );
+          })}
+        </List>
+      ) : (
+        <div>No children</div>
+      )}
+
       <Popup open={open} setOpen={setOpen} name={`Edit Incentives`}>
         <EditIncentiveForm
           childToEdit={childToEdit}
@@ -67,13 +73,13 @@ export const ParentDashboard = props => {
   );
 };
 
-const mapState = state => ({
+const mapState = (state) => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
   child: state.child,
 });
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {};
 };
 
