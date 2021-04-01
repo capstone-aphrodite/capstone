@@ -14,6 +14,7 @@ import { updateChild, selectChild } from '../Store';
 export function ChildDashboard(props) {
   const [dailyOffset, setDailyOffset] = useState(0);
   const [totalOffset, setTotalOffset] = useState(0);
+  const [needsUpdate, setNeedsUpdate] = useState(false);
   const dailyCircleRef = useRef(null);
   const totalCircleRef = useRef(null);
   let { selectedChild, updateChild, selectChild, child } = props;
@@ -26,10 +27,12 @@ export function ChildDashboard(props) {
     console.log('event.target.value', event.target.value);
     selectedChild.selectedReward = event.target.value;
     await updateChild(selectedChild);
+    setNeedsUpdate(true);
   }
 
   useEffect(() => {
     console.log('USE EFFECT CHILD DASH RUNNING');
+    setNeedsUpdate(false);
     selectChild(selectedChild);
     let dailyPoints = selectedChild.dailyPoints;
     let totalPoints = selectedChild.totalPoints;
@@ -45,7 +48,7 @@ export function ChildDashboard(props) {
       'transition: stroke-dashoffset 850ms ease-in-out';
     totalCircleRef.current.style =
       'transition: stroke-dashoffset 850ms ease-in-out';
-  }, [setDailyOffset, setTotalOffset, selectedChild]);
+  }, [setDailyOffset, setTotalOffset, selectedChild, needsUpdate]);
 
   return (
     <>
