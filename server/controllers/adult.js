@@ -71,7 +71,9 @@ module.exports = {
       const adult = await Adult.findOne({
         email: req.user.email,
       });
-      const child = adult.child[req.params.id];
+      const child = await adult.child.find(
+        (elem) => elem._id.toString() === req.body._id
+      );
       Object.assign(child, req.body);
       await adult.save();
       console.log(child);
