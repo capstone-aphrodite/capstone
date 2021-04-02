@@ -22,6 +22,7 @@ export function ChildDashboard(props) {
   console.log('PROPS--->', props);
   let childId = props.match.params.id;
   selectedChild = child[childId];
+  console.log('CHILD DASH DAILY POINTS', selectedChild.dailyPoints);
 
   async function handleChange(event) {
     console.log('event.target.value', event.target.value);

@@ -5,6 +5,7 @@ import {
   IconButton,
   Typography,
   Avatar,
+  Chip,
 } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
@@ -39,9 +40,9 @@ export const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  avatar: {
-    minWidth: 40,
-    minHeight: 40,
+  chip: {
+    color: 'black',
+    border: '1px solid black',
   },
 });
 export function Navbar({ handleClick, selectedChild }) {
@@ -61,6 +62,7 @@ export function Navbar({ handleClick, selectedChild }) {
               edge="start"
               aria-label="menu"
               color="inherit"
+              label={selectedChild.firstName}
               onClick={() => {
                 history.push('/');
               }}
@@ -73,13 +75,19 @@ export function Navbar({ handleClick, selectedChild }) {
                   history.push(`/childdashboard/${selectedChild.index}`)
                 }
               >
-                <Avatar
-                  alt={selectedChild.firstName}
-                  src={selectedChild.avatar}
-                  className={classes.avatar}
-                  component="div"
-                ></Avatar>
-                {selectedChild.firstName}
+                <Chip
+                  avatar={
+                    <Avatar
+                      alt={selectedChild.firstName}
+                      src={selectedChild.avatar}
+                    ></Avatar>
+                  }
+                  component="a"
+                  href={`/childdashboard/${selectedChild.index}`}
+                  variant="outlined"
+                  className={classes.chip}
+                  label={selectedChild.firstName}
+                />
               </IconButton>
             )}
             <Typography variant="h6" className={classes.header}>
