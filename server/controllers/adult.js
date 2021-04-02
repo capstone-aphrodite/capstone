@@ -12,9 +12,9 @@ module.exports = {
         const salt = await bcrypt.genSalt(10);
         adult.password = await bcrypt.hash(password, salt);
         await adult.save();
-        // const id = adult._id.toString();
-        // req.session.userId = id.slice(-4);
-        req.login(adult, (error) => (error ? next(error) : res.json(adult)));
+        const { firstName, child, _id, email } = adult;
+        req.login(adult, (error) => (error ? next(error) : 
+        res.json({ firstName, child, _id, email })));
       } else {
         return res.status(435).send('This email is already registered');
       }
@@ -25,14 +25,16 @@ module.exports = {
 
   loginUser: async (req, res, next) => {
     try {
-      const adult = await Adult.findOne({
+      let adult = await Adult.findOne({
         email: req.body.email,
       });
       if (adult) {
         if (!bcrypt.compareSync(req.body.password, adult.password)) {
           return res.sendStatus(401);
         }
-        req.login(adult, (error) => (error ? next(error) : res.json(adult)));
+        const { firstName, child, _id, email } = adult;
+        req.login(adult, (error) => (error ? next(error) : 
+        res.json({ firstName, child, _id, email })));
       } else {
         res.sendStatus(403);
       }
@@ -43,7 +45,8 @@ module.exports = {
 
   authMe: async (req, res, next) => {
     try {
-      res.json(req.user);
+      const { firstName, child, _id, email } = req.user;
+      res.json({ firstName, child, _id, email });
     } catch (error) {
       console.log('Error authorizing user in server');
       next(error);
@@ -70,13 +73,13 @@ module.exports = {
     try {
       const adult = await Adult.findOne({
         email: req.user.email,
-      });
-      const child = await adult.child.find(
+      }).select('-password');
+      let updated = await adult.child.find(
         (elem) => elem._id.toString() === req.body._id
       );
-      Object.assign(child, req.body);
+      Object.assign(updated, req.body);
       await adult.save();
-      res.send(child);
+      res.send(updated);
     } catch (error) {
       next(error);
     }
@@ -86,7 +89,7 @@ module.exports = {
     try {
       const adult = await Adult.findOne({
         email: req.user.email,
-      });
+      }).select('-password');
       adult.child = await adult.child.filter(
         (elem) => elem._id.toString() !== req.body._id
       );
