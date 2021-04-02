@@ -4,20 +4,24 @@ import { Redirect } from 'react-router-dom';
 import * as tmPose from '@teachablemachine/pose';
 import { connect } from 'react-redux';
 import { updateChild } from '../../Store';
-import { CircularProgress, Typography } from '@material-ui/core';
+import { LinearProgress, Typography } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 //*********** UPDATE to {exercise.count}
 let totalCount;
 let startAnimation;
 let startAnimation2;
+let demoImg;
 
 const SingleExercise = props => {
   const { match, selectedChild, updateChild, location } = props;
   const [finishedExercise, setFinished] = useState(false);
   const [isLoading, setLoading] = useState(true);
+  const [showPhoto, setShowPhoto] = useState(true);
 
   totalCount = location.reps;
+  demoImg = location.demo;
+  console.log('LOCATION PROPS', location);
 
   const id = match.params.id;
   let previousPose;
@@ -47,15 +51,12 @@ const SingleExercise = props => {
     await webcam.play();
     startAnimation = window.requestAnimationFrame(loop);
 
-    setLoading(false);
-
     // append/get elements to the DOM
     const canvas = document.getElementById('canvas');
     canvas.width = size;
     canvas.height = size;
     ctx = canvas.getContext('2d');
   }
-
   async function loop() {
     webcam.update();
     await predict();
@@ -108,7 +109,11 @@ const SingleExercise = props => {
 
   useEffect(() => {
     init();
-    console.log(setFinished);
+    console.log('USE EFFECT INIT CALLED');
+    setTimeout(() => {
+      setLoading(false);
+      console.log('SHOW PHOTO TIMEOUT', isLoading);
+    }, 5000);
   }, []);
 
   useEffect(() => {
@@ -132,12 +137,20 @@ const SingleExercise = props => {
         {finishedExercise ? (
           <Redirect to="/congrats" />
         ) : (
-          <canvas id="canvas" />
+          <>
+            <img
+              alt="demo"
+              src={demoImg}
+              hidden={!isLoading}
+              style={{ maxWidth: '400px' }}
+            />
+            <canvas id="canvas" hidden={isLoading} />
+          </>
         )}
       </div>
       {isLoading ? (
         <div>
-          <CircularProgress />
+          <LinearProgress />
         </div>
       ) : (
         <Typography id="rep-container" variant="h4">
