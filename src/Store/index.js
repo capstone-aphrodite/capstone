@@ -11,8 +11,8 @@ const LOGOUT_USER = 'LOGOUT_USER';
 const SELECT_CHILD = 'SELECT_CHILD';
 const SET_STATUS = 'SET_STATUS';
 const DELETE_CHILD = 'DELETE_CHILD';
-//
 const UPDATED_CHILD = 'UPDATED_CHILD';
+const VERIFY_PASSWORD = 'VERIFY_PASSWORD';
 
 // Action Creator
 const _authUser = (user) => ({
@@ -44,10 +44,14 @@ const _deleteChild = (updatedAdult) => ({
   updatedAdult,
 });
 
-//
 const _updatedChild = (child) => ({
   type: UPDATED_CHILD,
   child,
+});
+
+const _verifyPassword = (verified) => ({
+  type: VERIFY_PASSWORD,
+  verified,
 });
 
 // Thunk
@@ -140,12 +144,24 @@ export const deleteChild = (childToDelete) => async (dispatch) => {
   }
 };
 
+export const verifyPassword = (password) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put('/api/verifyPassword', password);
+      dispatch(_verifyPassword(data));
+    } catch (error) {
+      console.log('error in verify password', error);
+    }
+  };
+};
+
 const initialState = {
   firstName: '',
   child: [],
   selectedChild: {},
   updatedChild: {},
   status: null,
+  verified: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -166,6 +182,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         child: action.updatedAdult.child,
+      };
+    case VERIFY_PASSWORD:
+      return {
+        ...state,
+        verified: action.verified,
       };
     default:
       return state;

@@ -14,20 +14,32 @@ import { authMe, selectChild } from '../Store';
 import AddKidForm from './AddKidForm';
 import Popup from './Popup';
 import history from '../history';
+import AuthPopup from './AuthPopup';
+import ReEnterPassword from './ReEnterPassword';
 
 function FamilyDashboard(props) {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
   const classes = pageStyles();
   const { selectChild } = props;
+
   useEffect(() => {
     authMe();
     selectChild({});
     setLoading(false);
   }, [setLoading, loading]);
+
   function handleClick() {
     setOpen(true);
   }
+
+  function handleAuthClick() {
+    console.log('handle click here');
+    setAuthOpen(true);
+    console.log('authopen', authOpen);
+  }
+
   async function handleChange({ profile, index }) {
     console.log('PROFILE, INDEX', profile, index);
     await selectChild(profile);
@@ -98,18 +110,33 @@ function FamilyDashboard(props) {
           <AddKidForm setOpen={setOpen} />
         </Popup>
       </div>
+      <div>
+        <IconButton onClick={handleAuthClick}>
+          Click here to manage family
+        </IconButton>
+      </div>
+      <div>
+        <AuthPopup
+          open={authOpen}
+          setAuthOpen={setAuthOpen}
+          name={`Re-enter password`}
+        >
+          <ReEnterPassword setAuthOpen={setAuthOpen} />
+        </AuthPopup>
+      </div>
     </div>
   );
 }
-const mapState = state => ({
+const mapState = (state) => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
   child: state.child,
   selectedChild: state.selectedChild,
+  verified: state.verified,
 });
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    selectChild: child => dispatch(selectChild(child)),
+    selectChild: (child) => dispatch(selectChild(child)),
     authMe: () => dispatch(authMe()),
   };
 };
