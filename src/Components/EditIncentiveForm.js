@@ -14,6 +14,8 @@ import {
   InputAdornment,
   IconButton,
   makeStyles,
+  Snackbar,
+  SnackbarContent,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -27,15 +29,26 @@ export function EditIncentiveForm({
 }) {
   const classes = useStyles();
   const [text, setText] = useState('');
-  const [pointGoal, setPointGoal] = useState('');
+  const [pointGoal, setPointGoal] = useState(childToEdit.child.dailyPointGoal);
   const [rewards, setRewards] = useState(childToEdit.child.rewardOptions);
+  const [incompleteForm, setIncompleteForm] = useState('');
+  const noderef = React.useRef(null);
 
   function handleSubmit(event) {
     event.preventDefault();
-    childToEdit.child.dailyPointGoal = pointGoal;
-    childToEdit.child.rewardOptions = rewards;
-    updateChild(childToEdit.child);
-    setOpen(false);
+    if (pointGoal < 20) {
+      setIncompleteForm('Daily Point Goal needs to be at least 20 points');
+      return;
+    } else if (rewards.length < 3) {
+      setIncompleteForm('You must have at least three rewards');
+      return;
+    } else {
+      setIncompleteForm('');
+      childToEdit.child.dailyPointGoal = pointGoal;
+      childToEdit.child.rewardOptions = rewards;
+      updateChild(childToEdit.child);
+      setOpen(false);
+    }
   }
 
   function handleDeleteChild(event) {
@@ -62,6 +75,10 @@ export function EditIncentiveForm({
     return rewards;
   }, [rewards]);
 
+  // useEffect(() => {
+  //   return pointGoal;
+  // }, [pointGoal]);
+
   function handleClose() {
     setOpen(false);
   }
@@ -73,8 +90,7 @@ export function EditIncentiveForm({
           <FormHelperText>Current Daily Goal</FormHelperText>
           <TextField
             variant="outlined"
-            defaultValue={childToEdit.child.dailyPointGoal}
-            label={childToEdit.child.dailyPointGoal}
+            defaultValue={pointGoal}
             type="text"
             onChange={(event) => handleChange(setPointGoal, event)}
             value={pointGoal}
@@ -84,9 +100,9 @@ export function EditIncentiveForm({
           <FormHelperText> Current Rewards</FormHelperText>
           <List>
             {!!childToEdit.child.rewardOptions ? (
-              rewards.map((reward) => {
+              rewards.map((reward, index) => {
                 return (
-                  <ListItem key={reward}>
+                  <ListItem key={index}>
                     <ListItemText primary={reward} />
                     <ListItemSecondaryAction onClick={(e) => handleDelete(e)}>
                       <IconButton edge="start" value={reward} name={reward}>
@@ -100,7 +116,6 @@ export function EditIncentiveForm({
               <div></div>
             )}
             <OutlinedInput
-              label="Add a reward"
               type="text"
               onChange={(event) => handleChange(setText, event)}
               value={text}
@@ -143,6 +158,14 @@ export function EditIncentiveForm({
           Delete Child
         </Button>
       </form>
+      {incompleteForm && (
+        <Snackbar open={open} autoHideDuration={3000} noderef={noderef}>
+          <SnackbarContent
+            style={{ backgroundColor: 'red' }}
+            message={incompleteForm}
+          />
+        </Snackbar>
+      )}
     </div>
   );
 }
