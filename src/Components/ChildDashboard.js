@@ -21,6 +21,10 @@ export function ChildDashboard(props) {
 
   let childId = props.match.params.id;
   selectedChild = child[childId];
+  if (selectedChild.selectedReward === '') {
+    console.log('Child with no reward');
+    selectedChild.selectedReward = 'Ask your grown up!';
+  }
 
   async function handleChange(event) {
     console.log('event.target.value', event.target.value);
@@ -124,20 +128,31 @@ export function ChildDashboard(props) {
               </svg>
             </div>
           </div>
-          <div>
+          <div className="reward-form">
             <Typography variant="h5">I'm working towards</Typography>
-            <FormControl>
-              <Select
-                value={selectedChild.selectedReward}
-                onChange={handleChange}
-              >
-                {selectedChild.rewardOptions.map(reward => (
-                  <MenuItem key={reward} value={reward}>
-                    {reward}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <div className="reward-box">
+              {selectedChild.rewardOptions.length === 0 ? (
+                <Typography variant="subtitle1">
+                  {' '}
+                  Ask your grown-up to add some!
+                </Typography>
+              ) : (
+                <FormControl>
+                  <Select
+                    value={selectedChild.selectedReward}
+                    onChange={handleChange}
+                    disableUnderline
+                    variant="filled"
+                  >
+                    {selectedChild.rewardOptions.map(reward => (
+                      <MenuItem key={reward} value={reward}>
+                        {reward}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+            </div>
           </div>
           <Button
             className="get-moving-button"
@@ -150,7 +165,7 @@ export function ChildDashboard(props) {
             Get Moving!
           </Button>
           <Link className="not-child-link" to="/home">
-            Not {selectedChild.firstName}? Click here.
+            Not {selectedChild.firstName}?
           </Link>
         </div>
       ) : (
