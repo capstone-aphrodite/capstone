@@ -71,10 +71,10 @@ app.use("/auth", require("./auth"));
 app.use("/api", require("./api"));
 
 app.use(express.static(path.join(__dirname, "..", "build")));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "../public")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "../public", "index.html"));
 });
 //because public/index.html doesnt have javascript in it. no script tags.
 //only in production because only heroku(production) will do npm run build. Unique to create react app
