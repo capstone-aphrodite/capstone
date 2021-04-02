@@ -19,20 +19,16 @@ export function ChildDashboard(props) {
   const totalCircleRef = useRef(null);
   let { selectedChild, updateChild, selectChild, child } = props;
 
-  console.log('PROPS--->', props);
   let childId = props.match.params.id;
   selectedChild = child[childId];
-  console.log('CHILD DASH DAILY POINTS', selectedChild.dailyPoints);
 
   async function handleChange(event) {
-    console.log('event.target.value', event.target.value);
     selectedChild.selectedReward = event.target.value;
     await updateChild(selectedChild);
     setNeedsUpdate(true);
   }
 
   useEffect(() => {
-    console.log('USE EFFECT CHILD DASH RUNNING');
     setNeedsUpdate(false);
     selectChild(selectedChild);
     let dailyPoints = selectedChild.dailyPoints;
@@ -55,9 +51,7 @@ export function ChildDashboard(props) {
     <>
       {selectedChild ? (
         <div className="child-dashboard">
-          <div className="avatar-container">
-            {/* <Avatar>{`${selectedChild.firstName[0]}`}</Avatar> */}
-          </div>
+          <div className="avatar-container"></div>
           <div className="progress-circles">
             <div className="progress-circle">
               <div className="points-label">Daily Points</div>
@@ -126,20 +120,31 @@ export function ChildDashboard(props) {
               </svg>
             </div>
           </div>
-          <div>
+          <div className="reward-form">
             <Typography variant="h5">I'm working towards</Typography>
-            <FormControl>
-              <Select
-                value={selectedChild.selectedReward}
-                onChange={handleChange}
-              >
-                {selectedChild.rewardOptions.map(reward => (
-                  <MenuItem key={reward} value={reward}>
-                    {reward}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <div className="reward-box">
+              {selectedChild.rewardOptions.length === 0 ? (
+                <Typography variant="subtitle1">
+                  {' '}
+                  Ask your grown-up to add some!
+                </Typography>
+              ) : (
+                <FormControl>
+                  <Select
+                    value={selectedChild.selectedReward}
+                    onChange={handleChange}
+                    disableUnderline
+                    variant="filled"
+                  >
+                    {selectedChild.rewardOptions.map(reward => (
+                      <MenuItem key={reward} value={reward}>
+                        {reward}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+            </div>
           </div>
           <Button
             className="get-moving-button"
@@ -152,7 +157,7 @@ export function ChildDashboard(props) {
             Get Moving!
           </Button>
           <Link className="not-child-link" to="/home">
-            Not {selectedChild.firstName}? Click here.
+            Not {selectedChild.firstName}?
           </Link>
         </div>
       ) : (

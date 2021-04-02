@@ -16,7 +16,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Popup from './Popup';
 import EditIncentiveForm from './EditIncentiveForm';
 
-export const ParentDashboard = (props) => {
+export const ParentDashboard = props => {
   const [open, setOpen] = useState(false);
   const [childToEdit, setChildToEdit] = useState('');
 
@@ -29,7 +29,7 @@ export const ParentDashboard = (props) => {
       </Typography>
       {props.child.length ? (
         <List>
-          {props.child.map((child) => {
+          {props.child.map(child => {
             return (
               <ListItem key={child._id}>
                 <ListItemAvatar>
@@ -73,13 +73,13 @@ export const ParentDashboard = (props) => {
   );
 };
 
-const mapState = (state) => ({
+const mapState = state => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
   child: state.child,
 });
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {};
 };
 

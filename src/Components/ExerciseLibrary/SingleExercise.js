@@ -5,6 +5,7 @@ import * as tmPose from '@teachablemachine/pose';
 import { connect } from 'react-redux';
 import { updateChild } from '../../Store';
 import { CircularProgress, Typography } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 //*********** UPDATE to {exercise.count}
 let totalCount;
@@ -27,7 +28,6 @@ const SingleExercise = props => {
   async function init() {
     const modelURL = URL + 'model.json';
     const metadataURL = URL + 'metadata.json';
-
     model = await tmPose.load(modelURL, metadataURL);
 
     // Convenience function to setup a webcam
@@ -108,16 +108,23 @@ const SingleExercise = props => {
 
   useEffect(() => {
     init();
-    return async function cleanup() {
-      totalCount = location.reps;
-      selectedChild.dailyPoints += 10;
-      console.log('EXERCISE DAILY POINTS', selectedChild.dailyPoints);
-      await updateChild(selectedChild);
-      window.cancelAnimationFrame(startAnimation);
-      window.cancelAnimationFrame(startAnimation2);
-      if (finishedExercise === true) setFinished(false);
-    };
+    console.log(setFinished);
   }, []);
+
+  useEffect(() => {
+    if (finishedExercise === true) {
+      console.log('POINTS ADDING');
+      return async function cleanup() {
+        totalCount = location.reps;
+        selectedChild.dailyPoints += 10;
+        console.log('EXERCISE DAILY POINTS', selectedChild.dailyPoints);
+        await updateChild(selectedChild);
+        window.cancelAnimationFrame(startAnimation);
+        window.cancelAnimationFrame(startAnimation2);
+        setFinished(false);
+      };
+    }
+  }, [finishedExercise]);
 
   return (
     <div>
@@ -125,12 +132,11 @@ const SingleExercise = props => {
         {finishedExercise ? (
           <Redirect to="/congrats" />
         ) : (
-          <canvas id="canvas"></canvas>
+          <canvas id="canvas" />
         )}
       </div>
       {isLoading ? (
-        <div id="rep-container">
-          {' '}
+        <div>
           <CircularProgress />
         </div>
       ) : (
