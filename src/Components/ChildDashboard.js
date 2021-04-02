@@ -21,20 +21,14 @@ export function ChildDashboard(props) {
 
   let childId = props.match.params.id;
   selectedChild = child[childId];
-  if (selectedChild.selectedReward === '') {
-    console.log('Child with no reward');
-    selectedChild.selectedReward = 'Ask your grown up!';
-  }
 
   async function handleChange(event) {
-    console.log('event.target.value', event.target.value);
     selectedChild.selectedReward = event.target.value;
     await updateChild(selectedChild);
     setNeedsUpdate(true);
   }
 
   useEffect(() => {
-    console.log('USE EFFECT CHILD DASH RUNNING');
     setNeedsUpdate(false);
     selectChild(selectedChild);
     let dailyPoints = selectedChild.dailyPoints;
@@ -57,9 +51,7 @@ export function ChildDashboard(props) {
     <>
       {selectedChild ? (
         <div className="child-dashboard">
-          <div className="avatar-container">
-            {/* <Avatar>{`${selectedChild.firstName[0]}`}</Avatar> */}
-          </div>
+          <div className="avatar-container"></div>
           <div className="progress-circles">
             <div className="progress-circle">
               <div className="points-label">Daily Points</div>
