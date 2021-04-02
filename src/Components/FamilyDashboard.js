@@ -51,7 +51,7 @@ function FamilyDashboard(props) {
         {!!props.child ? (
           <Grid
             container
-            spacing={5}
+            spacing={2}
             className={classes.container}
             justify="center"
             alignItems="center"
@@ -63,18 +63,20 @@ function FamilyDashboard(props) {
               return (
                 <Grid item key={index} xs={4} className={classes.grid}>
                   <IconButton
-                    className={classes.items}
                     onClick={() => handleChange({ profile, index })}
+                    edge="start"
+                    size="small"
+                    className={classes.items}
                   >
                     <Avatar
                       alt={profile.firstName}
-                      src={profile.avatar}
                       className={classes.avatar}
+                      src={profile.avatar}
                     ></Avatar>
-                    <Typography variant="subtitle1">
-                      {profile.firstName}
-                    </Typography>
                   </IconButton>
+                  <Typography variant="subtitle1" className={classes.items}>
+                    {profile.firstName}
+                  </Typography>
                 </Grid>
               );
             })}
@@ -129,19 +131,19 @@ export const pageStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    flexFlow: 'column wrap',
     marginTop: 2,
-    marginBottom: 0,
   },
   items: {
     display: 'flex',
-    flexFlow: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
+    flexFlow: 'column wrap',
     textDecoration: 'none',
     color: 'black',
-    padding: 2,
   },
   avatar: {
+    display: 'flex',
     minWidth: 58,
     minHeight: 58,
   },
