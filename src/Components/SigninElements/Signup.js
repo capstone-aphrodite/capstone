@@ -92,7 +92,7 @@ export function Signup(props) {
         <Link to="/login" className={classes.link}>
           here
         </Link>
-        to sign up
+        to login
       </Typography>
     </div>
   );
