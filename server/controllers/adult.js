@@ -45,8 +45,7 @@ module.exports = {
 
   authMe: async (req, res, next) => {
     try {
-      const { firstName, child, _id, email } = req.user;
-      res.json({ firstName, child, _id, email });
+      res.json(req.user);
     } catch (error) {
       console.log('Error authorizing user in server');
       next(error);
