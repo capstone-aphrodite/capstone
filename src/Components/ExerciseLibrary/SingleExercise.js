@@ -11,6 +11,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 let totalCount;
 let startAnimation;
 let startAnimation2;
+let demoImg;
 
 const SingleExercise = props => {
   const { match, selectedChild, updateChild, location } = props;
@@ -18,6 +19,8 @@ const SingleExercise = props => {
   const [isLoading, setLoading] = useState(true);
 
   totalCount = location.reps;
+  demoImg = location.demo;
+  console.log('LOCATION PROPS', location);
 
   const id = match.params.id;
   let previousPose;
@@ -55,7 +58,6 @@ const SingleExercise = props => {
     canvas.height = size;
     ctx = canvas.getContext('2d');
   }
-
   async function loop() {
     webcam.update();
     await predict();
@@ -132,11 +134,12 @@ const SingleExercise = props => {
         {finishedExercise ? (
           <Redirect to="/congrats" />
         ) : (
-          <canvas id="canvas" />
+          <canvas id="canvas" hidden={isLoading} />
         )}
       </div>
       {isLoading ? (
         <div>
+          <img alt="demo" src={demoImg} />
           <CircularProgress />
         </div>
       ) : (

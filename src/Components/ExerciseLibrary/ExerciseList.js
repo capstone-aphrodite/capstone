@@ -10,6 +10,7 @@ export const exercises = [
     title: 'Burpees',
     image: '/images/Burpee-chipmunk.png',
     numReps: 20,
+    demo: '/images/burpee-demo.png',
   },
   {
     id: 'Yemf8f4k1',
