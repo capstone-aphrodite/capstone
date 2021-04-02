@@ -1,5 +1,10 @@
 const router = require('express').Router();
-const { addChild, updateChild, deleteChild } = require('../controllers/adult');
+const {
+  addChild,
+  updateChild,
+  deleteChild,
+  verifyPassword,
+} = require('../controllers/adult');
 const {
   updateDailyPointGoal,
   updateRewardOptions,
@@ -12,5 +17,6 @@ router.put('/deleteChild', deleteChild);
 router.put('/updateDailyPointGoal/:id', updateDailyPointGoal);
 router.put('/updateRewardOptions/:id', updateRewardOptions);
 router.put('/updateSelectedReward/:id', updateSelectedReward);
+router.put('/verifyPassword', verifyPassword);
 
 module.exports = router;
