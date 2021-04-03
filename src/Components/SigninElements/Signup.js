@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Input,
   InputLabel,
@@ -8,16 +8,21 @@ import {
   TextField,
   FormHelperText,
   Paper,
+  Snackbar,
+  SnackbarContent,
 } from '@material-ui/core';
 import { useStyles } from './Login';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { authUser } from '../../Store';
+import { _setStatus } from '../../Store';
 
 export function Signup(props) {
-  const { authUser } = props;
+  const { authUser, status, dispatch } = props;
   const [error, setError] = useState('');
+  const [open, setOpen] = React.useState(false);
   const classes = useStyles();
+  const noderef = useRef(null);
   function handleSubmit(event) {
     event.preventDefault();
     setError('');
@@ -31,6 +36,10 @@ export function Signup(props) {
     const password = event.target.password.value;
     authUser({ firstName, lastName, email, password });
   }
+  const handleClose = () => {
+    setOpen(false);
+    dispatch(_setStatus(null));
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} component="div">
@@ -128,6 +137,19 @@ export function Signup(props) {
           </Link>
           to login
         </Typography>
+        {status && (
+          <Snackbar
+            open={open}
+            autoHideDuration={3000}
+            onClose={handleClose}
+            noderef={noderef}
+          >
+            <SnackbarContent
+              style={{ backgroundColor: 'red' }}
+              message={status}
+            />
+          </Snackbar>
+        )}
       </Paper>
     </div>
   );

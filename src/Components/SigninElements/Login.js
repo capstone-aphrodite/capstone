@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import { authUser } from '../../Store';
 import { _setStatus } from '../../Store';
-import createTypography from '@material-ui/core/styles/createTypography';
 
 export const useStyles = makeStyles({
   root: {
@@ -117,20 +116,21 @@ export function Login(props) {
           </Link>
           to sign up
         </Typography>
+
+        {status && (
+          <Snackbar
+            open={open}
+            autoHideDuration={3000}
+            onClose={handleClose}
+            noderef={noderef}
+          >
+            <SnackbarContent
+              style={{ backgroundColor: 'red' }}
+              message={status}
+            />
+          </Snackbar>
+        )}
       </Paper>
-      {status && (
-        <Snackbar
-          open={open}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          noderef={noderef}
-        >
-          <SnackbarContent
-            style={{ backgroundColor: 'red' }}
-            message={status}
-          />
-        </Snackbar>
-      )}
     </div>
   );
 }
