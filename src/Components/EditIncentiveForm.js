@@ -68,7 +68,7 @@ export function EditIncentiveForm({
 
   function handleDelete(event) {
     const deleted = event.target.getAttribute('value');
-    setRewards(rewards.filter((reward) => reward !== deleted));
+    setRewards(rewards.filter(reward => reward !== deleted));
   }
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export function EditIncentiveForm({
             variant="outlined"
             defaultValue={pointGoal}
             type="text"
-            onChange={(event) => handleChange(setPointGoal, event)}
+            onChange={event => handleChange(setPointGoal, event)}
             value={pointGoal}
           />
         </FormControl>
@@ -104,9 +104,13 @@ export function EditIncentiveForm({
                 return (
                   <ListItem key={index}>
                     <ListItemText primary={reward} />
-                    <ListItemSecondaryAction onClick={(e) => handleDelete(e)}>
+                    <ListItemSecondaryAction onClick={e => handleDelete(e)}>
                       <IconButton edge="start" value={reward} name={reward}>
-                        <ClearIcon value={reward} name={reward} />
+                        <ClearIcon
+                          value={reward}
+                          name={reward}
+                          color={'error'}
+                        />
                       </IconButton>
                     </ListItemSecondaryAction>
                   </ListItem>
@@ -117,7 +121,7 @@ export function EditIncentiveForm({
             )}
             <OutlinedInput
               type="text"
-              onChange={(event) => handleChange(setText, event)}
+              onChange={event => handleChange(setText, event)}
               value={text}
               endAdornment={
                 <InputAdornment position="end">
@@ -140,6 +144,7 @@ export function EditIncentiveForm({
           color="primary"
           className={classes.buttons}
           type="Submit"
+          disableElevation
         >
           Confirm Changes
         </Button>
@@ -152,7 +157,8 @@ export function EditIncentiveForm({
         </Button>
         <Button
           variant="outlined"
-          className={classes.buttons}
+          color={'error'}
+          className={classes.cancel}
           onClick={handleDeleteChild}
         >
           Delete Child
@@ -170,10 +176,10 @@ export function EditIncentiveForm({
   );
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
-    updateChild: (selectedChild) => dispatch(updateChild(selectedChild)),
-    deleteChild: (selectedChild) => dispatch(deleteChild(selectedChild)),
+    updateChild: selectedChild => dispatch(updateChild(selectedChild)),
+    deleteChild: selectedChild => dispatch(deleteChild(selectedChild)),
   };
 };
 
@@ -188,5 +194,10 @@ const useStyles = makeStyles({
   },
   buttons: {
     margin: 7,
+  },
+  cancel: {
+    margin: 7,
+    border: 'red 1px solid',
+    color: 'red',
   },
 });
