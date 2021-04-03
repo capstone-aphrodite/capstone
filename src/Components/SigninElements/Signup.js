@@ -41,22 +41,46 @@ export function Signup(props) {
           <Typography variant="body2">
             Enter your information to create your account.
           </Typography>
-          <FormControl required variant="outlined" className={classes.items}>
+          <FormControl required className={classes.items}>
             <InputLabel htmlFor="firstName">First Name</InputLabel>
-            <Input name="firstName" type="text" className={classes.items} />
+            <Input
+              name="firstName"
+              type="text"
+              className={classes.items}
+              size="small"
+              margin="dense"
+            />
           </FormControl>
-          <FormControl required variant="outlined" className={classes.items}>
+          <FormControl required className={classes.items}>
             <InputLabel htmlFor="lastName">LastName</InputLabel>
-            <Input name="lastName" type="text" className={classes.items} />
+            <Input
+              name="lastName"
+              type="text"
+              className={classes.items}
+              size="small"
+              margin="dense"
+            />
           </FormControl>
-          <FormControl required variant="outlined" className={classes.items}>
+          <FormControl required className={classes.items}>
             <InputLabel htmlFor="email">Email</InputLabel>
-            <Input name="email" type="text" className={classes.items} />
+            <Input
+              name="email"
+              type="text"
+              className={classes.items}
+              size="small"
+              margin="dense"
+            />
           </FormControl>
 
           <FormControl required className={classes.items}>
             <InputLabel htmlFor="password">Password</InputLabel>
-            <Input name="password" type="password" className={classes.items} />
+            <Input
+              name="password"
+              type="password"
+              className={classes.items}
+              size="small"
+              margin="dense"
+            />
             {error && <FormHelperText error>{error}</FormHelperText>}
           </FormControl>
           <FormControl required className={classes.items}>
@@ -65,6 +89,8 @@ export function Signup(props) {
               name="confirmPassword"
               type="password"
               className={classes.items}
+              size="small"
+              margin="dense"
             />
           </FormControl>
           <FormControl className={classes.items}>
