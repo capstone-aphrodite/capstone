@@ -5,7 +5,6 @@ import * as tmPose from '@teachablemachine/pose';
 import { connect } from 'react-redux';
 import { updateChild } from '../../Store';
 import { LinearProgress, Typography } from '@material-ui/core';
-import Skeleton from '@material-ui/lab/Skeleton';
 
 //*********** UPDATE to {exercise.count}
 let totalCount;
@@ -17,7 +16,6 @@ const SingleExercise = props => {
   const { match, selectedChild, updateChild, location } = props;
   const [finishedExercise, setFinished] = useState(false);
   const [isLoading, setLoading] = useState(true);
-  const [showPhoto, setShowPhoto] = useState(true);
 
   totalCount = location.reps;
   demoImg = location.demo;
