@@ -8,21 +8,22 @@ import {
   TextField,
   FormHelperText,
   Paper,
-  Snackbar,
-  SnackbarContent,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { useStyles } from './Login';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { authUser } from '../../Store';
 import { _setStatus } from '../../Store';
 
 export function Signup(props) {
-  const { authUser, status, dispatch } = props;
+  const { authUser, status } = props;
   const [error, setError] = useState('');
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
   const noderef = useRef(null);
+  const dispatch = useDispatch();
+  console.log('STATUS ERROR -->', status);
   function handleSubmit(event) {
     event.preventDefault();
     setError('');
@@ -130,6 +131,19 @@ export function Signup(props) {
             Create Account
           </Button>
         </form>
+        {status && (
+          <Alert
+            open={open}
+            severity="error"
+            color="error"
+            variant="outlined"
+            autoHideDuration={3000}
+            onClose={handleClose}
+            noderef={noderef}
+          >
+            {status}
+          </Alert>
+        )}
         <Typography variant="body2" className={classes.items}>
           Already a member? Click
           <Link to="/login" className={classes.link}>
@@ -137,19 +151,6 @@ export function Signup(props) {
           </Link>
           to login
         </Typography>
-        {status && (
-          <Snackbar
-            open={open}
-            autoHideDuration={3000}
-            onClose={handleClose}
-            noderef={noderef}
-          >
-            <SnackbarContent
-              style={{ backgroundColor: 'red' }}
-              message={status}
-            />
-          </Snackbar>
-        )}
       </Paper>
     </div>
   );
@@ -158,6 +159,7 @@ export function Signup(props) {
 const mapState = state => ({
   firstName: state.firstName,
   child: state.child,
+  status: state.status,
 });
 
 const mapDispatch = (dispatch, { history }) => ({

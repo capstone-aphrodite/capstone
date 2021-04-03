@@ -9,6 +9,7 @@ import {
   SnackbarContent,
   Paper,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
@@ -118,17 +119,17 @@ export function Login(props) {
         </Typography>
 
         {status && (
-          <Snackbar
+          <Alert
             open={open}
+            severity="error"
+            color="error"
+            variant="outlined"
             autoHideDuration={3000}
             onClose={handleClose}
             noderef={noderef}
           >
-            <SnackbarContent
-              style={{ backgroundColor: 'red' }}
-              message={status}
-            />
-          </Snackbar>
+            {status}
+          </Alert>
         )}
       </Paper>
     </div>
