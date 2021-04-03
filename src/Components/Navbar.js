@@ -11,7 +11,6 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
 import PropTypes from 'prop-types';
 import { logout, selectChild } from '../Store';
 import { makeStyles } from '@material-ui/core/styles';
@@ -45,11 +44,11 @@ export const useStyles = makeStyles({
     border: '1px solid black',
   },
 });
-export function Navbar({ handleClick, selectedChild }) {
+export function Navbar({ handleClick, selectedChild, isLoggedIn }) {
   const history = useHistory();
   const classes = useStyles();
   selectedChild = selectedChild || {};
-
+  console.log('NAVBAR PROPSSSSSS -->', isLoggedIn);
   return (
     <div>
       <AppBar
@@ -94,16 +93,18 @@ export function Navbar({ handleClick, selectedChild }) {
               Wigglee
             </Typography>
           </div>
-          <div className={classes.right}>
-            <IconButton
-              color="inherit"
-              aria-label="menu"
-              position="static"
-              onClick={handleClick}
-            >
-              <MeetingRoomIcon fontSize="large" />
-            </IconButton>
-          </div>
+          {isLoggedIn && (
+            <div className={classes.right}>
+              <IconButton
+                color="inherit"
+                aria-label="logout"
+                position="static"
+                onClick={handleClick}
+              >
+                <MeetingRoomIcon fontSize="large" />
+              </IconButton>
+            </div>
+          )}
         </Toolbar>
       </AppBar>
     </div>
@@ -111,6 +112,7 @@ export function Navbar({ handleClick, selectedChild }) {
 }
 
 const mapState = state => ({
+  isLoggedIn: !!state.firstName,
   selectedChild: state.selectedChild,
 });
 

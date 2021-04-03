@@ -5,8 +5,6 @@ import {
   Button,
   FormControl,
   Typography,
-  Snackbar,
-  SnackbarContent,
   Paper,
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
