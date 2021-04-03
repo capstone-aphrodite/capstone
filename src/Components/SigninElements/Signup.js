@@ -137,7 +137,6 @@ export function Signup(props) {
             severity="error"
             color="error"
             variant="outlined"
-            autoHideDuration={3000}
             onClose={handleClose}
             noderef={noderef}
           >
