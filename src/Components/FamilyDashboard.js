@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   IconButton,
+  Button,
   Typography,
   CircularProgress,
   Avatar,
@@ -111,15 +112,15 @@ function FamilyDashboard(props) {
         </Popup>
       </div>
       <div>
-        <IconButton onClick={handleAuthClick}>
+        <Button variant="outlined" onClick={handleAuthClick}>
           Click here to manage family
-        </IconButton>
+        </Button>
       </div>
       <div>
         <AuthPopup
           open={authOpen}
           setAuthOpen={setAuthOpen}
-          name={`Re-enter password`}
+          name={`Let's verify you're the grown-up:`}
         >
           <ReEnterPassword setAuthOpen={setAuthOpen} />
         </AuthPopup>
@@ -127,16 +128,16 @@ function FamilyDashboard(props) {
     </div>
   );
 }
-const mapState = (state) => ({
+const mapState = state => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
   child: state.child,
   selectedChild: state.selectedChild,
   verified: state.verified,
 });
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
-    selectChild: (child) => dispatch(selectChild(child)),
+    selectChild: child => dispatch(selectChild(child)),
     authMe: () => dispatch(authMe()),
   };
 };
