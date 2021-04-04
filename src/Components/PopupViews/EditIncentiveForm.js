@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { updateChild, deleteChild } from '../Store';
+import { updateChild, deleteChild } from '../../Store';
 import {
   TextField,
   FormControl,
@@ -74,10 +74,6 @@ export function EditIncentiveForm({
   useEffect(() => {
     return rewards;
   }, [rewards]);
-
-  // useEffect(() => {
-  //   return pointGoal;
-  // }, [pointGoal]);
 
   function handleClose() {
     setOpen(false);

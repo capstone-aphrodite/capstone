@@ -7,7 +7,6 @@ import { updateChild } from '../../Store';
 import { LinearProgress, Typography } from '@material-ui/core';
 import { colors, colorGenerator } from './ColorGenerator';
 
-//*********** UPDATE to {exercise.count}
 let totalCount;
 let startAnimation;
 let startAnimation2;
@@ -18,7 +17,6 @@ const SingleExercise = props => {
   const { match, selectedChild, updateChild, location } = props;
   const [finishedExercise, setFinished] = useState(false);
   const [shadowColor, setShadowColor] = useState('#939190');
-  const [updateCount, setUpdateCount] = useState(false);
   const [isLoading, setLoading] = useState(true);
   demoImg = location.demo;
 
@@ -84,8 +82,7 @@ const SingleExercise = props => {
             totalCount / 2
           )} left!`;
           setShadowColor(colors[colorGenerator(colors)]);
-          console.log('UPDATE COUNT -->', updateCount);
-          console.log('TOTAL COUNT ==>', totalCount);
+
           previousPose = prediction[1].className;
         }
       }
@@ -116,7 +113,6 @@ const SingleExercise = props => {
     }, 5000);
   }, []);
   useEffect(() => {
-    console.log('UPDATE COUNT USE EFFECT RUNNING');
     return shadowColor && countMessage;
   }, [setShadowColor]);
   useEffect(() => {
@@ -124,7 +120,7 @@ const SingleExercise = props => {
       return async function cleanup() {
         totalCount = location.reps;
         selectedChild.dailyPoints += 10;
-        selectedChild.totalPoints+=selectedChild.dailyPoints;
+        selectedChild.totalPoints += selectedChild.dailyPoints;
         await updateChild(selectedChild);
         window.cancelAnimationFrame(startAnimation);
         window.cancelAnimationFrame(startAnimation2);

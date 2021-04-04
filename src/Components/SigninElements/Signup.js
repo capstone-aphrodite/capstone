@@ -23,11 +23,10 @@ export function Signup(props) {
   const classes = useStyles();
   const noderef = useRef(null);
   const dispatch = useDispatch();
-  console.log('STATUS ERROR -->', status);
+
   function handleSubmit(event) {
     event.preventDefault();
     setError('');
-    console.log('CLICKED');
     if (event.target.password.value !== event.target.confirmPassword.value) {
       setError("Oops, it looks like these passwords don't match");
     }
@@ -116,7 +115,7 @@ export function Signup(props) {
             />
             <FormHelperText>
               {' '}
-              Don't worry, we just need to verify your a grown-up
+              Don't worry, we just need to verify you're a grown-up
             </FormHelperText>
           </FormControl>
 

@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { Grid, TextField, Button, FormHelperText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect, useDispatch } from 'react-redux';
-import { verifyPassword } from '../Store';
-import history from '../history';
-import { _setStatus, _verifyPassword } from '../Store';
+import { verifyPassword } from '../../Store';
+import history from '../../history';
+import { _setStatus, _verifyPassword } from '../../Store';
 import Alert from '@material-ui/lab/Alert';
 
-export const ReEnterPassword = (props) => {
+export const ReEnterPassword = props => {
   let { verifyPassword, setAuthOpen, verified, status } = props;
   const [open, setOpen] = React.useState(false);
   const noderef = React.useRef(null);
@@ -66,7 +66,6 @@ export const ReEnterPassword = (props) => {
             severity="error"
             color="error"
             variant="outlined"
-            // autoHideDuration={3000}
             onClose={handleClose}
             noderef={noderef}
           >
@@ -78,14 +77,14 @@ export const ReEnterPassword = (props) => {
   );
 };
 
-const mapState = (state) => ({
+const mapState = state => ({
   email: state.email,
   verified: state.verified,
   status: state.status,
 });
 
 const mapDispatch = (dispatch, { history }) => ({
-  verifyPassword: (password) => dispatch(verifyPassword(password)),
+  verifyPassword: password => dispatch(verifyPassword(password)),
 });
 
 export default connect(mapState, mapDispatch)(ReEnterPassword);

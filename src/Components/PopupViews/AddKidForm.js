@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { addKid } from '../Store';
+import { addKid } from '../../Store';
 
 const avatars = [
   { name: 'Parrot', image: '/images/parrot.png' },
@@ -23,7 +23,7 @@ const avatars = [
   { name: 'Giraffe', image: '/images/giraffe.png' },
 ];
 
-export const AddKidForm = (props) => {
+export const AddKidForm = props => {
   const { setOpen, addKid } = props;
   const classes = useStyles();
   const [avatarURL, setAvatarURL] = useState('');
@@ -44,7 +44,7 @@ export const AddKidForm = (props) => {
           <FormHelperText>Choose your avatar</FormHelperText>
           <Select
             required
-            onChange={(event) => setAvatarURL(event.target.value)}
+            onChange={event => setAvatarURL(event.target.value)}
             defaultValue=""
           >
             {avatars.map((avatar, index) => (
@@ -70,13 +70,13 @@ export const AddKidForm = (props) => {
   );
 };
 
-const mapState = (state) => ({
+const mapState = state => ({
   isLoggedIn: !!state.firstName,
   // state,
 });
 
-const mapDispatch = (dispatch) => ({
-  addKid: (kid) => dispatch(addKid(kid)),
+const mapDispatch = dispatch => ({
+  addKid: kid => dispatch(addKid(kid)),
 });
 
 export default connect(mapState, mapDispatch)(AddKidForm);

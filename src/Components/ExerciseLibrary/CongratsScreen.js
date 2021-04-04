@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import { Typography, makeStyles } from '@material-ui/core';
-import SecondaryPopup from '../SecondaryPopUp';
-import CongratsDialog from './CongratsDialog';
+import CongratsPopup from '../Popups/CongratsPopUp';
+import CongratsMessage from '../PopupViews/CongratsMessage';
 import { connect } from 'react-redux';
 
-function Congrats(props) {
-  console.log('CONGRATS PROPS-->', props);
+function CongratsScreen(props) {
   const classes = useStyles();
   const [runConfetti, setRunConfetti] = useState(true);
   const [open, setOpen] = useState(false);
@@ -29,22 +28,22 @@ function Congrats(props) {
         <Typography variant="h3" className={classes.text}>
           YOU DID IT! 🥳
         </Typography>
-        <SecondaryPopup open={open} setOpen={setOpen} name="" color="secondary">
-          <CongratsDialog {...props} />
-        </SecondaryPopup>
+        <CongratsPopup open={open} setOpen={setOpen} name="" color="secondary">
+          <CongratsMessage {...props} />
+        </CongratsPopup>
       </div>
     </div>
   );
 }
 
-const mapState = (state) => ({
+const mapState = state => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
   child: state.child,
   selectedChild: state.selectedChild,
 });
 
-export default connect(mapState, null)(Congrats);
+export default connect(mapState, null)(CongratsScreen);
 
 export const useStyles = makeStyles({
   body: {
