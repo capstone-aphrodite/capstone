@@ -84,7 +84,6 @@ const SingleExercise = props => {
             totalCount / 2
           )} left!`;
           setShadowColor(colors[colorGenerator(colors)]);
-          setUpdateCount(true);
           console.log('UPDATE COUNT -->', updateCount);
           console.log('TOTAL COUNT ==>', totalCount);
           previousPose = prediction[1].className;
@@ -118,9 +117,6 @@ const SingleExercise = props => {
   }, []);
   useEffect(() => {
     console.log('UPDATE COUNT USE EFFECT RUNNING');
-    if (updateCount === true) {
-      setUpdateCount(false);
-    }
     return shadowColor && countMessage;
   }, [setShadowColor]);
   useEffect(() => {
