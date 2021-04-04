@@ -58,7 +58,7 @@ module.exports = {
       });
       if (adult) {
         if (!bcrypt.compareSync(req.body.password, adult.password)) {
-          return res.sendStatus(401);
+          return res.status(401).send(false);
         }
         return res.status(200).send(true);
       }

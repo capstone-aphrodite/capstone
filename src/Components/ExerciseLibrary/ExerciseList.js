@@ -20,10 +20,10 @@ export const exercises = [
     numReps: 20,
     demo: '/images/Pushup-Demo.png',
   },
-  // {
-  //   id: '',
-  //   title: 'Jumping Jacks',
-  //   image: '/images/Jumping-jack-bunny.png',
-  //   numReps: 20,
-  // },
+  {
+    id: 'LntJuCpv1',
+    title: 'Jumping Jacks',
+    image: '/images/Jumping-jack-bunny.png',
+    numReps: 20,
+  },
 ];
