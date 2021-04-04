@@ -31,11 +31,11 @@ export function ChildDashboard(props) {
   useEffect(() => {
     setNeedsUpdate(false);
     selectChild(selectedChild);
-    if(selectedChild.dailyPoints >= selectedChild.dailyPointGoal){
+    if(selectedChild.dailyPoints > selectedChild.dailyPointGoal){
       selectedChild.dailyPoints = 0;
       updateChild(selectedChild);
     }
-    const dailyProgressOffset = ((100 - selectedChild.dailyPoints) / 100) * 339.292;
+    const dailyProgressOffset = ((selectedChild.dailyPointGoal - selectedChild.dailyPoints) / selectedChild.dailyPointGoal) * 339.292;
     if(dailyProgressOffset > 0){
       setDailyOffset(dailyProgressOffset);
     } else{
