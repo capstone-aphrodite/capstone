@@ -12,26 +12,11 @@ import {
   TableContainer,
 } from '@material-ui/core';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import Popup from './Popup';
-import EditIncentiveForm from './EditIncentiveForm';
+import AddKidPopup from '../Popups/AddKidPopup';
+import EditIncentiveForm from '../PopupViews/EditIncentiveForm';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
-  table: {
-    display: 'block',
-    maxWidth: 700,
-    margin: '0 auto',
-    marginTop: 20,
-    paddingRight: 10,
-    paddingLeft: 10,
-  },
-  title: {
-    textAlign: 'center',
-    paddingTop: 20,
-    fontFamily: 'atma',
-  },
-});
-export const ParentDashboard = props => {
+export const AdminDashboard = props => {
   const [open, setOpen] = useState(false);
   const [childToEdit, setChildToEdit] = useState('');
   const classes = useStyles();
@@ -87,13 +72,13 @@ export const ParentDashboard = props => {
           <div>No children</div>
         )}
 
-        <Popup open={open} setOpen={setOpen} name={`Edit Incentives`}>
+        <AddKidPopup open={open} setOpen={setOpen} name={`Edit Incentives`}>
           <EditIncentiveForm
             childToEdit={childToEdit}
             open={open}
             setOpen={setOpen}
           />
-        </Popup>
+        </AddKidPopup>
       </TableContainer>
     </div>
   );
@@ -109,4 +94,19 @@ const mapDispatch = dispatch => {
   return {};
 };
 
-export default connect(mapState, mapDispatch)(ParentDashboard);
+export default connect(mapState, mapDispatch)(AdminDashboard);
+const useStyles = makeStyles({
+  table: {
+    display: 'block',
+    maxWidth: 700,
+    margin: '0 auto',
+    marginTop: 20,
+    paddingRight: 10,
+    paddingLeft: 10,
+  },
+  title: {
+    textAlign: 'center',
+    paddingTop: 20,
+    fontFamily: 'atma',
+  },
+});

@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { updateChild, selectChild } from '../Store';
+import { updateChild, selectChild } from '../../Store';
 
 export function ChildDashboard(props) {
   const [dailyOffset, setDailyOffset] = useState(0);
@@ -31,28 +31,30 @@ export function ChildDashboard(props) {
   useEffect(() => {
     setNeedsUpdate(false);
     selectChild(selectedChild);
-    if(selectedChild.dailyPoints > selectedChild.dailyPointGoal){
+    if (selectedChild.dailyPoints > selectedChild.dailyPointGoal) {
       selectedChild.dailyPoints = 0;
       updateChild(selectedChild);
     }
-    const dailyProgressOffset = ((selectedChild.dailyPointGoal - selectedChild.dailyPoints) / selectedChild.dailyPointGoal) * 339.292;
-    if(dailyProgressOffset > 0){
+    const dailyProgressOffset =
+      ((selectedChild.dailyPointGoal - selectedChild.dailyPoints) /
+        selectedChild.dailyPointGoal) *
+      339.292;
+    if (dailyProgressOffset > 0) {
       setDailyOffset(dailyProgressOffset);
-    } else{
+    } else {
       setDailyOffset(0);
     }
-    if(selectedChild.totalPoints === 0){
+    if (selectedChild.totalPoints === 0) {
       setTotalOffset(((100 - selectedChild.totalPoints) / 100) * 339.292);
     } else {
-      setTotalOffset(0)
+      setTotalOffset(0);
     }
-    
+
     dailyCircleRef.current.style =
       'transition: stroke-dashoffset 850ms ease-in-out';
     totalCircleRef.current.style =
       'transition: stroke-dashoffset 850ms ease-in-out';
   }, [setDailyOffset, setTotalOffset, selectedChild, needsUpdate]);
-
 
   return (
     <>
@@ -130,7 +132,7 @@ export function ChildDashboard(props) {
                   strokeDasharray="339.292"
                   strokeDashoffset={totalOffset}
                 />
-                <text className="svg-circle-text" x='60' y='65'>
+                <text className="svg-circle-text" x="60" y="65">
                   <tspan>{`${selectedChild.totalPoints}`}</tspan>
                 </text>
               </svg>

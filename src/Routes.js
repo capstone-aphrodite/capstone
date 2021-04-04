@@ -9,8 +9,8 @@ import {
   FamilyDashboard,
   Navbar,
   LandingPage,
-  Congrats,
-  ParentDashboard,
+  CongratsScreen,
+  AdminDashboard,
 } from './Components';
 import { authMe } from './Store';
 import { connect } from 'react-redux';
@@ -41,8 +41,8 @@ class Routes extends Component {
               component={ChildDashboard}
             />
             <Route exact path="/home" component={FamilyDashboard} />
-            <Route exact path="/home/admin" component={ParentDashboard} />
-            <Route path="/congrats" component={Congrats} />
+            <Route exact path="/home/admin" component={AdminDashboard} />
+            <Route path="/congrats" component={CongratsScreen} />
           </Switch>
         )}
       </div>

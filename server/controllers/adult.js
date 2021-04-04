@@ -14,7 +14,7 @@ module.exports = {
         await adult.save();
         // const id = adult._id.toString();
         // req.session.userId = id.slice(-4);
-        req.login(adult, (error) => (error ? next(error) : res.json(adult)));
+        req.login(adult, error => (error ? next(error) : res.json(adult)));
       } else {
         return res.status(435).send('This email is already registered');
       }
@@ -32,7 +32,7 @@ module.exports = {
         if (!bcrypt.compareSync(req.body.password, adult.password)) {
           return res.sendStatus(401);
         }
-        req.login(adult, (error) => (error ? next(error) : res.json(adult)));
+        req.login(adult, error => (error ? next(error) : res.json(adult)));
       } else {
         res.sendStatus(403);
       }
@@ -51,7 +51,6 @@ module.exports = {
   },
 
   verifyPassword: async (req, res, next) => {
-    console.log(req.body);
     try {
       let adult = await Adult.findOne({
         email: req.user.email,
@@ -76,7 +75,7 @@ module.exports = {
       adult.child.push(req.body);
       await adult.save();
       let newChild = adult.child.find(
-        (elem) => elem.firstName === req.body.firstName
+        elem => elem.firstName === req.body.firstName
       );
       res.send(newChild);
     } catch (error) {
@@ -90,7 +89,7 @@ module.exports = {
         email: req.user.email,
       });
       const child = await adult.child.find(
-        (elem) => elem._id.toString() === req.body._id
+        elem => elem._id.toString() === req.body._id
       );
       Object.assign(child, req.body);
       await adult.save();
@@ -107,7 +106,7 @@ module.exports = {
       });
 
       adult.child = await adult.child.filter(
-        (elem) => elem._id.toString() !== req.body._id
+        elem => elem._id.toString() !== req.body._id
       );
       await adult.save();
       res.send(adult);
@@ -128,7 +127,6 @@ module.exports = {
 };
 
 schedule.scheduleJob('0 0 * * *', async () => {
-  console.log('hi');
   try {
     await Adult.updateMany(
       {},

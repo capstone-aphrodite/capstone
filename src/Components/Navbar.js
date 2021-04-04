@@ -15,40 +15,10 @@ import PropTypes from 'prop-types';
 import { logout, selectChild } from '../Store';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    padding: 4,
-  },
-  header: {
-    fontFamily: 'Atma',
-    fontWeight: 500,
-    alignItems: 'center',
-    fontSize: 31,
-    padding: 0,
-  },
-  right: {
-    display: 'flex',
-    width: '100%',
-    margin: 0,
-    justifyContent: 'flex-end',
-  },
-  left: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  chip: {
-    color: 'black',
-    border: '1px solid black',
-  },
-});
 export function Navbar({ handleClick, selectedChild, isLoggedIn }) {
   const history = useHistory();
   const classes = useStyles();
   selectedChild = selectedChild || {};
-  console.log('NAVBAR PROPSSSSSS -->', isLoggedIn);
   return (
     <div>
       <AppBar
@@ -128,3 +98,33 @@ export default connect(mapState, mapDispatch)(Navbar);
 Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
 };
+
+export const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    padding: 4,
+  },
+  header: {
+    fontFamily: 'Atma',
+    fontWeight: 500,
+    alignItems: 'center',
+    fontSize: 31,
+    padding: 0,
+  },
+  right: {
+    display: 'flex',
+    width: '100%',
+    margin: 0,
+    justifyContent: 'flex-end',
+  },
+  left: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  chip: {
+    color: 'black',
+    border: '1px solid black',
+  },
+});

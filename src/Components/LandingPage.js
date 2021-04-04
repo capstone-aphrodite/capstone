@@ -3,40 +3,6 @@ import { Button, Typography, Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
-  body: {
-    background:
-      'linear-gradient( 219deg, rgba(255,209,102,1) 0%, rgba(239,71,111,1) 51%, rgba(17,138,178,1) 100%)',
-    backgroundAttachment: 'fixed',
-    backgroundSize: 'cover',
-    overflow: 'hidden',
-    display: 'flex',
-    width: '100%',
-    height: '100vh',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    color: 'white',
-    fontFamily: 'Atma',
-    padding: 0,
-    margin: 20,
-    marginBottom: 0,
-  },
-  subtitle: {
-    paddingRight: 10,
-    paddingLeft: 10,
-    color: 'white',
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  items: {
-    margin: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 export default function LandingPage() {
   const classes = useStyles();
   return (
@@ -72,3 +38,38 @@ export default function LandingPage() {
     </div>
   );
 }
+
+const useStyles = makeStyles({
+  body: {
+    background:
+      'linear-gradient( 219deg, rgba(255,209,102,1) 0%, rgba(239,71,111,1) 51%, rgba(17,138,178,1) 100%)',
+    backgroundAttachment: 'fixed',
+    backgroundSize: 'cover',
+    overflow: 'hidden',
+    display: 'flex',
+    width: '100%',
+    height: '100vh',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    color: 'white',
+    fontFamily: 'Atma',
+    padding: 0,
+    margin: 20,
+    marginBottom: 0,
+  },
+  subtitle: {
+    paddingRight: 10,
+    paddingLeft: 10,
+    color: 'white',
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  items: {
+    margin: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

@@ -11,12 +11,12 @@ import {
 import AddCircle from '@material-ui/icons/AddCircle';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { authMe, selectChild } from '../Store';
-import AddKidForm from './AddKidForm';
-import Popup from './Popup';
-import history from '../history';
-import AuthPopup from './AuthPopup';
-import ReEnterPassword from './ReEnterPassword';
+import { authMe, selectChild } from '../../Store';
+import AddKidForm from '../PopupViews/AddKidForm';
+import AddKidPopup from '../Popups/AddKidPopup';
+import history from '../../history';
+import AuthPopup from '../Popups/AuthPopup';
+import ReEnterPassword from '../PopupViews/ReEnterPassword';
 
 function FamilyDashboard(props) {
   const [loading, setLoading] = useState(true);
@@ -104,9 +104,13 @@ function FamilyDashboard(props) {
         </IconButton>
       </div>
       <div>
-        <Popup open={open} setOpen={setOpen} name={`Create a Kid Profile`}>
+        <AddKidPopup
+          open={open}
+          setOpen={setOpen}
+          name={`Create a Kid Profile`}
+        >
           <AddKidForm setOpen={setOpen} />
-        </Popup>
+        </AddKidPopup>
       </div>
       <div>
         <Button variant="outlined" onClick={handleAuthClick}>
@@ -125,16 +129,16 @@ function FamilyDashboard(props) {
     </div>
   );
 }
-const mapState = (state) => ({
+const mapState = state => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
   child: state.child,
   selectedChild: state.selectedChild,
   verified: state.verified,
 });
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
-    selectChild: (child) => dispatch(selectChild(child)),
+    selectChild: child => dispatch(selectChild(child)),
     authMe: () => dispatch(authMe()),
   };
 };

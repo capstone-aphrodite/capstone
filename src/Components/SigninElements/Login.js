@@ -14,50 +14,6 @@ import { connect, useDispatch } from 'react-redux';
 import { authUser } from '../../Store';
 import { _setStatus } from '../../Store';
 
-export const useStyles = makeStyles({
-  root: {
-    background:
-      'linear-gradient( 219deg, rgba(255,209,102,1) 0%, rgba(239,71,111,1) 51%, rgba(17,138,178,1) 100%)',
-    backgroundAttachment: 'fixed',
-    height: '95vh',
-    display: 'flex',
-    alignContent: 'center',
-    justifyContent: 'center',
-    flexFlow: 'column nowrap',
-  },
-  paper: {
-    display: 'flex',
-    flexFlow: 'column nowrap',
-    margin: 'auto',
-    maxWidth: 800,
-    maxHeight: '100vh',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-  },
-  form: {
-    padding: 10,
-    margin: 10,
-  },
-  title: {
-    fontFamily: 'atma',
-  },
-  items: {
-    display: 'flex',
-    alignContent: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    marginTop: '20px',
-  },
-  link: {
-    fontWeight: 500,
-    textDecoration: 'none',
-    marginLeft: 3,
-    marginRight: 3,
-    marginBottom: 12,
-    color: 'primary',
-  },
-});
 export function Login(props) {
   const classes = useStyles();
   const { authUser, status } = props;
@@ -145,3 +101,48 @@ const mapDispatch = (dispatch, { history }) => ({
 });
 
 export default connect(mapState, mapDispatch)(Login);
+
+export const useStyles = makeStyles({
+  root: {
+    background:
+      'linear-gradient( 219deg, rgba(255,209,102,1) 0%, rgba(239,71,111,1) 51%, rgba(17,138,178,1) 100%)',
+    backgroundAttachment: 'fixed',
+    height: '95vh',
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    flexFlow: 'column nowrap',
+  },
+  paper: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    margin: 'auto',
+    maxWidth: 800,
+    maxHeight: '100vh',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  form: {
+    padding: 10,
+    margin: 10,
+  },
+  title: {
+    fontFamily: 'atma',
+  },
+  items: {
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    marginTop: '20px',
+  },
+  link: {
+    fontWeight: 500,
+    textDecoration: 'none',
+    marginLeft: 3,
+    marginRight: 3,
+    marginBottom: 12,
+    color: 'primary',
+  },
+});
