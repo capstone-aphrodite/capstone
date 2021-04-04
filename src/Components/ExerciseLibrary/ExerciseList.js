@@ -18,6 +18,7 @@ export const exercises = [
     title: 'Jumping Jacks',
     image: '/images/Jumping-jack-bunny.png',
     numReps: 20,
+    demo: '/images/jumpingjack-demo.png',
   },
   {
     id: 'gGrybkO4A',
