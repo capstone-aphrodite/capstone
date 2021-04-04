@@ -15,12 +15,12 @@ const UPDATED_CHILD = 'UPDATED_CHILD';
 const VERIFY_PASSWORD = 'VERIFY_PASSWORD';
 
 // Action Creator
-const _authUser = user => ({
+const _authUser = (user) => ({
   type: AUTH_USER,
   user,
 });
 
-const _getKid = kid => ({
+const _getKid = (kid) => ({
   type: GET_KID,
   kid,
 });
@@ -29,27 +29,27 @@ const _logoutUser = () => ({
   type: LOGOUT_USER,
 });
 
-const _selectChild = child => ({
+const _selectChild = (child) => ({
   type: SELECT_CHILD,
   child,
 });
 
-export const _setStatus = status => ({
+export const _setStatus = (status) => ({
   type: SET_STATUS,
   status,
 });
 
-const _deleteChild = updatedAdult => ({
+const _deleteChild = (updatedAdult) => ({
   type: DELETE_CHILD,
   updatedAdult,
 });
 
-const _updatedChild = child => ({
+const _updatedChild = (child) => ({
   type: UPDATED_CHILD,
   child,
 });
 
-const _verifyPassword = verified => ({
+export const _verifyPassword = (verified) => ({
   type: VERIFY_PASSWORD,
   verified,
 });
@@ -57,7 +57,7 @@ const _verifyPassword = verified => ({
 // Thunk
 
 export const authUser = (user, type, history) => {
-  return async dispatch => {
+  return async (dispatch) => {
     let adult;
     if (type === 'signup') {
       const { firstName, lastName, email, password } = user;
@@ -87,7 +87,7 @@ export const authUser = (user, type, history) => {
 };
 
 export const authMe = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const user = await axios.get('/auth/me');
       dispatch(_authUser(user.data || initialState));
@@ -97,8 +97,8 @@ export const authMe = () => {
   };
 };
 
-export const addKid = kidInfo => {
-  return async dispatch => {
+export const addKid = (kidInfo) => {
+  return async (dispatch) => {
     try {
       const kid = await axios.put('/api/addChild', kidInfo);
       dispatch(_getKid(kid.data));
@@ -108,7 +108,7 @@ export const addKid = kidInfo => {
   };
 };
 
-export const logout = () => async dispatch => {
+export const logout = () => async (dispatch) => {
   try {
     await axios.post('/auth/logout');
     dispatch(_logoutUser());
@@ -118,17 +118,17 @@ export const logout = () => async dispatch => {
   }
 };
 
-export const selectChild = kid => async dispatch => {
+export const selectChild = (kid) => async (dispatch) => {
   const { data } = await axios.get('/auth/me');
   const { child } = data;
-  let selected = child.find(elem => elem.firstName === kid.firstName);
+  let selected = child.find((elem) => elem.firstName === kid.firstName);
   if (selected) {
     selected['index'] = child.indexOf(selected);
   }
   dispatch(_selectChild(selected));
 };
 
-export const updateChild = childToUpdate => async dispatch => {
+export const updateChild = (childToUpdate) => async (dispatch) => {
   try {
     const { data } = await axios.put('/api/updateChild', childToUpdate);
     dispatch(_updatedChild(data));
@@ -137,7 +137,7 @@ export const updateChild = childToUpdate => async dispatch => {
   }
 };
 
-export const deleteChild = childToDelete => async dispatch => {
+export const deleteChild = (childToDelete) => async (dispatch) => {
   try {
     const { data } = await axios.put('/api/deleteChild', childToDelete);
     dispatch(_deleteChild(data));
@@ -146,13 +146,18 @@ export const deleteChild = childToDelete => async dispatch => {
   }
 };
 
-export const verifyPassword = password => {
-  return async dispatch => {
+export const verifyPassword = (password) => {
+  return async (dispatch) => {
     try {
       const { data } = await axios.put('/api/verifyPassword', password);
       dispatch(_verifyPassword(data));
     } catch (error) {
-      console.log('error in verify password', error);
+      if (error.response.status === 401) {
+        dispatch(_setStatus('Incorrect password'));
+      } else if (error.response.status === 500) {
+        dispatch(_verifyPassword(false));
+        console.log('error in verify password', error);
+      }
     }
   };
 };

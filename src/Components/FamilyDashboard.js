@@ -36,13 +36,10 @@ function FamilyDashboard(props) {
   }
 
   function handleAuthClick() {
-    console.log('handle click here');
     setAuthOpen(true);
-    console.log('authopen', authOpen);
   }
 
   async function handleChange({ profile, index }) {
-    console.log('PROFILE, INDEX', profile, index);
     await selectChild(profile);
     await history.push(`/childdashboard/${index}`);
   }
@@ -128,16 +125,16 @@ function FamilyDashboard(props) {
     </div>
   );
 }
-const mapState = state => ({
+const mapState = (state) => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
   child: state.child,
   selectedChild: state.selectedChild,
   verified: state.verified,
 });
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    selectChild: child => dispatch(selectChild(child)),
+    selectChild: (child) => dispatch(selectChild(child)),
     authMe: () => dispatch(authMe()),
   };
 };

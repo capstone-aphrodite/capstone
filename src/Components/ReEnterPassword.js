@@ -1,25 +1,37 @@
 import React, { useEffect } from 'react';
 import { Grid, TextField, Button, FormHelperText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { verifyPassword } from '../Store';
 import history from '../history';
+import { _setStatus, _verifyPassword } from '../Store';
+import Alert from '@material-ui/lab/Alert';
 
-export const ReEnterPassword = props => {
-  const { verifyPassword, setAuthOpen, verified } = props;
+export const ReEnterPassword = (props) => {
+  let { verifyPassword, setAuthOpen, verified, status } = props;
+  const [open, setOpen] = React.useState(false);
+  const noderef = React.useRef(null);
   const classes = useStyles();
+  const dispatch = useDispatch();
   async function handleSubmit(event) {
     event.preventDefault();
     const password = event.target.password.value;
     await verifyPassword({ password });
+    setOpen(true);
   }
 
   useEffect(() => {
     if (verified) {
       history.push('/home/admin');
-      setAuthOpen(false);
+      dispatch(_setStatus(null));
+      dispatch(_verifyPassword(false));
     }
-  }, [verified, setAuthOpen]);
+  }, [verified, dispatch, setAuthOpen]);
+
+  const handleClose = () => {
+    setAuthOpen(false);
+    dispatch(_setStatus(null));
+  };
 
   return (
     <>
@@ -48,18 +60,32 @@ export const ReEnterPassword = props => {
             </Button>
           </Grid>
         </Grid>
+        {status && (
+          <Alert
+            open={open}
+            severity="error"
+            color="error"
+            variant="outlined"
+            // autoHideDuration={3000}
+            onClose={handleClose}
+            noderef={noderef}
+          >
+            {status}
+          </Alert>
+        )}
       </form>
     </>
   );
 };
 
-const mapState = state => ({
+const mapState = (state) => ({
   email: state.email,
   verified: state.verified,
+  status: state.status,
 });
 
 const mapDispatch = (dispatch, { history }) => ({
-  verifyPassword: password => dispatch(verifyPassword(password)),
+  verifyPassword: (password) => dispatch(verifyPassword(password)),
 });
 
 export default connect(mapState, mapDispatch)(ReEnterPassword);
