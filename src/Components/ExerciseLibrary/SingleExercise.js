@@ -13,7 +13,7 @@ let startAnimation2;
 let demoImg;
 let countMessage;
 
-const SingleExercise = props => {
+const SingleExercise = (props) => {
   const { match, selectedChild, updateChild, location } = props;
   const [finishedExercise, setFinished] = useState(false);
   const [shadowColor, setShadowColor] = useState('#939190');
@@ -120,7 +120,7 @@ const SingleExercise = props => {
       return async function cleanup() {
         totalCount = location.reps;
         selectedChild.dailyPoints += 10;
-        selectedChild.totalPoints += selectedChild.dailyPoints;
+        selectedChild.totalPoints += 10;
         await updateChild(selectedChild);
         window.cancelAnimationFrame(startAnimation);
         window.cancelAnimationFrame(startAnimation2);
@@ -163,14 +163,14 @@ const SingleExercise = props => {
   );
 };
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     selectedChild: state.selectedChild,
   };
 };
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    updateChild: selectedChild => dispatch(updateChild(selectedChild)),
+    updateChild: (selectedChild) => dispatch(updateChild(selectedChild)),
   };
 };
 export default connect(mapState, mapDispatch)(SingleExercise);

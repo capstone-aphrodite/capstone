@@ -6,12 +6,12 @@ import history from '../history';
 
 // Action Type
 const AUTH_USER = 'AUTH_USER';
-const GET_KID = 'GET_KID';
+const SET_CHILDREN = 'SET_CHILDREN';
 const LOGOUT_USER = 'LOGOUT_USER';
 const SELECT_CHILD = 'SELECT_CHILD';
 const SET_STATUS = 'SET_STATUS';
 const DELETE_CHILD = 'DELETE_CHILD';
-const UPDATED_CHILD = 'UPDATED_CHILD';
+// const UPDATED_CHILD = 'UPDATED_CHILD';
 const VERIFY_PASSWORD = 'VERIFY_PASSWORD';
 
 // Action Creator
@@ -20,9 +20,9 @@ const _authUser = (user) => ({
   user,
 });
 
-const _getKid = (kid) => ({
-  type: GET_KID,
-  kid,
+const _setChildren = (children) => ({
+  type: SET_CHILDREN,
+  children,
 });
 
 const _logoutUser = () => ({
@@ -44,10 +44,10 @@ const _deleteChild = (updatedAdult) => ({
   updatedAdult,
 });
 
-const _updatedChild = (child) => ({
-  type: UPDATED_CHILD,
-  child,
-});
+// const _updatedChild = (child) => ({
+//   type: UPDATED_CHILD,
+//   child,
+// });
 
 export const _verifyPassword = (verified) => ({
   type: VERIFY_PASSWORD,
@@ -97,11 +97,11 @@ export const authMe = () => {
   };
 };
 
-export const addKid = (kidInfo) => {
+export const addChild = (childInfo) => {
   return async (dispatch) => {
     try {
-      const kid = await axios.put('/api/addChild', kidInfo);
-      dispatch(_getKid(kid.data));
+      const children = await axios.put('/api/addChild', childInfo);
+      dispatch(_setChildren(children.data));
     } catch (error) {
       console.log('Error creating child profile', error);
     }
@@ -118,20 +118,20 @@ export const logout = () => async (dispatch) => {
   }
 };
 
-export const selectChild = (kid) => async (dispatch) => {
+export const selectChild = (child) => async (dispatch) => {
   const { data } = await axios.get('/auth/me');
-  const { child } = data;
-  let selected = child.find((elem) => elem.firstName === kid.firstName);
+  const { children } = data;
+  let selected = children.find((elem) => elem.firstName === child.firstName);
   if (selected) {
-    selected['index'] = child.indexOf(selected);
+    selected['index'] = children.indexOf(selected);
   }
   dispatch(_selectChild(selected));
 };
 
-export const updateChild = (childToUpdate) => async (dispatch) => {
+export const updateChild = (child) => async (dispatch) => {
   try {
-    const { data } = await axios.put('/api/updateChild', childToUpdate);
-    dispatch(_updatedChild(data));
+    const { data } = await axios.put('/api/updateChild', child);
+    dispatch(_setChildren(data));
   } catch (error) {
     console.error(error);
   }
@@ -166,7 +166,7 @@ const initialState = {
   firstName: '',
   child: [],
   selectedChild: {},
-  updatedChild: {},
+  // updatedChild: {},
   status: null,
   verified: null,
 };
@@ -175,20 +175,20 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTH_USER:
       return action.user;
-    case GET_KID:
-      return { ...state, child: [...state.child, action.kid] };
+    case SET_CHILDREN:
+      return { ...state, children: action.children };
     case LOGOUT_USER:
       return initialState;
     case SELECT_CHILD:
       return { ...state, selectedChild: action.child };
-    case UPDATED_CHILD:
-      return { ...state, updatedChild: action.child };
+    // case UPDATED_CHILD:
+    //   return { ...state, updatedChild: action.child };
     case SET_STATUS:
       return { ...state, status: action.status };
     case DELETE_CHILD:
       return {
         ...state,
-        child: action.updatedAdult.child,
+        children: action.updatedAdult.children,
       };
     case VERIFY_PASSWORD:
       return {

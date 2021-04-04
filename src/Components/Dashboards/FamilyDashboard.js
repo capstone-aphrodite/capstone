@@ -58,7 +58,7 @@ function FamilyDashboard(props) {
         Welcome, {props.firstName}!
       </Typography>
       <div>
-        {!!props.child ? (
+        {!!props.children ? (
           <Grid
             container
             spacing={2}
@@ -69,7 +69,7 @@ function FamilyDashboard(props) {
             <Grid item xs={12}>
               <Typography variant="h5"> Who is playing? </Typography>
             </Grid>
-            {props.child.map((profile, index) => {
+            {props.children.map((profile, index) => {
               return (
                 <Grid item key={index} xs={4} className={classes.grid}>
                   <IconButton
@@ -129,16 +129,16 @@ function FamilyDashboard(props) {
     </div>
   );
 }
-const mapState = state => ({
+const mapState = (state) => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
-  child: state.child,
+  children: state.children,
   selectedChild: state.selectedChild,
   verified: state.verified,
 });
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    selectChild: child => dispatch(selectChild(child)),
+    selectChild: (child) => dispatch(selectChild(child)),
     authMe: () => dispatch(authMe()),
   };
 };

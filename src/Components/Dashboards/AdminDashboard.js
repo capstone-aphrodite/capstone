@@ -16,7 +16,7 @@ import AddKidPopup from '../Popups/AddKidPopup';
 import EditIncentiveForm from '../PopupViews/EditIncentiveForm';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const AdminDashboard = props => {
+export const AdminDashboard = (props) => {
   const [open, setOpen] = useState(false);
   const [childToEdit, setChildToEdit] = useState('');
   const classes = useStyles();
@@ -31,10 +31,10 @@ export const AdminDashboard = props => {
         daily goal or available rewards.
       </Typography>
       <TableContainer>
-        {props.child.length ? (
+        {props.children.length ? (
           <Table>
             <TableBody>
-              {props.child.map(child => {
+              {props.children.map((child) => {
                 return (
                   <TableRow key={child._id}>
                     <TableCell align="center" padding="none">
@@ -55,7 +55,8 @@ export const AdminDashboard = props => {
                     <TableCell align="right" padding="none">
                       <IconButton
                         onClick={() => {
-                          setChildToEdit({ child });
+                          setChildToEdit(child);
+                          console.log('ChildToEdit: ', child);
                           setOpen(true);
                         }}
                         aria-label="edit"
@@ -84,17 +85,13 @@ export const AdminDashboard = props => {
   );
 };
 
-const mapState = state => ({
+const mapState = (state) => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
-  child: state.child,
+  children: state.children,
 });
 
-const mapDispatch = dispatch => {
-  return {};
-};
-
-export default connect(mapState, mapDispatch)(AdminDashboard);
+export default connect(mapState)(AdminDashboard);
 const useStyles = makeStyles({
   table: {
     display: 'block',
