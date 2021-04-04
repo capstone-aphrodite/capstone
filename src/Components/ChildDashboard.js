@@ -31,21 +31,28 @@ export function ChildDashboard(props) {
   useEffect(() => {
     setNeedsUpdate(false);
     selectChild(selectedChild);
-    let dailyPoints = selectedChild.dailyPoints;
-    let totalPoints = selectedChild.totalPoints;
-    // this is hard coded for the goal to be 100 points
-    // should be: (total points - progress)
-    const dailyProgressOffset = ((100 - dailyPoints) / 100) * 339.292;
-    setDailyOffset(dailyProgressOffset);
-
-    const totalProgressOffset = ((100 - totalPoints) / 100) * 339.292;
-    setTotalOffset(totalProgressOffset);
-
+    if(selectedChild.dailyPoints >= selectedChild.dailyPointGoal){
+      selectedChild.dailyPoints = 0;
+      updateChild(selectedChild);
+    }
+    const dailyProgressOffset = ((100 - selectedChild.dailyPoints) / 100) * 339.292;
+    if(dailyProgressOffset > 0){
+      setDailyOffset(dailyProgressOffset);
+    } else{
+      setDailyOffset(0);
+    }
+    if(selectedChild.totalPoints === 0){
+      setTotalOffset(((100 - selectedChild.totalPoints) / 100) * 339.292);
+    } else {
+      setTotalOffset(0)
+    }
+    
     dailyCircleRef.current.style =
       'transition: stroke-dashoffset 850ms ease-in-out';
     totalCircleRef.current.style =
       'transition: stroke-dashoffset 850ms ease-in-out';
   }, [setDailyOffset, setTotalOffset, selectedChild, needsUpdate]);
+
 
   return (
     <>
@@ -87,12 +94,12 @@ export function ChildDashboard(props) {
                   strokeDashoffset={dailyOffset}
                 />
                 <text className="svg-circle-text" x="60" y="60">
-                  {`${selectedChild.dailyPoints}`}%
+                  <tspan>{`${selectedChild.dailyPoints}/${selectedChild.dailyPointGoal}`}</tspan>
                 </text>
               </svg>
             </div>
             <div className="progress-circle">
-              <div className="points-label">Total Points</div>
+              <div className="points-label">Lifetime Points</div>
               <svg
                 className="progress"
                 width="120"
@@ -123,8 +130,8 @@ export function ChildDashboard(props) {
                   strokeDasharray="339.292"
                   strokeDashoffset={totalOffset}
                 />
-                <text className="svg-circle-text" x="60" y="60">
-                  {`${selectedChild.totalPoints}`}%
+                <text className="svg-circle-text" x='60' y='60'>
+                  <tspan>{`${selectedChild.totalPoints}`}</tspan>
                 </text>
               </svg>
             </div>
@@ -135,7 +142,7 @@ export function ChildDashboard(props) {
               {selectedChild.rewardOptions.length === 0 ? (
                 <Typography variant="subtitle1">
                   {' '}
-                  Ask your grown-up to add some!
+                  Ask your grown-up to add rewards!
                 </Typography>
               ) : (
                 <FormControl>
