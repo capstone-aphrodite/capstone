@@ -93,7 +93,7 @@ export function ChildDashboard(props) {
                   strokeDasharray="339.292"
                   strokeDashoffset={dailyOffset}
                 />
-                <text className="svg-circle-text" x="60" y="60">
+                <text className="svg-circle-text" x="60" y="65">
                   <tspan>{`${selectedChild.dailyPoints}/${selectedChild.dailyPointGoal}`}</tspan>
                 </text>
               </svg>
@@ -130,7 +130,7 @@ export function ChildDashboard(props) {
                   strokeDasharray="339.292"
                   strokeDashoffset={totalOffset}
                 />
-                <text className="svg-circle-text" x='60' y='60'>
+                <text className="svg-circle-text" x='60' y='65'>
                   <tspan>{`${selectedChild.totalPoints}`}</tspan>
                 </text>
               </svg>
