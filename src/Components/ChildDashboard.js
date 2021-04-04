@@ -56,11 +56,16 @@ export function ChildDashboard(props) {
             <div className="progress-circle">
               <div className="points-label">Daily Points</div>
               <svg
-                className="progress"
+                className="dailyProgress"
                 width="120"
                 height="120"
                 viewBox="0 0 120 120"
               >
+                <linearGradient id="dailyColors" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#1ed882"></stop>
+                  <stop offset="52%" stop-color="#17af9b"></stop>
+                  <stop offset="100%" stop-color="#118ab2"></stop>
+                </linearGradient>
                 <circle
                   cx="60"
                   cy="60"
@@ -76,7 +81,7 @@ export function ChildDashboard(props) {
                   r="54"
                   fill="none"
                   ref={dailyCircleRef}
-                  stroke="#f77a52"
+                  stroke="url(#dailyColors)"
                   strokeWidth="12"
                   strokeDasharray="339.292"
                   strokeDashoffset={dailyOffset}
@@ -94,6 +99,10 @@ export function ChildDashboard(props) {
                 height="120"
                 viewBox="0 0 120 120"
               >
+                <linearGradient id="totalColors" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="20%" stop-color="#dfb045"></stop>
+                  <stop offset="95%" stop-color="#ffd166"></stop>
+                </linearGradient>
                 <circle
                   cx="60"
                   cy="60"
@@ -109,7 +118,7 @@ export function ChildDashboard(props) {
                   r="54"
                   fill="none"
                   ref={totalCircleRef}
-                  stroke="#f77a52"
+                  stroke="url(#totalColors)"
                   strokeWidth="12"
                   strokeDasharray="339.292"
                   strokeDashoffset={totalOffset}
@@ -134,7 +143,7 @@ export function ChildDashboard(props) {
                     value={selectedChild.selectedReward}
                     onChange={handleChange}
                     disableUnderline
-                    variant="filled"
+                    variant="outlined"
                   >
                     {selectedChild.rewardOptions.map(reward => (
                       <MenuItem key={reward} value={reward}>
