@@ -5,9 +5,9 @@ import {
   Button,
   FormControl,
   Typography,
-  Snackbar,
-  SnackbarContent,
+  Paper,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
@@ -16,15 +16,31 @@ import { _setStatus } from '../../Store';
 
 export const useStyles = makeStyles({
   root: {
-    minWidth: 250,
-    maxWidth: 375,
-    height: '100vh',
+    background:
+      'linear-gradient( 219deg, rgba(255,209,102,1) 0%, rgba(239,71,111,1) 51%, rgba(17,138,178,1) 100%)',
+    backgroundAttachment: 'fixed',
+    height: '95vh',
     display: 'flex',
     alignContent: 'center',
     justifyContent: 'center',
     flexFlow: 'column nowrap',
-    padding: 20,
+  },
+  paper: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
     margin: 'auto',
+    maxWidth: 800,
+    maxHeight: '100vh',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  form: {
+    padding: 10,
+    margin: 10,
+  },
+  title: {
+    fontFamily: 'atma',
   },
   items: {
     display: 'flex',
@@ -38,6 +54,7 @@ export const useStyles = makeStyles({
     textDecoration: 'none',
     marginLeft: 3,
     marginRight: 3,
+    marginBottom: 12,
     color: 'primary',
   },
 });
@@ -63,59 +80,68 @@ export function Login(props) {
 
   return (
     <div className={classes.root}>
-      <form onSubmit={handleSubmit}>
-        <FormControl required variant="outlined" className={classes.items}>
-          <InputLabel htmlFor="email">Email</InputLabel>
-          <Input name="email" type="text" className={classes.items} />
-        </FormControl>
-        <FormControl required className={classes.items}>
-          <InputLabel htmlFor="password">Password</InputLabel>
-          <Input name="password" type="password" className={classes.items} />
-        </FormControl>
+      <Paper className={classes.paper} component="div">
+        <form onSubmit={handleSubmit} className={classes.form}>
+          <Typography variant="h5" className={classes.title}>
+            Welcome Back!
+          </Typography>
+          <Typography variant="body2">
+            Enter your login credentials below
+          </Typography>
+          <FormControl required variant="outlined" className={classes.items}>
+            <InputLabel htmlFor="email">Email</InputLabel>
+            <Input name="email" type="text" className={classes.items} />
+          </FormControl>
+          <FormControl required className={classes.items}>
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <Input name="password" type="password" className={classes.items} />
+          </FormControl>
 
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          className={classes.items}
-          onSubmit={handleSubmit}
-          disableElevation
-        >
-          Login
-        </Button>
-      </form>
-      {status && (
-        <Snackbar
-          open={open}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          noderef={noderef}
-        >
-          <SnackbarContent
-            style={{ backgroundColor: 'red' }}
-            message={status}
-          />
-        </Snackbar>
-      )}
-      <Typography variant="body2" className={classes.items}>
-        New to Wigglee? Click
-        <Link to="/signup" className={classes.link}>
-          here
-        </Link>
-        to sign up
-      </Typography>
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            className={classes.items}
+            onSubmit={handleSubmit}
+            disableElevation
+          >
+            Login
+          </Button>
+        </form>
+        <Typography variant="body2" className={classes.items}>
+          New to Wigglee? Click
+          <Link to="/signup" className={classes.link}>
+            here
+          </Link>
+          to sign up
+        </Typography>
+
+        {status && (
+          <Alert
+            open={open}
+            severity="error"
+            color="error"
+            variant="outlined"
+            autoHideDuration={3000}
+            onClose={handleClose}
+            noderef={noderef}
+          >
+            {status}
+          </Alert>
+        )}
+      </Paper>
     </div>
   );
 }
 
-const mapState = (state) => ({
+const mapState = state => ({
   firstName: state.firstName,
   child: state.child,
   status: state.status,
 });
 
 const mapDispatch = (dispatch, { history }) => ({
-  authUser: (user) => dispatch(authUser(user, 'login', history)),
+  authUser: user => dispatch(authUser(user, 'login', history)),
 });
 
 export default connect(mapState, mapDispatch)(Login);

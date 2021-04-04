@@ -14,11 +14,8 @@ export const useStyles = makeStyles({
 });
 
 export default function AuthPopup(props) {
-  console.log('PROPSSSSSS', props);
   const classes = useStyles();
   const { open, setAuthOpen, color, children, name } = props;
-
-  console.log('HELLLLLLLOOOOOOOOOOOOO');
   return (
     <Dialog
       className={classes.background}

@@ -4,6 +4,7 @@ export const exercises = [
     title: 'Head Nods (Test)',
     image: '/images/Jumping-jack-bunny.png',
     numReps: 10,
+    demo: '/images/jumpingjack-demo.png',
   },
   {
     id: 'pt5naThnv',
@@ -17,6 +18,7 @@ export const exercises = [
     title: 'Push-ups',
     image: '/images/Push-up-kitty.png',
     numReps: 20,
+    demo: '/images/Pushup-Demo.png',
   },
   // {
   //   id: '',

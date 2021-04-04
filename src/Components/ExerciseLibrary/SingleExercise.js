@@ -5,23 +5,22 @@ import * as tmPose from '@teachablemachine/pose';
 import { connect } from 'react-redux';
 import { updateChild } from '../../Store';
 import { LinearProgress, Typography } from '@material-ui/core';
-import Skeleton from '@material-ui/lab/Skeleton';
+import { colors, colorGenerator } from './ColorGenerator';
 
 //*********** UPDATE to {exercise.count}
 let totalCount;
 let startAnimation;
 let startAnimation2;
 let demoImg;
+let countMessage;
 
 const SingleExercise = props => {
   const { match, selectedChild, updateChild, location } = props;
   const [finishedExercise, setFinished] = useState(false);
+  const [shadowColor, setShadowColor] = useState('#939190');
+  const [updateCount, setUpdateCount] = useState(false);
   const [isLoading, setLoading] = useState(true);
-  const [showPhoto, setShowPhoto] = useState(true);
-
-  totalCount = location.reps;
   demoImg = location.demo;
-  console.log('LOCATION PROPS', location);
 
   const id = match.params.id;
   let previousPose;
@@ -30,6 +29,7 @@ const SingleExercise = props => {
   let model, webcam, ctx;
 
   async function init() {
+    totalCount = location.reps;
     const modelURL = URL + 'model.json';
     const metadataURL = URL + 'metadata.json';
     model = await tmPose.load(modelURL, metadataURL);
@@ -69,7 +69,6 @@ const SingleExercise = props => {
     const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
-
     let repContainer = document.getElementById('rep-container');
 
     if (totalCount > 0) {
@@ -81,9 +80,12 @@ const SingleExercise = props => {
       } else if (prediction[1].probability.toFixed(2) >= 0.75) {
         if (prediction[1].className !== previousPose) {
           totalCount--;
-          repContainer.innerHTML = `You have ${Math.ceil(
+          countMessage = repContainer.innerHTML = `You have ${Math.ceil(
             totalCount / 2
           )} left!`;
+          setShadowColor(colors[colorGenerator(colors)]);
+          console.log('UPDATE COUNT -->', updateCount);
+          console.log('TOTAL COUNT ==>', totalCount);
           previousPose = prediction[1].className;
         }
       }
@@ -109,13 +111,14 @@ const SingleExercise = props => {
 
   useEffect(() => {
     init();
-    console.log('USE EFFECT INIT CALLED');
     setTimeout(() => {
       setLoading(false);
-      console.log('SHOW PHOTO TIMEOUT', isLoading);
     }, 5000);
   }, []);
-
+  useEffect(() => {
+    console.log('UPDATE COUNT USE EFFECT RUNNING');
+    return shadowColor && countMessage;
+  }, [setShadowColor]);
   useEffect(() => {
     if (finishedExercise === true) {
       console.log('POINTS ADDING');
@@ -144,7 +147,11 @@ const SingleExercise = props => {
               hidden={!isLoading}
               style={{ maxWidth: '400px' }}
             />
-            <canvas id="canvas" hidden={isLoading} />
+            <canvas
+              id="canvas"
+              hidden={isLoading}
+              style={{ boxShadow: `0px 3px 30px 15px ${shadowColor}` }}
+            />
           </>
         )}
       </div>
