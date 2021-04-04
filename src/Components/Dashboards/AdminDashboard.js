@@ -56,7 +56,6 @@ export const AdminDashboard = (props) => {
                       <IconButton
                         onClick={() => {
                           setChildToEdit(child);
-                          console.log('ChildToEdit: ', child);
                           setOpen(true);
                         }}
                         aria-label="edit"
