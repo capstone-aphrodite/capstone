@@ -1,12 +1,5 @@
 export const exercises = [
   {
-    id: 'gGrybkO4A',
-    title: 'Head Nods (Test)',
-    image: '/images/Jumping-jack-bunny.png',
-    numReps: 10,
-    demo: '/images/jumpingjack-demo.png',
-  },
-  {
     id: 'pt5naThnv',
     title: 'Burpees',
     image: '/images/Burpee-chipmunk.png',
@@ -25,5 +18,12 @@ export const exercises = [
     title: 'Jumping Jacks',
     image: '/images/Jumping-jack-bunny.png',
     numReps: 20,
+  },
+  {
+    id: 'gGrybkO4A',
+    title: 'Head Nods (Test)',
+    image: '/images/Jumping-jack-bunny.png',
+    numReps: 10,
+    demo: '/images/jumpingjack-demo.png',
   },
 ];
