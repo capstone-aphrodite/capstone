@@ -121,11 +121,10 @@ const SingleExercise = props => {
   }, [setShadowColor]);
   useEffect(() => {
     if (finishedExercise === true) {
-      console.log('POINTS ADDING');
       return async function cleanup() {
         totalCount = location.reps;
         selectedChild.dailyPoints += 10;
-        console.log('EXERCISE DAILY POINTS', selectedChild.dailyPoints);
+        selectedChild.totalPoints+=selectedChild.dailyPoints;
         await updateChild(selectedChild);
         window.cancelAnimationFrame(startAnimation);
         window.cancelAnimationFrame(startAnimation2);
