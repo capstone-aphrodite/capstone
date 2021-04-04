@@ -17,10 +17,10 @@ export function ChildDashboard(props) {
   const [needsUpdate, setNeedsUpdate] = useState(false);
   const dailyCircleRef = useRef(null);
   const totalCircleRef = useRef(null);
-  let { selectedChild, updateChild, selectChild, child } = props;
+  let { selectedChild, updateChild, selectChild, children } = props;
 
   let childId = props.match.params.id;
-  selectedChild = child[childId];
+  selectedChild = children[childId];
 
   async function handleChange(event) {
     selectedChild.selectedReward = event.target.value;
@@ -154,7 +154,7 @@ export function ChildDashboard(props) {
                     disableUnderline
                     variant="outlined"
                   >
-                    {selectedChild.rewardOptions.map(reward => (
+                    {selectedChild.rewardOptions.map((reward) => (
                       <MenuItem key={reward} value={reward}>
                         {reward}
                       </MenuItem>
@@ -180,22 +180,22 @@ export function ChildDashboard(props) {
         </div>
       ) : (
         <div></div>
-      )}{' '}
+      )}
     </>
   );
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
-    child: state.child,
+    children: state.children,
     selectedChild: state.selectedChild,
   };
 };
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    updateChild: selectedChild => dispatch(updateChild(selectedChild)),
-    selectChild: currentChild => dispatch(selectChild(currentChild)),
+    updateChild: (selectedChild) => dispatch(updateChild(selectedChild)),
+    selectChild: (currentChild) => dispatch(selectChild(currentChild)),
   };
 };
 

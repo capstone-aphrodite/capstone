@@ -36,10 +36,10 @@ function CongratsScreen(props) {
   );
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   isLoggedIn: !!state.firstName,
   firstName: state.firstName,
-  child: state.child,
+  children: state.children,
   selectedChild: state.selectedChild,
 });
 

@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { addKid } from '../../Store';
+import { addChild } from '../../Store';
 
 const avatars = [
   { name: 'Parrot', image: '/images/parrot.png' },
@@ -23,15 +23,15 @@ const avatars = [
   { name: 'Giraffe', image: '/images/giraffe.png' },
 ];
 
-export const AddKidForm = props => {
-  const { setOpen, addKid } = props;
+export const AddKidForm = (props) => {
+  const { setOpen, addChild } = props;
   const classes = useStyles();
   const [avatarURL, setAvatarURL] = useState('');
   function handleSubmit(event) {
     event.preventDefault();
     const firstName = event.target.first.value;
     const avatar = avatarURL;
-    addKid({ firstName, avatar });
+    addChild({ firstName, avatar });
     setOpen(false);
   }
   return (
@@ -44,7 +44,7 @@ export const AddKidForm = props => {
           <FormHelperText>Choose your avatar</FormHelperText>
           <Select
             required
-            onChange={event => setAvatarURL(event.target.value)}
+            onChange={(event) => setAvatarURL(event.target.value)}
             defaultValue=""
           >
             {avatars.map((avatar, index) => (
@@ -70,13 +70,12 @@ export const AddKidForm = props => {
   );
 };
 
-const mapState = state => ({
+const mapState = (state) => ({
   isLoggedIn: !!state.firstName,
-  // state,
 });
 
-const mapDispatch = dispatch => ({
-  addKid: kid => dispatch(addKid(kid)),
+const mapDispatch = (dispatch) => ({
+  addChild: (child) => dispatch(addChild(child)),
 });
 
 export default connect(mapState, mapDispatch)(AddKidForm);

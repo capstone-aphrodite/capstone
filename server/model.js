@@ -22,7 +22,7 @@ let adultSchema = new Schema({
     type: String,
     required: true,
   },
-  child: [
+  children: [
     {
       firstName: { type: String },
       avatar: {

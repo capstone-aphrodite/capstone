@@ -29,8 +29,8 @@ export function EditIncentiveForm({
 }) {
   const classes = useStyles();
   const [text, setText] = useState('');
-  const [pointGoal, setPointGoal] = useState(childToEdit.child.dailyPointGoal);
-  const [rewards, setRewards] = useState(childToEdit.child.rewardOptions);
+  const [pointGoal, setPointGoal] = useState(childToEdit.dailyPointGoal);
+  const [rewards, setRewards] = useState(childToEdit.rewardOptions);
   const [incompleteForm, setIncompleteForm] = useState('');
   const noderef = React.useRef(null);
 
@@ -44,16 +44,16 @@ export function EditIncentiveForm({
       return;
     } else {
       setIncompleteForm('');
-      childToEdit.child.dailyPointGoal = pointGoal;
-      childToEdit.child.rewardOptions = rewards;
-      updateChild(childToEdit.child);
+      childToEdit.dailyPointGoal = pointGoal;
+      childToEdit.rewardOptions = rewards;
+      updateChild(childToEdit);
       setOpen(false);
     }
   }
 
   function handleDeleteChild(event) {
     event.preventDefault();
-    deleteChild(childToEdit.child);
+    deleteChild(childToEdit);
     setOpen(false);
   }
 
@@ -68,7 +68,7 @@ export function EditIncentiveForm({
 
   function handleDelete(event) {
     const deleted = event.target.getAttribute('value');
-    setRewards(rewards.filter(reward => reward !== deleted));
+    setRewards(rewards.filter((reward) => reward !== deleted));
   }
 
   useEffect(() => {
@@ -88,19 +88,19 @@ export function EditIncentiveForm({
             variant="outlined"
             defaultValue={pointGoal}
             type="text"
-            onChange={event => handleChange(setPointGoal, event)}
+            onChange={(event) => handleChange(setPointGoal, event)}
             value={pointGoal}
           />
         </FormControl>
         <FormControl>
           <FormHelperText> Current Rewards</FormHelperText>
           <List>
-            {!!childToEdit.child.rewardOptions ? (
+            {!!childToEdit.rewardOptions ? (
               rewards.map((reward, index) => {
                 return (
                   <ListItem key={index}>
                     <ListItemText primary={reward} />
-                    <ListItemSecondaryAction onClick={e => handleDelete(e)}>
+                    <ListItemSecondaryAction onClick={(e) => handleDelete(e)}>
                       <IconButton edge="start" value={reward} name={reward}>
                         <ClearIcon
                           value={reward}
@@ -117,7 +117,7 @@ export function EditIncentiveForm({
             )}
             <OutlinedInput
               type="text"
-              onChange={event => handleChange(setText, event)}
+              onChange={(event) => handleChange(setText, event)}
               value={text}
               endAdornment={
                 <InputAdornment position="end">
@@ -172,10 +172,10 @@ export function EditIncentiveForm({
   );
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    updateChild: selectedChild => dispatch(updateChild(selectedChild)),
-    deleteChild: selectedChild => dispatch(deleteChild(selectedChild)),
+    updateChild: (selectedChild) => dispatch(updateChild(selectedChild)),
+    deleteChild: (selectedChild) => dispatch(deleteChild(selectedChild)),
   };
 };
 
