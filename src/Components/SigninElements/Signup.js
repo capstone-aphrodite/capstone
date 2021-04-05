@@ -10,11 +10,11 @@ import {
   Paper,
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-import { useStyles } from './Login';
 import { Link } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import { authUser } from '../../Store';
 import { _setStatus } from '../../Store';
+import { makeStyles } from '@material-ui/core/styles';
 
 export function Signup(props) {
   const { authUser, status } = props;
@@ -61,7 +61,7 @@ export function Signup(props) {
             />
           </FormControl>
           <FormControl required className={classes.items}>
-            <InputLabel htmlFor="lastName">LastName</InputLabel>
+            <InputLabel htmlFor="lastName">Last Name</InputLabel>
             <Input
               name="lastName"
               type="text"
@@ -144,7 +144,12 @@ export function Signup(props) {
         )}
         <Typography variant="body2" className={classes.items}>
           Already a member? Click
-          <Link to="/login" className={classes.link}>
+          <Link
+            to="/login"
+            className={classes.link}
+            variant="body2"
+            color="primary"
+          >
             here
           </Link>
           to login
@@ -165,3 +170,49 @@ const mapDispatch = (dispatch, { history }) => ({
 });
 
 export default connect(mapState, mapDispatch)(Signup);
+
+export const useStyles = makeStyles({
+  root: {
+    background:
+      'linear-gradient( 219deg, rgba(255,209,102,1) 0%, rgba(239,71,111,1) 51%, rgba(17,138,178,1) 100%)',
+    backgroundAttachment: 'fixed',
+    height: '100vh',
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    flexFlow: 'column nowrap',
+  },
+  paper: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    margin: 'auto',
+    marginTop: 30,
+    maxWidth: 800,
+    maxHeight: '100vh',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  form: {
+    padding: 10,
+    paddingBottom: 5,
+    margin: 10,
+  },
+  title: {
+    fontFamily: 'atma',
+  },
+  items: {
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    marginTop: '12px',
+  },
+  link: {
+    marginLeft: 4,
+    marginRight: 4,
+    textDecoration: 0,
+    fontWeight: 'bold',
+    color: '#118AB2',
+  },
+});
