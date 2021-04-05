@@ -17,7 +17,7 @@ const SingleExercise = props => {
   const { match, selectedChild, updateChild, location } = props;
   const [finishedExercise, setFinished] = useState(false);
   const [shadowColor, setShadowColor] = useState('#939190');
-  const [isLoading, setLoading] = useState(true);
+  // const [isLoading, setLoading] = useState(true);
   demoImg = location.demo;
 
   const id = match.params.id;
@@ -108,9 +108,6 @@ const SingleExercise = props => {
 
   useEffect(() => {
     init();
-    setTimeout(() => {
-      setLoading(false);
-    }, 9000);
   }, []);
   useEffect(() => {
     return shadowColor && countMessage;
@@ -135,30 +132,14 @@ const SingleExercise = props => {
         {finishedExercise ? (
           <Redirect to="/congrats" />
         ) : (
-          <>
-            <img
-              alt="demo"
-              src={demoImg}
-              hidden={!isLoading}
-              style={{ maxWidth: '400px' }}
-            />
+          <div>
             <canvas
               id="canvas"
-              hidden={isLoading}
               style={{ boxShadow: `0px 3px 30px 15px ${shadowColor}` }}
             />
-          </>
+          </div>
         )}
       </div>
-      {isLoading ? (
-        <div>
-          <LinearProgress />
-        </div>
-      ) : (
-        <Typography id="rep-container" variant="h4">
-          Ready, set, go!
-        </Typography>
-      )}
     </div>
   );
 };
@@ -174,3 +155,20 @@ const mapDispatch = dispatch => {
   };
 };
 export default connect(mapState, mapDispatch)(SingleExercise);
+
+/* <img
+              alt="demo"
+              src={demoImg}
+              hidden={!isLoading}
+              style={{ maxWidth: '400px' }}
+            /> */
+//   {/* {isLoading ? (
+//     <div>
+//       <LinearProgress />
+//     </div>
+//   ) : (
+//     <Typography id="rep-container" variant="h4">
+//       Ready, set, go!
+//     </Typography>
+//   )}
+// </div> */}
