@@ -35,11 +35,10 @@ if (process.env.NODE_ENV === "development") {
     useUnifiedTopology: true,
   });
   app.use(function (req, res, next) {
-    if (req.secure) {
-      next();
-    } else {
-      res.redirect("https://" + req.headers.host + req.url);
+    if (req.headers["x-forwarded-proto"] !== "https") {
+      return res.redirect(["https://", req.get("Host"), req.url].join(""));
     }
+    return next();
   });
 }
 
