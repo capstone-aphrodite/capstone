@@ -126,6 +126,7 @@ export const useStyles = makeStyles({
   form: {
     padding: 10,
     margin: 10,
+    paddingBottom: 5,
   },
   title: {
     fontFamily: 'atma',
@@ -138,11 +139,11 @@ export const useStyles = makeStyles({
     marginTop: '20px',
   },
   link: {
-    fontWeight: 500,
+    fontWeight: 'bold',
     textDecoration: 'none',
     marginLeft: 3,
     marginRight: 3,
     marginBottom: 12,
-    color: 'primary',
+    color: '#118AB2',
   },
 });
