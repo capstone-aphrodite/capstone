@@ -45,10 +45,9 @@ connection.once('open', function () {
 //passport registration
 passport.serializeUser((adult, done) => done(null, adult.id));
 
-passport.deserializeUser(async (id, done) => {
+passport.deserializeUser(async (_id, done) => {
   try {
-    const adult = await Adult.findById(id);
-    delete adult.password;
+    const adult = await Adult.findById(_id).select('-password');
     done(null, adult);
   } catch (error) {
     done(error);
@@ -77,15 +76,6 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
-//because public/index.html doesnt have javascript in it. no script tags.
-//only in production because only heroku(production) will do npm run build. Unique to create react app
-
-// if (process.env.NODE_ENV === "production") {
-
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../build", "index.html"));
-// });
-// }
 
 app.use((req, res, next) => {
   if (path.extname(req.path).length) {
