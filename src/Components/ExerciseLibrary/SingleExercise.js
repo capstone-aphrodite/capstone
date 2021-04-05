@@ -132,12 +132,13 @@ const SingleExercise = props => {
         {finishedExercise ? (
           <Redirect to="/congrats" />
         ) : (
-          <div>
+          <>
             <canvas
               id="canvas"
               style={{ boxShadow: `0px 3px 30px 15px ${shadowColor}` }}
             />
-          </div>
+            <div id="rep-container"></div>
+          </>
         )}
       </div>
     </div>
