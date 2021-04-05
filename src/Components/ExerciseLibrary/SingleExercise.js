@@ -17,7 +17,7 @@ const SingleExercise = props => {
   const { match, selectedChild, updateChild, location } = props;
   const [finishedExercise, setFinished] = useState(false);
   const [shadowColor, setShadowColor] = useState('#939190');
-  // const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
   demoImg = location.demo;
 
   const id = match.params.id;
@@ -108,10 +108,15 @@ const SingleExercise = props => {
 
   useEffect(() => {
     init();
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
   }, []);
+
   useEffect(() => {
     return shadowColor && countMessage;
   }, [setShadowColor]);
+
   useEffect(() => {
     if (finishedExercise === true) {
       return async function cleanup() {
@@ -133,12 +138,27 @@ const SingleExercise = props => {
           <Redirect to="/congrats" />
         ) : (
           <>
+            <img
+              alt="demo"
+              src={demoImg}
+              hidden={!isLoading}
+              style={{ maxWidth: '400px' }}
+            />
             <canvas
               id="canvas"
+              hidden={isLoading}
               style={{ boxShadow: `0px 3px 30px 15px ${shadowColor}` }}
             />
-            <div id="rep-container"></div>
           </>
+        )}
+        {isLoading ? (
+          <div>
+            <LinearProgress />
+          </div>
+        ) : (
+          <Typography id="rep-container" variant="h4">
+            Ready, set, go!
+          </Typography>
         )}
       </div>
     </div>
@@ -156,20 +176,3 @@ const mapDispatch = dispatch => {
   };
 };
 export default connect(mapState, mapDispatch)(SingleExercise);
-
-/* <img
-              alt="demo"
-              src={demoImg}
-              hidden={!isLoading}
-              style={{ maxWidth: '400px' }}
-            /> */
-//   {/* {isLoading ? (
-//     <div>
-//       <LinearProgress />
-//     </div>
-//   ) : (
-//     <Typography id="rep-container" variant="h4">
-//       Ready, set, go!
-//     </Typography>
-//   )}
-// </div> */}
