@@ -45,10 +45,10 @@ connection.once('open', function () {
 //passport registration
 passport.serializeUser((adult, done) => done(null, adult.id));
 
-passport.deserializeUser(async (id, done) => {
+passport.deserializeUser(async (_id, done) => {
   try {
-    const adult = await Adult.findById(id);
-    delete adult.password;
+    const adult = await Adult.findById(_id).select('-password');
+    // delete adult.password;
     done(null, adult);
   } catch (error) {
     done(error);

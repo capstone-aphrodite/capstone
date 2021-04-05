@@ -12,9 +12,8 @@ module.exports = {
         const salt = await bcrypt.genSalt(10);
         adult.password = await bcrypt.hash(password, salt);
         await adult.save();
-        // const id = adult._id.toString();
-        // req.session.userId = id.slice(-4);
-        req.login(adult, (error) => (error ? next(error) : res.json(adult)));
+        const { firstName, email, children } = adult;
+        req.login(adult, (error) => (error ? next(error) : res.json({ firstName, email, children })));
       } else {
         return res.status(435).send('This email is already registered');
       }
@@ -32,7 +31,8 @@ module.exports = {
         if (!bcrypt.compareSync(req.body.password, adult.password)) {
           return res.sendStatus(401);
         }
-        req.login(adult, (error) => (error ? next(error) : res.json(adult)));
+        const { firstName, email, children } = adult;
+        req.login(adult, (error) => (error ? next(error) : res.json({ firstName, email, children })));
       } else {
         res.sendStatus(403);
       }
@@ -74,9 +74,6 @@ module.exports = {
       });
       adult.children.push(req.body);
       await adult.save();
-      // let newChild = adult.children.find(
-      //   (elem) => elem.firstName === req.body.firstName
-      // );
       res.send(adult.children);
     } catch (error) {
       next(error);
@@ -109,7 +106,8 @@ module.exports = {
         (elem) => elem._id.toString() !== req.body._id
       );
       await adult.save();
-      res.send(adult);
+      const { firstName, email, children } = adult;
+      res.send({ firstName, email, children });
     } catch (error) {
       next(error);
     }
