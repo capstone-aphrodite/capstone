@@ -108,7 +108,6 @@ const SingleExercise = props => {
 
   useEffect(() => {
     init();
-
   }, []);
   useEffect(() => {
     return shadowColor && countMessage;
@@ -133,32 +132,15 @@ const SingleExercise = props => {
         {finishedExercise ? (
           <Redirect to="/congrats" />
         ) : (
-          <>
-            {/* <img
-              alt="demo"
-              src={demoImg}
-              hidden={!isLoading}
-              style={{ maxWidth: '400px' }}
-            /> */}
+          <div>
             <canvas
               id="canvas"
-              hidden={isLoading}
               style={{ boxShadow: `0px 3px 30px 15px ${shadowColor}` }}
             />
-          </>
+          </div>
         )}
       </div>
-      </div>
-      {/* {isLoading ? (
-        <div>
-          <LinearProgress />
-        </div>
-      ) : (
-        <Typography id="rep-container" variant="h4">
-          Ready, set, go!
-        </Typography>
-      )}
-    </div> */}
+    </div>
   );
 };
 
@@ -173,3 +155,20 @@ const mapDispatch = dispatch => {
   };
 };
 export default connect(mapState, mapDispatch)(SingleExercise);
+
+/* <img
+              alt="demo"
+              src={demoImg}
+              hidden={!isLoading}
+              style={{ maxWidth: '400px' }}
+            /> */
+//   {/* {isLoading ? (
+//     <div>
+//       <LinearProgress />
+//     </div>
+//   ) : (
+//     <Typography id="rep-container" variant="h4">
+//       Ready, set, go!
+//     </Typography>
+//   )}
+// </div> */}
