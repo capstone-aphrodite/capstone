@@ -110,7 +110,7 @@ const SingleExercise = props => {
     init();
     setTimeout(() => {
       setLoading(false);
-    }, 6000);
+    }, 9000);
   }, []);
   useEffect(() => {
     return shadowColor && countMessage;
